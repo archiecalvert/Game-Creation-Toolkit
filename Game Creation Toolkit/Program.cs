@@ -1,3 +1,3 @@
 ﻿
-using var game = new Game_Creation_Toolkit.Game1();
+using var game = new Game_Creation_Toolkit.Core();
 game.Run();
