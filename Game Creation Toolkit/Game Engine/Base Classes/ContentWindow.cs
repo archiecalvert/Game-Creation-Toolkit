@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,14 @@ using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Classes
 {
-    public abstract class ContentWindow
-    {
-        public ContentWindow() { }
-        public abstract void Draw();
-        public abstract void Update();
+    public abstract class ContentWindow //this class is a base class which other classes will derrive variables and methods from
+    {   
+        public ContentWindow()
+        {
+            UIHandler.Windows.Add(this); //adds the content window to a list in the UIHandler class to allow for automatic update and draw method calls
+        }
+        public abstract void Draw(); //makes it a requirement that all derrived classes have a draw method
+        public abstract void Update(); //makes it a requirement that all derrived classes have an update method
+        public abstract void UnloadWindow();//makes it a requirement that all derrived classes have an unload method
     }
 }

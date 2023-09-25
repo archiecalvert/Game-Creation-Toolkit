@@ -9,31 +9,32 @@ using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Handlers
 {
-    internal class UIHandler
+    public class UIHandler
     {
-        static public List<ContentWindow> Windows = new List<ContentWindow>();
-        static public List<Button> Buttons = new List<Button>();
-        public void Update()
+        static public List<ContentWindow> Windows = new List<ContentWindow>(); //holds a list of all the current windows currently being displayed on screen
+        static public List<Button> Buttons = new List<Button>(); //holds a list of all the current buttons currently being drawn to the screen
+        public static void Update()
         {
+            //this method iterates through all the currently loaded UI and updates them all
             foreach (var window in Windows)
             {
                 window.Update();
             }
             foreach (var button in Buttons)
             {
-                //button.Update();
+                button.Update();
             }
         }
-
-        public void Draw()
+        public static void Draw()
         {
+            //iterates and draws all of the UI to the screen
             foreach(var window in Windows)
             {
                 window.Draw();
             }
             foreach(var  button in Buttons)
             {
-                //button.Draw();
+                button.Draw();
             }
         }
     }
