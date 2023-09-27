@@ -22,14 +22,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         public Button CancelBtn;
         public TextField LocationFld;
         public TextField NameFld;
-        public Button BuildBtn;
         public NewProjectMenu()
         {
              CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 475), new(0.75f)); //button for creating a project
              CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 475), new Vector2(0.75f)); //Button for returning to previous screen
-             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\Game Maker", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the directory to be entered
-             NameFld = new TextField(1500, 50, new Vector2(300, 125), "", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
-             BuildBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(100, 100), new Vector2(1));
+             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the directory to be entered
+             NameFld = new TextField(1500, 50, new Vector2(300, 125), "TestEmpty", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
         }
         private SpriteFont Font = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         public override void Update()
@@ -47,11 +45,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
                 CancelBtn.isClicked = false;
                 UnloadWindow();
                 InitialMenu Initial = new InitialMenu();
-            }
-            if(BuildBtn.isClicked)
-            {
-                BuildBtn.isClicked = false;
-                ProjectBuilder Builder = new ProjectBuilder(LocationFld.Text+"\\"+NameFld.Text+"\\"+NameFld.Text);
             }
         }
         public override void Draw()

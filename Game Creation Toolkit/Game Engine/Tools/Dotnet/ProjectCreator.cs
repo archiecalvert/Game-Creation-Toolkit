@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             }
             process.StandardInput.Close();
             Console.WriteLine("Script Run");
+            SystemHandlers.CurrentProjectDirectory = Directory+"\\"+Name+"\\"+Name;
         }
         
     }
