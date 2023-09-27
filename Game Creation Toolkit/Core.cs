@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Game_Creation_Toolkit
 {
@@ -12,7 +13,8 @@ namespace Game_Creation_Toolkit
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
         public static ContentManager _content;
-        private static Color WindowColor = new Color(31, 31, 31); //creates a variable for the window colour
+        public static float ElapsedGameTime;
+        private static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
 
         public Core()
         {
@@ -27,7 +29,9 @@ namespace Game_Creation_Toolkit
         protected override void Initialize()
         {
             InitialMenu InitialMenu = new InitialMenu(); //Initialises the Initial Menu class which features the first controls the user will see
-            //Window.IsBorderless = true;
+            Window.IsBorderless = true;
+            IsFixedTimeStep = true;
+            _graphics.SynchronizeWithVerticalRetrace = true;
             base.Initialize();
         }
 
@@ -42,8 +46,9 @@ namespace Game_Creation_Toolkit
                 Exit();
 
             // TODO: Add your update logic here
-            
+            ElapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             UIHandler.Update(); //Updates the UI elements
+            SystemHandlers.Update();
             base.Update(gameTime);
         }
 
