@@ -34,7 +34,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             font = FieldFont;
             BlankTexture.SetData(new[] {Color.White}); //Sets all the pixels in the blank texture to white so the colour can be changed//https://stackoverflow.com/questions/5751732/draw-rectangle-in-xna-using-spritebatch
             UIHandler.TextFields.Add(this); //Adds the text field to the list so that it can be automatically updated and drawn
-            KeyDelay = new Timer(0.1f);
+            KeyDelay = new Timer(0.12f);
         }
         public void Update()
         {
@@ -45,10 +45,11 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             }
             if (isActive && !KeyDelay.isActive)
             {
-                KeyDelay.Begin();
+                
                 if (Keyboard.GetState().IsKeyDown(Keys.Back))//checks if the backspace key has been clicked
                 {
                     Backspace();
+                    KeyDelay.Begin();
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.Enter)) //checks to see if the enter key has been clicked
                 {
@@ -60,6 +61,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 }
                 else if (Keyboard.GetState().GetPressedKeys().Length != 0) 
                 {
+                    KeyDelay.Begin();
                     for (int i = 0; i < Keyboard.GetState().GetPressedKeys().Length; i++)
                     {
                         if (Keyboard.GetState().GetPressedKeys()[i].ToString().Length == 1) //checks to see if a character has been clicked rather than a command key
@@ -72,6 +74,14 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                             {
                                 Text += Keyboard.GetState().GetPressedKeys()[i].ToString().ToLower();
                             }
+                        }
+                        else if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                        {
+                            Text += " ";
+                        }
+                        else if (Keyboard.GetState().GetPressedKeys()[i].ToString().Contains("D") && Keyboard.GetState().GetPressedKeys()[i].ToString().Length > 1)
+                        {
+                            Text += Keyboard.GetState().GetPressedKeys()[i].ToString()[1];
                         }
                         //Code below allows for pasting from the clipboard
                         List<string> keys = new List<string>();
@@ -92,8 +102,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public void Draw()
         {
             Core._spriteBatch.Draw(BlankTexture, FieldBounds, BackgroundCol);
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X+10, FieldBounds.Y), TextCol, 0f, Vector2.Zero,
-                0.5f, SpriteEffects.None, 0);
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X+10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
         }
         void Backspace()
         {

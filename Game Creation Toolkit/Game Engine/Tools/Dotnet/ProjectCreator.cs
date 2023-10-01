@@ -37,10 +37,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
                 process.StandardInput.WriteLine(command); //runs each command
             }
             SystemHandlers.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
-            CreateFiles(Name, Directory,process); //creates all the necessary files used by my program
+            StructureProject(Name, Directory,process); //creates all the necessary files used by my program
         }
 
-        static void CreateFiles(string Name, string Directory, Process process)
+        static void StructureProject(string Name, string Directory, Process process)
         {
             List<string> commands = new List<string>();
             commands.Add("cd \"" + Name + "\"");
@@ -53,8 +53,20 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             }
             process.Close();
             while (!System.IO.Directory.Exists(Directory + "\\" + Name + "\\" + Name + "\\editor\\data")){ } //line makes the program wait until the whole monogame file has been created
-            File.Create(Directory + "\\" + Name + "\\" + Name + "\\editor\\data\\projectTree.dat").Close();
-            ProjectFileManager.AddFileToProject(SystemHandlers.CurrentProjectDirectory +"\\"+ Name + ".csproj", "editor\\data\\projectTree.dat");
+            //File.Create(Directory + "\\" + Name + "\\" + Name + "\\editor\\data\\window.dat").Close();
+            //ProjectFileManager.AddFileToProject(SystemHandlers.CurrentProjectDirectory +"\\"+ Name + ".csproj", "editor\\data\\window.dat");
+            MakeFile(Directory, Name, "editor\\data\\window.dat");
+            using(StreamWriter sw = new StreamWriter(Directory+"\\"+Name+"\\"+Name+"\\editor\\data\\window.dat"))
+            {
+                sw.WriteLine("Window Color: 255,255,255");
+                sw.Close();
+            }
+            MakeFile(Directory, Name, "editor\\data\\objects.dat");
+        }
+        static void MakeFile(string Directory, string Name, string Target)
+        {
+            File.Create(Directory + "\\" + Name + "\\" + Name + "\\"+Target).Close();
+            ProjectFileManager.AddFileToProject(SystemHandlers.CurrentProjectDirectory + "\\" + Name + ".csproj", Target);
         }
     }
 }

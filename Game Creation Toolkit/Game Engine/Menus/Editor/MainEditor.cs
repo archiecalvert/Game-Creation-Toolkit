@@ -29,6 +29,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             RunBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Run"), RunCoords, new(1f));
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
+            GameView GamePreview = new GameView();
         }
         public override void Update()
         {

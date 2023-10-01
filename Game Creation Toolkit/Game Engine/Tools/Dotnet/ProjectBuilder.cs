@@ -11,15 +11,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
     {
         static public void Begin(string Directory)
         {
-            string[] commands = new string[5];
+            string[] commands = new string[4];
             commands[0] = "cd\\"; //Changes the directory to the root directory
             commands[1] = "cd \"" + Directory + "\""; //Changes the directory to the parameter entered
-            commands[2] = "dotnet build";
-            commands[3] = "dotnet publish --sc true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -a x86"; //Command to then generate an exe
-            commands[4] = "EXIT";//Exits the command line
+            commands[2] = "dotnet publish --sc true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -a x86"; //Command to then generate an exe
+            commands[3] = "EXIT";//Exits the command line
             Process process = new Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.CreateNoWindow = true; //switch to remove the console window
+            process.StartInfo.CreateNoWindow = false; //switch to remove the console window
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.UseShellExecute = false;
