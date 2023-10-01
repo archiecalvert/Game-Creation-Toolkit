@@ -9,29 +9,28 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
 {
     public class ProjectBuilder
     {
-        public ProjectBuilder(string Directory)
+        static public void Begin(string Directory)
         {
             string[] commands = new string[5];
-            commands[0] = "cd\\";
-            commands[1] = "cd " + Directory;
+            commands[0] = "cd\\"; //Changes the directory to the root directory
+            commands[1] = "cd \"" + Directory + "\""; //Changes the directory to the parameter entered
             commands[2] = "dotnet build";
-            commands[3] = "dotnet publish --sc -p:PublishReadyToRun=true -p:PublishSingleFile=true";
-            commands[4] = "EXIT";
+            commands[3] = "dotnet publish --sc true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -a x86"; //Command to then generate an exe
+            commands[4] = "EXIT";//Exits the command line
             Process process = new Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.CreateNoWindow = true; //switch to remove the console window
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.UseShellExecute = false;
             process.Start();
-            foreach (string command in commands)
+            foreach (string command in commands)//loop to run all the commands
             {
                 process.StandardInput.WriteLine(command);
+                
             }
-            process.StandardInput.Close();
-            Console.WriteLine("Script Run! Published file should've been created.");
-            
-            
+            process.WaitForExit();
+            process.Close();
         }
         
     }

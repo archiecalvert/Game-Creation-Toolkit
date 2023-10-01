@@ -1,7 +1,9 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,15 +15,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
         public ProjectCreator(string Name, string Directory)
         {
             //https://www.youtube.com/watch?v=HeHR9q-IWF8
-            string[] commands = new string[8];
-            commands[0] = "cd\\";
-            commands[1] = "cd " + Directory;
-            commands[2] = "Mkdir " + Name;
-            commands[3] = "cd " + Name;
-            commands[4] = "dotnet new sln";
-            commands[5] = "dotnet new install Monogame.Templates.CSharp";
-            commands[6] = "dotnet new mgdesktopgl -o " + Name;
-            commands[7] = "EXIT";
+            //Code below is .bat Commands
+            List<string> commands = new List<string>();
+            commands.Add("cd\\"); //Goes back to the root directory
+            commands.Add("cd \"" + Directory + "\""); //Goes to the entered directory
+            commands.Add("Mkdir \"" + Name + "\""); //Creates a file in the directory under the entered name
+            commands.Add("cd \"" + Name + "\""); //Changes the directory to the file that just got created
+            commands.Add("dotnet new sln"); //makes a Visual Studio solution in the directory
+            commands.Add("dotnet new install Monogame.Templates.CSharp"); //Installs the monogame templates if they aren't found
+            commands.Add("dotnet new mgdesktopgl -o \"" + Name + "\""); //creates a new monogame project
+            commands.Add("dotnet sln add \"" + Name + "/" + Name + ".csproj\"");
             Process process = new Process();
             process.StartInfo.FileName = "cmd.exe";
             process.StartInfo.CreateNoWindow = true;
@@ -31,12 +34,42 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             process.Start();
             foreach(string command in commands)
             {
+                process.StandardInput.WriteLine(command); //runs each command
+            }
+            SystemHandlers.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
+            CreateFiles(Name, Directory,process); //creates all the necessary files used by my program
+        }
+
+        static void CreateFiles(string Name, string Directory, Process process)
+        {
+            List<string> commands = new List<string>();
+            commands.Add("cd \"" + Name + "\"");
+            commands.Add("Mkdir editor");
+            commands.Add("cd editor");
+            commands.Add("Mkdir data classes"); //creates the files that the program will use
+            foreach(string command in commands)
+            {
                 process.StandardInput.WriteLine(command);
             }
-            process.StandardInput.Close();
-            Console.WriteLine("Script Run");
-            SystemHandlers.CurrentProjectDirectory = Directory+"\\"+Name+"\\"+Name;
+            process.Close();
+            while (!System.IO.Directory.Exists(Directory + "\\" + Name + "\\" + Name + "\\editor\\data")){ } //line makes the program wait until the whole monogame file has been created
+            File.Create(Directory + "\\" + Name + "\\" + Name + "\\editor\\data\\projectTree.dat").Close();
+            ProjectFileManager.AddFileToProject(SystemHandlers.CurrentProjectDirectory +"\\"+ Name + ".csproj", "editor\\data\\projectTree.dat");
         }
-        
     }
 }
+
+
+
+
+
+/*
+             commands.Add("cd\\"); //Goes back to the root directory
+            commands.Add("cd " + Directory); //Goes to the entered directory
+            commands.Add("Mkdir \"" + Name + "\""); //Creates a file in the directory under the entered name
+            commands.Add("cd \"" + Name + "\""); //Changes the directory to the file that just got created
+            commands.Add("dotnet new sln"); //makes a Visual Studio solution in the directory
+            commands.Add("dotnet new install Monogame.Templates.CSharp"); //Installs the monogame templates if they aren't found
+            commands.Add("dotnet new mgdesktopgl -o \"" + Name + "\""); //creates a new monogame project
+            commands.Add("dotnet sln add \""+Name+"/" + Name + ".csproj\"");
+*/

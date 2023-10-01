@@ -17,10 +17,10 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         private Vector2 pos; //used to set the position of the button when instantiated
         private Vector2 scale; //used to set the scale of the button when instantiated
         public Texture2D texture; //used to set the texture of the button when instantiated
-        private Rectangle ButtonRect; //rectangle used to check whether the mouse is intersecting the mouse
+        public Rectangle ButtonRect; //rectangle used to check whether the mouse is intersecting the mouse
         public bool isClicked = false;
         public float ClickDelay = 5f;//Duration in between button presses
-        Timer ClickTimer;
+        Timer ClickTimer; //Makes a timer so the button isn't being pressed multiple times a second as the code is run per frame
         public bool isHover = false;
         public Button(Texture2D ButtonTexture, Vector2 Position, Vector2 Scale) //constructor for when the Button object is initialised elsewhere in the program
         {
@@ -34,7 +34,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public void Update()
         {
             ClickTimer.Duration = ClickDelay;
-            //Code below draws 2 rectangles and checks to see whether the two rectangles intersect
+            //Checks for intersection between the mouse and the button
             Rectangle MouseRect = new Rectangle((int)Mouse.GetState().X, (int)Mouse.GetState().Y, 1, 1);
             if(MouseRect.Intersects(ButtonRect))
             {
@@ -44,7 +44,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             {
                 isHover = false;
             }
-            if(MouseRect.Intersects(ButtonRect) && Mouse.GetState().LeftButton == ButtonState.Pressed && !ClickTimer.isActive)
+            if(MouseRect.Intersects(ButtonRect) && Mouse.GetState().LeftButton == ButtonState.Pressed && !ClickTimer.isActive)//Starts the click delay when the button is pressed
             {
                 isClicked = true;
                 ClickTimer.Begin();
@@ -57,7 +57,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 null,
                 color: Color.White,
                 rotation: 0,
-                origin: Vector2.Zero,//new Vector2(texture.Width / 2, texture.Height / 2), 
+                origin: Vector2.Zero,
                 scale: scale, 
                 SpriteEffects.None, 
                 layerDepth: 1); //draws the button to the screen

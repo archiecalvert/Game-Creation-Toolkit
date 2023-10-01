@@ -19,15 +19,15 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools
         {
             dur = duration;
             Duration = dur;
-            SystemHandlers.Timers.Add(this);
+            SystemHandlers.Timers.Add(this); //adds this to the timers list so it can be updated
         }
         public void Update()
         {
             if (isActive)
             {
-                dur -= Core.ElapsedGameTime;
+                dur -= Core.ElapsedGameTime; //Used to take away a different amount based on the games fps
             }
-            if(dur < 0 )
+            if(dur < 0 ) //chack to see if the timer has run out
             {
                 isActive = false;
                 dur = Duration;

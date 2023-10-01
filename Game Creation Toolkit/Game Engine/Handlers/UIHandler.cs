@@ -15,7 +15,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
         //These are the main window lists
         static public List<ContentWindow> Windows = new List<ContentWindow>(); //holds a list of all the current windows currently being displayed on screen
         static public List<Button> Buttons = new List<Button>(); //holds a list of all the current buttons currently being drawn to the screen
-        static public List<TextField> TextFields = new List<TextField>();
+        static public List<TextField> TextFields = new List<TextField>();//holds a list of all the current text fields
         public static void Update()
         {
             //this method iterates through all the currently loaded UI and updates them all
