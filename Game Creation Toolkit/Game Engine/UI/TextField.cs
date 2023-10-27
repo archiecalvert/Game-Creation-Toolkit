@@ -28,7 +28,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public TextField(int width, int height, Vector2 Coordinates, string FieldText, SpriteFont FieldFont, Color FontColour, Color FieldColour, float FontScale)
         {
             FieldBounds = new Rectangle((int)Coordinates.X, (int)Coordinates.Y, width, height); //creates a rectangle for the background
-            TextCol = FontColour; 
+            TextCol = FontColour;
             BackgroundCol = FieldColour;
             Text = FieldText;
             font = FieldFont;

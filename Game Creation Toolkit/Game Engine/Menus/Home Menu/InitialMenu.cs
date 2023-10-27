@@ -19,10 +19,10 @@ namespace Game_Creation_Toolkit.Menus
 {
     public class InitialMenu : ContentWindow
     {
-        private static Button NewFileBtn;
-        private static Button OpenFileBtn;
-        private static Button CloseBtn;
-        private static SpriteFont DefaultFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont"); //loads in the default font for the application
+        Button NewFileBtn;
+        Button OpenFileBtn;
+        Button CloseBtn;
+        SpriteFont DefaultFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont"); //loads in the default font for the application
         public InitialMenu()
         {
             NewFileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/NewFile"), new(50, 150), new(1, 1)); //creates a button for making a new file

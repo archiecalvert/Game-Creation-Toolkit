@@ -48,13 +48,13 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
             int index = 0;
             while (keepReading || index>file.Length)
             {
-                if (file.Substring(index, 16) == "</PropertyGroup>")
+                if (file.Substring(index, 16) == "</PropertyGroup>") //looks for the last mention of PropertyGroup in the references file
                 {
-                    if(file.Substring(index + 17, 30).Contains("<ItemGroup>"))
+                    if(file.Substring(index + 17, 30).Contains("<ItemGroup>")) //Checks to see if the next thing referenced is an item group
                     {
                         for(int i = 0; i < 30; i++)
                         {
-                            if (file[i+index+17] == '<')
+                            if (file[i+index+17] == '<') //looks for the index where this symbol occurs so that a new reference can be added
                             {
                                 return i + index + 17;
                             }

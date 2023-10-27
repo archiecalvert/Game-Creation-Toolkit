@@ -1,4 +1,5 @@
-﻿using Game_Creation_Toolkit.Game_Engine.Tools;
+﻿using Game_Creation_Toolkit.Game_Engine.Base_Classes;
+using Game_Creation_Toolkit.Game_Engine.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
     public class SystemHandlers
     {
         public static List<Timer> Timers = new List<Timer>(); //Stores a list of the current timers
+        public static List<Script> Scripts = new List<Script>();
         public static string CurrentProjectDirectory = ""; //Stores the current directory of the current project being worked on by the user
         public static string WindowColour = "255";
         public static void Update()
@@ -17,6 +19,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             for(int i = Timers.Count; i > 0; i--)
             {
                 Timers[i-1].Update();//updates each timer each frame
+            }
+            for(int i = Scripts.Count; i > 0; i--)
+            {
+                Scripts[i-1].Update();
             }
         }
     }

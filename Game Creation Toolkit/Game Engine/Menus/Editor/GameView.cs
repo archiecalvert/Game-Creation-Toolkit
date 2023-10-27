@@ -13,17 +13,18 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     public class GameView : ContentWindow
     {
         Texture2D BlankTexture;
+        static int width = 650;
         Rectangle WindowBounds;
         Color WindowColour = new Color(int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour));
         public GameView()
         {
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
             BlankTexture.SetData(new[] { Color.White });
-            WindowBounds = new Rectangle(830, 400, 800, 480);
+            WindowBounds = new Rectangle(830, 530, 800, 480);
         }
         public override void Update()
         {
-            
+
         }
         public override void Draw()
         {
@@ -31,7 +32,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void UnloadWindow()
         {
-            
+
         }
     }
 }

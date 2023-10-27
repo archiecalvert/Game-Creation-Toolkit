@@ -14,8 +14,8 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
 {
     public class Button
     {
-        private Vector2 pos; //used to set the position of the button when instantiated
-        private Vector2 scale; //used to set the scale of the button when instantiated
+        Vector2 pos; //used to set the position of the button when instantiated
+        Vector2 scale; //used to set the scale of the button when instantiated
         public Texture2D texture; //used to set the texture of the button when instantiated
         public Rectangle ButtonRect; //rectangle used to check whether the mouse is intersecting the mouse
         public bool isClicked = false;

@@ -18,14 +18,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
 {
     public class NewProjectMenu : ContentWindow
     {
-        public Button CreateBtn; //Button for creating the new project
-        public Button CancelBtn; //Button for going back to the previous menu
-        public TextField LocationFld; //Text field to allow for the directory to be entered by the user
-        public TextField NameFld; //Text field to allow for the user to choose the projects name
+        Button CreateBtn; //Button for creating the new project
+        Button CancelBtn; //Button for going back to the previous menu
+        TextField LocationFld; //Text field to allow for the directory to be entered by the user
+        TextField NameFld; //Text field to allow for the user to choose the projects name
         public NewProjectMenu()
         {
-             CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 475), new(0.75f)); //button for creating a project
-             CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 475), new Vector2(0.75f)); //Button for returning to previous screen
+             CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 305), new(0.75f)); //button for creating a project (475)
+             CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 305), new Vector2(0.75f)); //Button for returning to previous screen
              LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the directory to be entered
              NameFld = new TextField(1500, 50, new Vector2(300, 125), "", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
         }
@@ -64,7 +64,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         }
         public override void Initialize()
         {
-            Core._graphics.PreferredBackBufferHeight = 560;
+            Core._graphics.PreferredBackBufferHeight = 410;
             Core._graphics.PreferredBackBufferWidth = 1920;
             Core._graphics.ApplyChanges();
         }

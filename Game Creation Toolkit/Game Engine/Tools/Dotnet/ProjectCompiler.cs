@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
 {
-    public class ProjectBuilder
+    public class ProjectCompiler
     {
         static public void Begin(string Directory)
         {

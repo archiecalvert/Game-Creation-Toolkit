@@ -20,7 +20,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         Button RunBtn;
         Button CompileBtn;
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Creates a blank texture
-        Texture2D HoverTexture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/HoverTexture"); //Makes a hover texture so that the button becomes lighter when highlighted
         Vector2 RunCoords = new Vector2(1000, 0); //Coordinates of the run button
 
         public MainEditor()
@@ -30,6 +29,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
             GameView GamePreview = new GameView();
+            //ScriptMenu Scripts = new ScriptMenu();
+            ProjectTree Tree = new ProjectTree();
         }
         public override void Update()
         {
@@ -56,19 +57,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             if (CompileBtn.isClicked)
             {
                 CompileBtn.isClicked = false;
-                ProjectBuilder.Begin(SystemHandlers.CurrentProjectDirectory);
+                ProjectCompiler.Begin(SystemHandlers.CurrentProjectDirectory);
             }
         }
         public override void Draw()
         {
             Core._spriteBatch.Draw(BlankTexture, new Rectangle(0, 0, 2460, 50), new Color(96,96,96)); //draws the background for the nav bar
-            foreach(Button button in UIHandler.Buttons)
-            {
-                if (button.isHover)
-                {
-                    Core._spriteBatch.Draw(HoverTexture, new Rectangle((int)button.ButtonRect.X, (int)button.ButtonRect.Y, (int)button.ButtonRect.Width, (int)button.ButtonRect.Height), Color.Gray);
-                }
-            }
         }
         public override void UnloadWindow()
         {

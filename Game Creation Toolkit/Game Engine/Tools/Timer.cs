@@ -13,8 +13,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools
     {
         public bool isActive = false;
         public float Duration;
-        float dur;
-        
+        float dur; //Used as the timer that will store the current duration (i.e how long it should be until the timer runs out)
         public Timer(float duration) 
         {
             dur = duration;
