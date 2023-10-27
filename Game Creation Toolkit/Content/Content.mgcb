@@ -145,6 +145,30 @@
 /processorParam:TextureFormat=Color
 /build:Toolkit/Assets/MainEditor/Run.png
 
+#begin Toolkit/Assets/resetBtn.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/resetBtn.png
+
+#begin Toolkit/Assets/tempBtn.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/tempBtn.png
+
 #begin Toolkit/Fonts/defaultfont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

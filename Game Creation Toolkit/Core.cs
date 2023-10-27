@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus;
 using Game_Creation_Toolkit.Menus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,7 +15,7 @@ namespace Game_Creation_Toolkit
         public static SpriteBatch _spriteBatch;
         public static ContentManager _content;
         public static float ElapsedGameTime;
-        private static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
+        public static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
 
         public Core()
         {
@@ -28,7 +29,8 @@ namespace Game_Creation_Toolkit
 
         protected override void Initialize()
         {
-            InitialMenu InitialMenu = new InitialMenu(); //Initialises the Initial Menu class which features the first controls the user will see
+            //InitialMenu InitialMenu = new InitialMenu(); //Initialises the Initial Menu class which features the first controls the user will see
+            GUIDEMO GUI = new GUIDEMO();
             Window.IsBorderless = true;
             IsFixedTimeStep = true;
             _graphics.SynchronizeWithVerticalRetrace = true;
