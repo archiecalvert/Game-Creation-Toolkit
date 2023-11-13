@@ -28,7 +28,6 @@ namespace Game_Creation_Toolkit.Menus
             NewFileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/NewFile"), new(50, 150), new(1, 1)); //creates a button for making a new file
             OpenFileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/OpenFile"), new(50, 325), new(1, 1));//Creates a button for opening an existing project
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Close"), new(50, 500), new(1, 1));//creates a button for closing the application
-
         }
         public override void Update() //overrides the Update method in the ContentWindow Class
         {
@@ -63,6 +62,7 @@ namespace Game_Creation_Toolkit.Menus
         }
         public override void Initialize()//Changes the windows size
         {
+            Core.WindowColor = new Color(49, 49, 49);
             Core._graphics.PreferredBackBufferHeight = 1080;
             Core._graphics.PreferredBackBufferWidth = 1920;
             Core._graphics.ApplyChanges();

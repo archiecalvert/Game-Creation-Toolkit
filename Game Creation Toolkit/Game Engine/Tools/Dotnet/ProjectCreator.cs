@@ -14,7 +14,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
     {
         public ProjectCreator(string Name, string Directory)
         {
-            //https://www.youtube.com/watch?v=HeHR9q-IWF8
             //Code below is .bat Commands
             List<string> commands = new List<string>();
             commands.Add("cd\\"); //Goes back to the root directory

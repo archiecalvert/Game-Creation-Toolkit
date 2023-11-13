@@ -29,8 +29,8 @@ namespace Game_Creation_Toolkit
 
         protected override void Initialize()
         {
-            //InitialMenu InitialMenu = new InitialMenu(); //Initialises the Initial Menu class which features the first controls the user will see
-            GUIDEMO GUI = new GUIDEMO();
+            InitialMenu InitialMenu = new InitialMenu(); //Initialises the Initial Menu class which features the first controls the user will see
+            //GUIDEMO GUI = new GUIDEMO();
             Window.IsBorderless = true;
             IsFixedTimeStep = true;
             _graphics.SynchronizeWithVerticalRetrace = true;

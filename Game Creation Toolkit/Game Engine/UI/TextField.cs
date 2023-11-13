@@ -34,7 +34,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             font = FieldFont;
             BlankTexture.SetData(new[] {Color.White}); //Sets all the pixels in the blank texture to white so the colour can be changed//https://stackoverflow.com/questions/5751732/draw-rectangle-in-xna-using-spritebatch
             UIHandler.TextFields.Add(this); //Adds the text field to the list so that it can be automatically updated and drawn
-            KeyDelay = new Timer(0.12f);
+            KeyDelay = new Timer(0.12f); //sets the time inbetween key presses
         }
         public void Update()
         {
@@ -62,47 +62,47 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 else if (Keyboard.GetState().GetPressedKeys().Length != 0) 
                 {
                     KeyDelay.Begin();
+                    List<string> keys = new List<string>();
+                    foreach (var key in Keyboard.GetState().GetPressedKeys())
+                    {
+                        keys.Add(key.ToString()); //Saves a list of the current pressed keys so this can be accessed later on
+                    }
+                    if (keys.Contains("LeftControl") && keys.Contains("V"))
+                    {
+                        Text += ClipboardService.GetText();
+                        return;
+                    }
                     for (int i = 0; i < Keyboard.GetState().GetPressedKeys().Length; i++)
                     {
                         if (Keyboard.GetState().GetPressedKeys()[i].ToString().Length == 1) //checks to see if a character has been clicked rather than a command key
                         {
                             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift) || Keyboard.GetState().CapsLock)//Checks the capitalisation
                             {
-                                Text += Keyboard.GetState().GetPressedKeys()[i];
+                                Text += Keyboard.GetState().GetPressedKeys()[i]; //adds the uppercase letter to the text variable
                             }
                             else
                             {
-                                Text += Keyboard.GetState().GetPressedKeys()[i].ToString().ToLower();
+                                Text += Keyboard.GetState().GetPressedKeys()[i].ToString().ToLower(); //adds the lowercase letter to the text variable
                             }
                         }
                         else if (Keyboard.GetState().IsKeyDown(Keys.Space))
                         {
-                            Text += " ";
+                            Text += " "; //adds a space to the text variable when the space bar is pressed
                         }
                         else if (Keyboard.GetState().GetPressedKeys()[i].ToString().Contains("D") && Keyboard.GetState().GetPressedKeys()[i].ToString().Length > 1)
                         {
-                            Text += Keyboard.GetState().GetPressedKeys()[i].ToString()[1];
+                            Text += Keyboard.GetState().GetPressedKeys()[i].ToString()[1]; //This section of code is used to allow numbers to be entered into the field as theyre stored as D"n"
                         }
                         //Code below allows for pasting from the clipboard
-                        List<string> keys = new List<string>();
-                        foreach(var key in Keyboard.GetState().GetPressedKeys())
-                        {
-                            keys.Add(key.ToString());
-                        }
-                        if (keys.Contains("LeftControl") && keys.Contains("V"))
-                        {
-                            Backspace();
-                            Text += ClipboardService.GetText();
-                        }
+                        
                     }
                 }
-                
             }
         }
         public void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, FieldBounds, BackgroundCol);
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X+10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            Core._spriteBatch.Draw(BlankTexture, FieldBounds, BackgroundCol); //draws the background of the text field
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X+10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0); //draws the text stored to the text field
         }
         void Backspace()
         {

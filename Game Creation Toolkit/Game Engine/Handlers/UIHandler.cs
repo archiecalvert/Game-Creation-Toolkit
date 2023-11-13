@@ -26,29 +26,29 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             {
                 Windows[i-1].Update();
             }
-            foreach (var button in Buttons)
+            for(int i = Buttons.Count; i > 0;i--)
             {
-                button.Update();
+                Buttons[i-1].Update();
             }
-            foreach (var textField in TextFields)
+            for(int i =  TextFields.Count; i > 0; i--)
             {
-                textField.Update();
+                TextFields[i-1].Update();  
             }
         }
         public static void Draw()
         {
             //iterates and draws all of the UI to the screen
-            foreach(var window in Windows)
+            for (int i = Windows.Count; i > 0; i--)
             {
-                window.Draw();
+                Windows[i - 1].Draw();
             }
-            foreach(var  button in Buttons)
+            for (int i = Buttons.Count; i > 0; i--)
             {
-                button.Draw();
+                Buttons[i - 1].Draw();
             }
-            foreach(var textField in TextFields)
+            for (int i = TextFields.Count; i > 0; i--)
             {
-                textField.Draw();
+                TextFields[i - 1].Draw();
             }
             foreach (Button button in Buttons)
             {

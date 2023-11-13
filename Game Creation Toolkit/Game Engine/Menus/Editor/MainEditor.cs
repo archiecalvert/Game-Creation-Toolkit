@@ -24,49 +24,32 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 
         public MainEditor()
         {
-            CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379,0), new Vector2(1f));
+            //CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379, 0), new Vector2(1f));
             RunBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Run"), RunCoords, new(1f));
-            CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
+            //CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300, 0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
-            GameView GamePreview = new GameView();
+            //GameView GamePreview = new GameView();
             //ScriptMenu Scripts = new ScriptMenu();
-            ProjectTree Tree = new ProjectTree();
+            //ProjectTree Tree = new ProjectTree();
         }
         public override void Update()
         {
-            if (CloseBtn.isHover) //THE RED "X" in the corner. This swaps between the two textures depending on whether the user is hovering over it
-            {
-                CloseBtn.texture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close1");
-            }
-            else
-            {
-                CloseBtn.texture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2");
-            }
-            if(CloseBtn.isClicked)
-            {
-                CloseBtn.isClicked = false;
-                Environment.Exit(0); //closes the application
-            }
+
             if (RunBtn.isClicked)
             {
                 RunBtn.isClicked = false;
                 Console.WriteLine(SystemHandlers.CurrentProjectDirectory);
                 ProjectRun.Begin(SystemHandlers.CurrentProjectDirectory); //runs the commands necessary to get the users project running
-                
-            }
-            if (CompileBtn.isClicked)
-            {
-                CompileBtn.isClicked = false;
-                ProjectCompiler.Begin(SystemHandlers.CurrentProjectDirectory);
+
             }
         }
         public override void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, new Rectangle(0, 0, 2460, 50), new Color(96,96,96)); //draws the background for the nav bar
+            //Core._spriteBatch.Draw(BlankTexture, new Rectangle(0, 0, 2460, 50), new Color(96, 96, 96)); //draws the background for the nav bar
         }
         public override void UnloadWindow()
         {
-            
+
         }
         public override void Initialize()
         {
@@ -74,7 +57,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             Core._graphics.PreferredBackBufferHeight = 1500;
             Core._graphics.PreferredBackBufferWidth = 2460;
             Core._graphics.ApplyChanges();
-            
+
         }
     }
 }
