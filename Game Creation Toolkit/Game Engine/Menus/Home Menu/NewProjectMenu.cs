@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Windows;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
 {
@@ -35,10 +35,11 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
             if (CreateBtn.isClicked)//creates a new monogame project
             {
                 CreateBtn.isClicked = false;
+                if (!ValidateName(NameFld.Text) || !ValidateLocation(LocationFld.Text)) return;
                 ProjectCreator NewProject = new ProjectCreator(NameFld.Text, LocationFld.Text); //runs all the commands for creating a new project
                 UnloadWindow(); //Unloads the current menu
                 MainEditor MainGameEditor = new MainEditor(); //Opens the project editor
-                
+
             }
             if (CancelBtn.isClicked)//goes back to the previous page
             {
@@ -67,6 +68,36 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
             Core._graphics.PreferredBackBufferHeight = 410;
             Core._graphics.PreferredBackBufferWidth = 1920;
             Core._graphics.ApplyChanges();
+        }
+        bool ValidateName(string name)
+        {
+            if (name == null || name == "") return false;
+            List<string> forbiddenNames = new List<string> {
+                "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM0",
+                "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "LPT0",
+                "CON", "PRN", "AUX", "NUL"
+            };
+            List<char> forbiddenChar = new List<char> { '<', '>', ':', '"', '/', '\\', '|', '?', '*'};
+            foreach(string test in forbiddenNames)
+            {
+                if (name == test) return false;
+            }
+            foreach(char test in forbiddenChar)
+            {
+                if(name.Contains(test)) return false;
+            }
+            return true;
+        }
+        bool ValidateLocation(string location)
+        {
+            if (System.IO.Directory.Exists(location))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
