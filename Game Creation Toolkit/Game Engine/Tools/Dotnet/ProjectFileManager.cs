@@ -66,5 +66,4 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
             return -1;
         }
     }
-    
 }

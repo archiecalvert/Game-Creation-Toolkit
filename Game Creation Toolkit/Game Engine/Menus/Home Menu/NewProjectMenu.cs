@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
@@ -35,11 +36,23 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
             if (CreateBtn.isClicked)//creates a new monogame project
             {
                 CreateBtn.isClicked = false;
-                if (!ValidateName(NameFld.Text) || !ValidateLocation(LocationFld.Text)) return;
+                if (!ValidateName(NameFld.Text))
+                {
+                    MessageBox ErrorBox = new MessageBox(710, 100, 500, 220);
+                    ErrorBox.Title = "Error";
+                    ErrorBox.Text = "The name field is invalid.";
+                    return;
+                }
+                else if (!ValidateLocation(LocationFld.Text))
+                {
+                    MessageBox ErrorBox = new MessageBox(710, 100, 500, 220);
+                    ErrorBox.Title = "Error";
+                    ErrorBox.Text = "The location field is invalid.";
+                    return;
+                }
                 ProjectCreator NewProject = new ProjectCreator(NameFld.Text, LocationFld.Text); //runs all the commands for creating a new project
                 UnloadWindow(); //Unloads the current menu
                 MainEditor MainGameEditor = new MainEditor(); //Opens the project editor
-
             }
             if (CancelBtn.isClicked)//goes back to the previous page
             {
@@ -65,37 +78,38 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         }
         public override void Initialize()
         {
-            Core._graphics.PreferredBackBufferHeight = 410;
-            Core._graphics.PreferredBackBufferWidth = 1920;
+            Core._graphics.PreferredBackBufferHeight = 410; //Height of the window
+            Core._graphics.PreferredBackBufferWidth = 1920; //Width of the window
             Core._graphics.ApplyChanges();
         }
         bool ValidateName(string name)
         {
-            if (name == null || name == "") return false;
+            if (name == null || name == "") return false; //checks to see whether the parameter is empty
             List<string> forbiddenNames = new List<string> {
                 "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM0",
                 "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "LPT0",
                 "CON", "PRN", "AUX", "NUL"
-            };
-            List<char> forbiddenChar = new List<char> { '<', '>', ':', '"', '/', '\\', '|', '?', '*'};
-            foreach(string test in forbiddenNames)
+            }; //list of all the invalid file names
+            List<char> forbiddenChar = new List<char> { '<', '>', ':', '"', '/', '\\', '|', '?', '*'}; //list of all the invalid characters
+            foreach(string test in forbiddenNames) //checks to see if the name of the file matches any of the invalid names
             {
                 if (name == test) return false;
             }
-            foreach(char test in forbiddenChar)
+            foreach(char test in forbiddenChar) //checks to see if the name contains any invalid characters
             {
                 if(name.Contains(test)) return false;
             }
-            return true;
+            return true; //if the name doesn't contain any invalid data, then the program can continue
         }
         bool ValidateLocation(string location)
         {
-            if (System.IO.Directory.Exists(location))
+            if (System.IO.Directory.Exists(location)) //Checks to see if the location exists
             {
                 return true;
             }
             else
             {
+                Console.WriteLine("Error! The location: \""+LocationFld.Text + "\" doesn't exist.");
                 return false;
             }
         }

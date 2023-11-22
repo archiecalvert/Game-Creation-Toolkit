@@ -60,7 +60,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 origin: Vector2.Zero,
                 scale: scale, 
                 SpriteEffects.None, 
-                layerDepth: 1); //draws the button to the screen
+                layerDepth: Core.ButtonDepth); //draws the button to the screen
         }
         
     }

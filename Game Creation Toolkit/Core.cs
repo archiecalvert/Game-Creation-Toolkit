@@ -15,7 +15,11 @@ namespace Game_Creation_Toolkit
         public static ContentManager _content;
         public static float ElapsedGameTime;
         private static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
-
+        //LAYER DEPTHS
+        public static float TextDepth = 0.95f;
+        public static float TextFieldDepth = 0.9f;
+        public static float MessageDialogueDepth = 0.6f;
+        public static float ButtonDepth = 0.5f;
         public Core()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -44,8 +48,6 @@ namespace Game_Creation_Toolkit
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
             ElapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             UIHandler.Update(); //Updates the UI elements
             SystemHandlers.Update();
@@ -56,8 +58,7 @@ namespace Game_Creation_Toolkit
         {
             GraphicsDevice.Clear(WindowColor); //sets the window colour
 
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront);
             UIHandler.Draw(); //draws the currently loaded UI to the screen
             _spriteBatch.End();
             base.Draw(gameTime);

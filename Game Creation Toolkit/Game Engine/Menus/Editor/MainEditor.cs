@@ -63,7 +63,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void UnloadWindow()
         {
-            
+            System.Environment.Exit(0);
         }
         public override void Initialize()
         {
