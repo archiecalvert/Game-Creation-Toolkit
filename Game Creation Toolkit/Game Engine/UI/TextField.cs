@@ -118,7 +118,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 scale: new Vector2(FieldBounds.Width, FieldBounds.Height),
                 SpriteEffects.None,
                 layerDepth: Core.TextFieldDepth); //draws the background of the text field
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, Core.TextFieldDepth - 0.01f); //draws the text stored to the text field
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, Core.TextFieldDepth + 0.01f); //draws the text stored to the text field
         }
         void Backspace()
         {

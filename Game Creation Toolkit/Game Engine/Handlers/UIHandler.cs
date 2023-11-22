@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,15 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             {
                 if (button.isHover)
                 {
-                    Core._spriteBatch.Draw(HoverTexture, new Rectangle((int)button.ButtonRect.X, (int)button.ButtonRect.Y, (int)button.ButtonRect.Width, (int)button.ButtonRect.Height), Color.White);
+                    Core._spriteBatch.Draw(HoverTexture,
+                        position:new Vector2(button.ButtonRect.X, button.ButtonRect.Y),
+                        null,
+                        Color.White,
+                        rotation: 0f,
+                        origin: Vector2.Zero,
+                        scale: new Vector2(button.ButtonRect.Width, button.ButtonRect.Height),
+                        SpriteEffects.None,
+                        layerDepth:Core.ButtonDepth+0.01f);
                 }
             }
             for (int i = MessageBoxes.Count; i > 0; i--)

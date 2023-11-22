@@ -61,6 +61,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 scale: scale, 
                 SpriteEffects.None, 
                 layerDepth: Core.ButtonDepth); //draws the button to the screen
+            
         }
         
     }

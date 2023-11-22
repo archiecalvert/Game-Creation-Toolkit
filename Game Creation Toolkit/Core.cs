@@ -16,9 +16,10 @@ namespace Game_Creation_Toolkit
         public static float ElapsedGameTime;
         private static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
         //LAYER DEPTHS
-        public static float TextDepth = 0.95f;
-        public static float TextFieldDepth = 0.9f;
-        public static float MessageDialogueDepth = 0.6f;
+        // 1 = top              0 = bottom
+        public static float TextDepth = 0.05f;
+        public static float TextFieldDepth = 0.1f;
+        public static float MessageDialogueDepth = 0.4f;
         public static float ButtonDepth = 0.5f;
         public Core()
         {
@@ -58,7 +59,7 @@ namespace Game_Creation_Toolkit
         {
             GraphicsDevice.Clear(WindowColor); //sets the window colour
 
-            _spriteBatch.Begin(SpriteSortMode.BackToFront);
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             UIHandler.Draw(); //draws the currently loaded UI to the screen
             _spriteBatch.End();
             base.Draw(gameTime);
