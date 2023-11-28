@@ -21,13 +21,17 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         Button CompileBtn;
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Creates a blank texture
         Vector2 RunCoords = new Vector2(1000, 0); //Coordinates of the run button
-
+        GameView GameWindow;
+        ProjectTree ProjectTree;
+        
         public MainEditor()
         {
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379,0), new Vector2(1f));
             RunBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Run"), RunCoords, new(1f));
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
+            GameWindow = new GameView();
+            ProjectTree = new ProjectTree();
         }
         public override void Update()
         {
@@ -70,6 +74,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             //Changes the windows size
             Core._graphics.PreferredBackBufferHeight = 1500;
             Core._graphics.PreferredBackBufferWidth = 2460;
+            Core._window.Position = new Point(50,5);
             Core._graphics.ApplyChanges();
             
         }

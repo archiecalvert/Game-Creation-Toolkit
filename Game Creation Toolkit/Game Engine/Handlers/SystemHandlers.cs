@@ -13,6 +13,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
         public static List<Timer> Timers = new List<Timer>(); //Stores a list of the current timers
         public static List<Script> Scripts = new List<Script>();
         public static string CurrentProjectDirectory = ""; //Stores the current directory of the current project being worked on by the user
+        public static string ProjectName = "";
         public static string WindowColour = "255";
         public static void Update()
         {

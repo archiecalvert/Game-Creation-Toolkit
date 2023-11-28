@@ -14,7 +14,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
     {
         public ProjectCreator(string Name, string Directory)
         {
-            //https://www.youtube.com/watch?v=HeHR9q-IWF8
             //Code below is .bat Commands
             List<string> commands = new List<string>();
             commands.Add("cd\\"); //Goes back to the root directory
@@ -37,34 +36,29 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
                 process.StandardInput.WriteLine(command); //runs each command
             }
             SystemHandlers.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
-            StructureProject(Name, Directory,process); //creates all the necessary files used by my program
+            SystemHandlers.ProjectName = Name;
+            CreateEditorFiles(process); //creates all the necessary files used by my program
         }
 
-        static void StructureProject(string Name, string Directory, Process process)
+        static void CreateEditorFiles(Process process)
         {
+            string Name = SystemHandlers.ProjectName;
+            string Directory = SystemHandlers.CurrentProjectDirectory;
             List<string> commands = new List<string>();
-            commands.Add("cd \"" + Name + "\"");
-            commands.Add("Mkdir editor");
-            commands.Add("cd editor");
-            commands.Add("Mkdir data classes tree"); //creates the files that the program will use
-            foreach(string command in commands)
-            {
-                process.StandardInput.WriteLine(command);
-            }
+            process.StandardInput.WriteLine("cd \"" + Name + "\"");
+            process.StandardInput.WriteLine("Mkdir editor");
+            process.StandardInput.WriteLine("cd editor");
+            process.StandardInput.WriteLine("Mkdir data classes tree"); //creates the files that the program will use
+            process.StandardInput.WriteLine("cd..");
+            process.StandardInput.WriteLine("Mkdir GameData");
+            process.StandardInput.WriteLine("cd GameData");
+            process.StandardInput.WriteLine("Mkdir Scenes");
+            Console.WriteLine("File projects created");
+            //line makes the program wait until the whole monogame file has been created
+            Console.WriteLine("Core Data files created");
+
             process.Close();
-            while (!System.IO.Directory.Exists(Directory + "\\" + Name + "\\" + Name + "\\editor\\data")){ } //line makes the program wait until the whole monogame file has been created
-            MakeFile(Directory, Name, "editor\\data\\window.dat");
-            using(StreamWriter sw = new StreamWriter(Directory+"\\"+Name+"\\"+Name+"\\editor\\data\\window.dat")) //writes the necessary window data for the project to use
-            {
-                sw.WriteLine("Window Color: 255,255,255");
-                sw.Close();
-            }
-            MakeFile(Directory, Name, "editor\\data\\objects.dat");
-        }
-        static void MakeFile(string Directory, string Name, string Target)
-        {
-            File.Create(Directory + "\\" + Name + "\\" + Name + "\\"+Target).Close();
-            ProjectFileManager.AddFileToProject(SystemHandlers.CurrentProjectDirectory + "\\" + Name + ".csproj", Target);
+            while(!System.IO.Directory.Exists(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
         }
     }
 }

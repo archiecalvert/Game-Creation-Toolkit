@@ -13,14 +13,13 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     public class GameView : ContentWindow
     {
         Texture2D BlankTexture;
-        static int width = 650;
-        Rectangle WindowBounds;
+        public Rectangle WindowBounds;
         Color WindowColour = new Color(int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour));
         public GameView()
         {
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
             BlankTexture.SetData(new[] { Color.White });
-            WindowBounds = new Rectangle(830, 530, 800, 480);
+            WindowBounds = new Rectangle(430, 100, 1600, 1000);
         }
         public override void Update()
         {
@@ -28,7 +27,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, WindowBounds, WindowColour);
+            Core._spriteBatch.Draw(texture: BlankTexture, position: new(WindowBounds.X, WindowBounds.Y),
+                null,
+                WindowColour,
+                rotation:0f,
+                origin:Vector2.Zero,
+                scale:new Vector2(WindowBounds.Width,WindowBounds.Height),
+                SpriteEffects.None,
+                layerDepth: Core.GameWindowDepth);
         }
         public override void UnloadWindow()
         {

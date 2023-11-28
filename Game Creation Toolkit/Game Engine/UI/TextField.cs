@@ -18,12 +18,13 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         SpriteFont font; //font for the text
         bool isActive = false; //determines whether typing is active or not
         Rectangle MouseRect; //Rectangle storing the mouse position
-        Rectangle FieldBounds; //Stores the location of the background
+        public readonly Rectangle FieldBounds; //Stores the location of the background
         Color TextCol; //Stores the colour of the text
         Color BackgroundCol; //Background colour of the text field
         public string Text;
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Texture used for the background so that it can be coloured
         Timer KeyDelay;//Used for timing in between key presses
+        public float layerDepth = Core.TextFieldDepth;
         public TextField(int width, int height, Vector2 Coordinates, string FieldText, SpriteFont FieldFont, Color FontColour, Color FieldColour, float FontScale)
         {
             FieldBounds = new Rectangle((int)Coordinates.X, (int)Coordinates.Y, width, height); //creates a rectangle for the background
@@ -117,8 +118,8 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 origin: Vector2.Zero,
                 scale: new Vector2(FieldBounds.Width, FieldBounds.Height),
                 SpriteEffects.None,
-                layerDepth: Core.TextFieldDepth); //draws the background of the text field
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, Core.TextFieldDepth + 0.01f); //draws the text stored to the text field
+                layerDepth: layerDepth); //draws the background of the text field
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, layerDepth + 0.01f); //draws the text stored to the text field
         }
         void Backspace()
         {

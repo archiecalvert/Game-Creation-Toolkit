@@ -1,6 +1,9 @@
-﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+﻿using Assimp;
+using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Tools.NewProject;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,8 +14,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
     public class ProjectFileManager
     {
         //this class is used to insert a new itemgroup so that the file passed in as an arguement will be included in the compilation and build process
-        public static void AddFileToProject(string csproj, string FileDirectory)
+        public static void AddFileToProject(string FileDirectory)
         {
+            string csproj = SystemHandlers.CurrentProjectDirectory + "\\" + SystemHandlers.ProjectName + ".csproj";
             string newData;
             using (StreamReader sr = new StreamReader(csproj)) //this will read all of the text in the .csproj file
             {
@@ -64,6 +68,27 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
                 index++;
             }
             return -1;
+        }
+        public static void AddScene(string SceneName)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+            process.StandardInput.WriteLine("Mkdir " + SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\" + SceneName);
+            process.StandardInput.WriteLine("EXIT");
+            process.WaitForExit();
+            process.Close();
+            MakeFile("GameData\\Scenes\\"+SceneName+"\\scene.dat");
+        }
+        public static void MakeFile(string FileName)
+        {
+            File.Create(SystemHandlers.CurrentProjectDirectory + "\\" + FileName).Close();
+            AddFileToProject(FileName);
+            while(!File.Exists(SystemHandlers.CurrentProjectDirectory + "\\" + FileName)){ }
         }
     }
 }

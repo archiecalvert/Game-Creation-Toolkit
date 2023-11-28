@@ -15,12 +15,16 @@ namespace Game_Creation_Toolkit
         public static ContentManager _content;
         public static float ElapsedGameTime;
         private static Color WindowColor = new Color(49, 49, 49); //creates a variable for the window colour
+        public static GameWindow _window;
         //LAYER DEPTHS
         // 1 = top              0 = bottom
-        public static float TextDepth = 0.05f;
-        public static float TextFieldDepth = 0.1f;
         public static float MessageDialogueDepth = 0.4f;
-        public static float ButtonDepth = 0.5f;
+        public static float GameWindowDepth = 0.35f;
+        public static float ButtonDepth = 0.51f;
+        
+        public static float TextFieldDepth = 0.1f;
+        public static float TextDepth = 0.05f;
+        
         public Core()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,6 +33,7 @@ namespace Game_Creation_Toolkit
             _graphics.PreferredBackBufferHeight = 1080; //sets the window height
             _graphics.PreferredBackBufferWidth = 1920; //sets the window width
             _content = Content; //used to make the content variable public so it can be used in other classes
+            _window = Window;
         }
 
         protected override void Initialize()

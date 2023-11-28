@@ -22,20 +22,24 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
         static public List<TextField> TextFields = new List<TextField>();//holds a list of all the current text fields
         static Texture2D HoverTexture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/HoverTexture"); //Makes a hover texture so that the button becomes lighter when highlighted
         public static List<MessageBox> MessageBoxes = new List<MessageBox>();
+        public static bool inFocus = true;
         public static void Update()
         {
-            //this method iterates through all the currently loaded UI and updates them all
-            for (int i = Windows.Count; i > 0; i--)
+            if (inFocus)
             {
-                Windows[i - 1].Update();
-            }
-            for (int i = Buttons.Count; i > 0; i--)
-            {
-                Buttons[i - 1].Update();
-            }
-            for (int i = TextFields.Count; i > 0; i--)
-            {
-                TextFields[i - 1].Update();
+                //this method iterates through all the currently loaded UI and updates them all
+                for (int i = Windows.Count; i > 0; i--)
+                {
+                    Windows[i - 1].Update();
+                }
+                for (int i = Buttons.Count; i > 0; i--)
+                {
+                    Buttons[i - 1].Update();
+                }
+                for (int i = TextFields.Count; i > 0; i--)
+                {
+                    TextFields[i - 1].Update();
+                }
             }
             for (int i = MessageBoxes.Count; i > 0; i--)
             {

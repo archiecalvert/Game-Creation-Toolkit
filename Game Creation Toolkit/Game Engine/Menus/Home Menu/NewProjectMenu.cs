@@ -1,6 +1,7 @@
 ﻿using Game_Creation_Toolkit.Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes;
 using Game_Creation_Toolkit.Game_Engine.Tools;
 using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
 using Game_Creation_Toolkit.Game_Engine.Tools.NewProject;
@@ -28,7 +29,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
              CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 305), new(0.75f)); //button for creating a project (475)
              CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 305), new Vector2(0.75f)); //Button for returning to previous screen
              LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the directory to be entered
-             NameFld = new TextField(1500, 50, new Vector2(300, 125), "", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
+             NameFld = new TextField(1500, 50, new Vector2(300, 125), "NewProject1", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
         }
         private SpriteFont Font = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         public override void Update()
@@ -38,14 +39,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
                 CreateBtn.isClicked = false;
                 if (!ValidateName(NameFld.Text))
                 {
-                    MessageBox ErrorBox = new MessageBox(710, 100, 500, 220);
+                    ErrorMessage ErrorBox = new ErrorMessage(710, 100, 500, 220);
                     ErrorBox.Title = "Error";
                     ErrorBox.Text = "The name field is invalid.";
                     return;
                 }
                 else if (!ValidateLocation(LocationFld.Text))
                 {
-                    MessageBox ErrorBox = new MessageBox(710, 100, 500, 220);
+                    ErrorMessage ErrorBox = new ErrorMessage(710, 100, 500, 220);
                     ErrorBox.Title = "Error";
                     ErrorBox.Text = "The location field is invalid.";
                     return;

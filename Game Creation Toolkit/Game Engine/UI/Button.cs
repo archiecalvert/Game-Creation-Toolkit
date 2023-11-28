@@ -44,7 +44,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             {
                 isHover = false;
             }
-            if(MouseRect.Intersects(ButtonRect) && Mouse.GetState().LeftButton == ButtonState.Pressed && !ClickTimer.isActive)//Starts the click delay when the button is pressed
+            if(isHover && Mouse.GetState().LeftButton == ButtonState.Pressed && !ClickTimer.isActive)//Starts the click delay when the button is pressed
             {
                 isClicked = true;
                 ClickTimer.Begin();
