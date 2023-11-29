@@ -74,9 +74,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     );
                 int subindex = 0;
                 int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\"+s.Key+"\\").Length;
+                string[] subFiles = Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key);
                 foreach (Button btn in SubFiles.Values.ElementAt(index))
                 {
-                    string[] subFiles = Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\"+s.Key);
                     btn.Draw();
                     Core._spriteBatch.DrawString(spriteFont: TextFont,
                         text: subFiles[subindex].Substring(charCount),
@@ -100,6 +100,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         public void UpdateList()
         {
             ScenesDict.Clear();
+            SubFiles.Clear();
             int index = 0;
             int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length;
             SceneListLength = Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes").Count();
