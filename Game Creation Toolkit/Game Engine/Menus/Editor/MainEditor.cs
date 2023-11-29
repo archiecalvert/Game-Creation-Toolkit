@@ -22,7 +22,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Creates a blank texture
         Vector2 RunCoords = new Vector2(1000, 0); //Coordinates of the run button
         GameView GameWindow;
-        ProjectTree ProjectTree;
+        public static ProjectTree ProjectTree;
         
         public MainEditor()
         {

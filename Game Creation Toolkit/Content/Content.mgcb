@@ -133,6 +133,30 @@
 /processorParam:TextureFormat=Color
 /build:Toolkit/Assets/MainEditor/Project Tree/AddNew.png
 
+#begin Toolkit/Assets/MainEditor/Project Tree/Back1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/MainEditor/Project Tree/Back1.png
+
+#begin Toolkit/Assets/MainEditor/Project Tree/Back2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/MainEditor/Project Tree/Back2.png
+
 #begin Toolkit/Assets/MainEditor/Run.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -144,6 +168,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Toolkit/Assets/MainEditor/Run.png
+
+#begin Toolkit/Assets/MessageBox/AddObjectMenu/Blank.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/MessageBox/AddObjectMenu/Blank.png
+
+#begin Toolkit/Assets/MessageBox/AddObjectMenu/GameObject.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/MessageBox/AddObjectMenu/GameObject.png
 
 #begin Toolkit/Assets/MessageBox/AddObjectMenu/Scene.png
 /importer:TextureImporter

@@ -46,17 +46,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             string Directory = SystemHandlers.CurrentProjectDirectory;
             List<string> commands = new List<string>();
             process.StandardInput.WriteLine("cd \"" + Name + "\"");
-            process.StandardInput.WriteLine("Mkdir editor");
-            process.StandardInput.WriteLine("cd editor");
-            process.StandardInput.WriteLine("Mkdir data classes tree"); //creates the files that the program will use
-            process.StandardInput.WriteLine("cd..");
-            process.StandardInput.WriteLine("Mkdir GameData");
+            process.StandardInput.WriteLine("Mkdir GameData"); //makes the GameData folder
             process.StandardInput.WriteLine("cd GameData");
-            process.StandardInput.WriteLine("Mkdir Scenes");
-            Console.WriteLine("File projects created");
-            //line makes the program wait until the whole monogame file has been created
-            Console.WriteLine("Core Data files created");
-
+            process.StandardInput.WriteLine("Mkdir Scenes"); //makes the Scenes folder
             process.Close();
             while(!System.IO.Directory.Exists(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
         }

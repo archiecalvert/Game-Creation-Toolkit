@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree;
 using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
 using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
@@ -15,7 +16,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
         Button CloseBtn;
         Texture2D BlankTexture;
         Button SceneBtn;
+        Button GameObjBtn;
         List<Button> Buttons = new List<Button>();
+
         public AddObjectMenu(int x, int y, int width, int height)
         {
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
@@ -31,6 +34,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
                 new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(-120, 150),
                 new(0.6f));
             Buttons.Add(SceneBtn);
+            GameObjBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddObjectMenu/GameObject"),
+                new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(60, 150),
+                new(0.6f));
+            Buttons.Add(GameObjBtn);
         }
         public override void Draw()
         {
@@ -75,7 +82,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
             {
                 CloseBtn.isClicked = false;
                 DisposeMenu();
-                
             }
             if (SceneBtn.isClicked)
             {
@@ -84,6 +90,17 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
                 {
                     ProjectFileManager.AddScene(NameField.Text);
                     DisposeMenu();
+                }
+            }
+            if (GameObjBtn.isClicked)
+            {
+                GameObjBtn.isClicked = false;
+                if(NameField.Text != "")
+                {
+
+                    DisposeMenu();
+                    GameObjectMenu GameObjectMenu = new GameObjectMenu((2460 - 1100)/2,(1500-750)/2,1100,750, NameField.Text);
+                    
                 }
             }
         }
