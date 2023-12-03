@@ -23,7 +23,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         Vector2 RunCoords = new Vector2(1000, 0); //Coordinates of the run button
         GameView GameWindow;
         public static ProjectTree ProjectTree;
-        
+        public static ScriptMenu ScriptMenu;
         public MainEditor()
         {
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379,0), new Vector2(1f));
@@ -31,7 +31,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
             GameWindow = new GameView();
+            ScriptMenu = new ScriptMenu();
             ProjectTree = new ProjectTree();
+            
         }
         public override void Update()
         {

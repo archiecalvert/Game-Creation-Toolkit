@@ -9,6 +9,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
 {
     public abstract class Script
     {
+        public abstract string ID { get;}
         public Script()
         {
             SystemHandlers.Scripts.Add(this);

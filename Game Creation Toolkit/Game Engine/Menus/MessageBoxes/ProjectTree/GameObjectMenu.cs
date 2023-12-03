@@ -28,14 +28,15 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
         Timer SwapDelay;
         public GameObjectMenu(int x, int y, int width, int height, string Name)
         {
-            Bounds = new Rectangle(x, y, width, height);
-            objName = Name;
-            int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length;
+            Bounds = new Rectangle(x, y, width, height); //Window bounds
+            objName = Name; //Name of the game object inputted by the player
+            int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length; //Gets the length of the directory before the game object name
             foreach (string s in Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes"))
             {
-                scenes.Add(s.Substring(charCount));
+                scenes.Add(s.Substring(charCount)); //Gets the names of the scenes from the project directory
             }
             int index = 0;
+            //Creates a button for each scene in the project directory and stores it with the scene name in a dictionary
             foreach(string scene in scenes)
             {
                 ScenesButtons.Add(scene, new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddObjectMenu/Blank"),
@@ -51,12 +52,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
         }
         public override void Draw()
         {
-            DrawBackground(Bounds);
-            Core._spriteBatch.DrawString(spriteFont: Font,
+            DrawBackground(Bounds); //Draws the message box background
+            Core._spriteBatch.DrawString(spriteFont: Font, 
                 text: "Select a Scene",
                 position: new Vector2(Bounds.X, Bounds.Y) + new Vector2(20, 20),
                 color: Color.Black,
-                rotation: 0f,                                           //Draws the description of the message box
+                rotation: 0f,                                           //Draws the "Select a Scene" text
                 origin: Vector2.Zero,
                 scale: 0.4f,
                 SpriteEffects.None,
@@ -68,7 +69,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
                     text: scene,
                     position: new Vector2(Bounds.X + 525, Bounds.Y + 35 + 75 * (index + 1)),
                     color: Color.Black,
-                    rotation: 0f,                                           //Draws the description of the message box
+                    rotation: 0f,                                           //Draws the Scene name on top of each button
                     origin: new Vector2((32*(scene.Length))/2,50),
                     scale: 0.4f,
                     SpriteEffects.None,
@@ -82,27 +83,26 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
             {
                 foreach (var btn in ScenesButtons)
                 {
-                    btn.Value.Update();
+                    btn.Value.Update(); //Updates each button
                 }   
             }
             CancelBtn.Update();
             if(CancelBtn.isClicked)
             {
                 CancelBtn.isClicked = false;
-                DisposeMenu();
+                DisposeMenu(); //Closes the menu
             }
             foreach(var btn in ScenesButtons)
             {
                 if(btn.Value.isClicked && !SwapDelay.isActive)
                 {
                     string SceneName = btn.Key;
-                    ProjectFileManager.AddGameObject(objName, SceneName);
-                    DisposeMenu();
-                    MainEditor.ProjectTree.UpdateList();
+                    ProjectFileManager.AddGameObject(objName, SceneName);       //Determines what button was pressed and adds a game object to it
+                    DisposeMenu(); 
                 }
             }
         }
-        void DisposeMenu()
+        void DisposeMenu() //deletes the messagebox when called
         {
             Exit();
             UIHandler.Buttons.Remove(CancelBtn);

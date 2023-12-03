@@ -20,7 +20,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
         static public List<ContentWindow> Windows = new List<ContentWindow>(); //holds a list of all the current windows currently being displayed on screen
         static public List<Button> Buttons = new List<Button>(); //holds a list of all the current buttons currently being drawn to the screen
         static public List<TextField> TextFields = new List<TextField>();//holds a list of all the current text fields
-        static Texture2D HoverTexture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/HoverTexture"); //Makes a hover texture so that the button becomes lighter when highlighted
         public static List<MessageBox> MessageBoxes = new List<MessageBox>();
         public static bool inFocus = true;
         public static void Update()
@@ -60,21 +59,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             for (int i = TextFields.Count; i > 0; i--)
             {
                 TextFields[i - 1].Draw();
-            }
-            foreach (Button button in Buttons)
-            {
-                if (button.isHover)
-                {
-                    Core._spriteBatch.Draw(HoverTexture,
-                        position:new Vector2(button.ButtonRect.X, button.ButtonRect.Y),
-                        null,
-                        Color.White,
-                        rotation: 0f,
-                        origin: Vector2.Zero,
-                        scale: new Vector2(button.ButtonRect.Width, button.ButtonRect.Height),
-                        SpriteEffects.None,
-                        layerDepth:Core.ButtonDepth+0.01f);
-                }
             }
             for (int i = MessageBoxes.Count; i > 0; i--)
             {
