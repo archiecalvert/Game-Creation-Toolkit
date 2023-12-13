@@ -1,16 +1,10 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
-using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
-using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Game_Creation_Toolkit.Game_Engine.Handlers.JSONHandler;
-
+using Button = Game_Creation_Toolkit.Game_Engine.UI.Button;
+using MessageBox = Game_Creation_Toolkit.Game_Engine.UI.MessageBox;
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
 {
     public class AddScript : MessageBox
@@ -21,7 +15,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         Button TextureButton;
         Texture2D BlankTexture;
         List<Button> Buttons = new List<Button>();
-        
+        public string directory;
 
         public AddScript(int x, int y, int width, int height)
         {
@@ -65,8 +59,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             if(TextureButton.isClicked)
             {
                 TextureButton.isClicked = false;
-                //TextureJSON data = new TextureJSON();
-                Process.Start("explorer.exe", "/select, C:\\Users\\archi\\Pictures\\Screenshots");
+                DisposeMenu();
+                AddTextureMenu addTextureMenu = new AddTextureMenu();
             }
         }
         void DisposeMenu()
@@ -78,6 +72,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 UIHandler.Buttons.Remove(btn);
             }
         }
+        
     }
 }
 

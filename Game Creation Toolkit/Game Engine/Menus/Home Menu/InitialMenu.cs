@@ -1,5 +1,6 @@
 ﻿using Game_Creation_Toolkit.Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu;
 using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
@@ -42,6 +43,14 @@ namespace Game_Creation_Toolkit.Menus
             if(OpenFileBtn.isClicked)
             {
                 OpenFileBtn.isClicked= false;
+                OpenProject.OpenGameProject();
+                if(OpenProject.directoryFound == true)
+                {
+                    UnloadWindow();
+                    MainEditor mainEditor = new MainEditor();
+                }
+                OpenProject.directoryFound = null;
+                
             }
             if(CloseBtn.isClicked)
             {

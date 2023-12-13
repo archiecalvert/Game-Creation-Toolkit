@@ -22,6 +22,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         SpriteFont TextFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         Button AddNewBtn; //Used to add new objects to the project
         Dictionary<string, Button> ScenesDict = new Dictionary<string, Button>(); //Holds a list of file names and their buttons
+        public bool ReadingData = false;
         
         Dictionary<string, Dictionary<string, Button>> SubFiles = new Dictionary<string, Dictionary<string, Button>>(); //Holds a list of the
         int SceneListLength = 0;
@@ -42,6 +43,21 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 int height = 750;
                 AddObjectMenu AddNewMessage = new AddObjectMenu((2460-width)/2,(1500-height)/2,1500,750);
             }
+            for (int i = 0; i < ScenesDict.Count; i++)
+            {
+                int subIndex = 0;
+                foreach (Button btn in SubFiles.Values.ElementAt(i).Values)
+                {
+                    if (btn.isClicked)
+                    {
+                        //When a directory is clicked, the value of the directory is stored to allow for it to be easily accessed
+                        btn.isClicked = false;
+                        MainEditor.ScriptMenu.CurrentItemDirectory = SubFiles.Values.ElementAt(i).Keys.ElementAt(subIndex);
+                        MainEditor.ScriptMenu.ReloadFlag = true;
+                    }
+                    subIndex++;
+                }
+            }
             UpdateList();
         }
         public override void Draw()
@@ -58,11 +74,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 layerDepth: 0
                 );
             int index = 0;
-            try
+            try //Validates the files in the list
             {
                 foreach (var s in ScenesDict)
                 {
-                    s.Value.Draw();
                     Core._spriteBatch.DrawString(spriteFont: TextFont,
                         text: s.Key,
                         position: new Vector2(s.Value.ButtonRect.X + 10, s.Value.ButtonRect.Y),
@@ -75,9 +90,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                         );
                     int subindex = 0; //used to iterate over the sub directories
                                       //used to count the character count of the directory up until the folder name
-                    int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key + "\\").Length;
+                    int charCount = new string(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key + "\\").Length;
                     //used to store the list of names of sub files in the directory
-                    string[] subFiles = Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key);
+                    string[] subFiles = Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key);
                     foreach (Button btn in SubFiles.Values.ElementAt(index).Values)
                     {
                         //Draws the names of the files and sub directories
@@ -120,19 +135,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 ScenesDict.Clear();
                 SubFiles.Clear();
                 int index = 0;
-                int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length;
-                SceneListLength = Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes").Count();
+                int charCount = new string(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length;
+                SceneListLength = Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes").Count();
                 //adds the directories and buttons to the dictionaries
-                foreach (string s in Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes"))
+                foreach (string scene in Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes"))
                 {
-                    ScenesDict.Add(s.Substring(charCount), new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back1"),
+                    ScenesDict.Add(scene.Substring(charCount), new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back1"),
                         new Vector2(MenuBounds.X, MenuBounds.Y + 50 + (index * 35)),
                         Vector2.One));
                     index++;
                     SubFiles.Add(ScenesDict.Keys.ElementAt(ScenesDict.Count - 1), new Dictionary<string, Button>());
-                    foreach (string j in Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Substring(charCount)))
+                    foreach (string subfile in Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + scene.Substring(charCount)))
                     {
-                        SubFiles.Values.ElementAt(ScenesDict.Count - 1).Add(j, new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back2"),
+                        SubFiles.Values.ElementAt(ScenesDict.Count - 1).Add(subfile, new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back2"),
                         new Vector2(MenuBounds.X, MenuBounds.Y + 50 + (index * 35)),
                         Vector2.One));
                         index++;

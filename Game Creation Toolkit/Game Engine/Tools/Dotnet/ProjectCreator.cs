@@ -35,22 +35,31 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             {
                 process.StandardInput.WriteLine(command); //runs each command
             }
-            SystemHandlers.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
-            SystemHandlers.ProjectName = Name;
+            SystemHandler.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
+            SystemHandler.ProjectName = Name;
             CreateEditorFiles(process); //creates all the necessary files used by my program
         }
 
         static void CreateEditorFiles(Process process)
         {
-            string Name = SystemHandlers.ProjectName;
-            string Directory = SystemHandlers.CurrentProjectDirectory;
+            string Name = SystemHandler.ProjectName;
+            string Directory = SystemHandler.CurrentProjectDirectory;
             List<string> commands = new List<string>();
             process.StandardInput.WriteLine("cd \"" + Name + "\"");
             process.StandardInput.WriteLine("Mkdir GameData"); //makes the GameData folder
             process.StandardInput.WriteLine("cd GameData");
             process.StandardInput.WriteLine("Mkdir Scenes"); //makes the Scenes folder
             process.Close();
-            while(!System.IO.Directory.Exists(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
+            while (true)
+            {
+                try
+                {
+                    File.Create(SystemHandler.CurrentProjectDirectory + "\\GameData\\id.csv").Close();
+                    break;
+                }
+                catch { }
+            }
+            while(!System.IO.Directory.Exists(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
         }
     }
 }

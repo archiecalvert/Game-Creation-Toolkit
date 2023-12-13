@@ -33,6 +33,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             GameWindow = new GameView();
             ScriptMenu = new ScriptMenu();
             ProjectTree = new ProjectTree();
+            ObjectHandler.LoadEntityTable();
+            ObjectHandler.LoadScripts();
             
         }
         public override void Update()
@@ -53,14 +55,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             if (RunBtn.isClicked)
             {
                 RunBtn.isClicked = false;
-                Console.WriteLine(SystemHandlers.CurrentProjectDirectory);
-                ProjectRun.Begin(SystemHandlers.CurrentProjectDirectory); //runs the commands necessary to get the users project running
+                Console.WriteLine(SystemHandler.CurrentProjectDirectory);
+                ProjectRun.Begin(SystemHandler.CurrentProjectDirectory); //runs the commands necessary to get the users project running
                 
             }
             if (CompileBtn.isClicked)
             {
                 CompileBtn.isClicked = false;
-                ProjectCompiler.Begin(SystemHandlers.CurrentProjectDirectory);
+                ProjectCompiler.Begin(SystemHandler.CurrentProjectDirectory);
             }
         }
         public override void Draw()
@@ -80,5 +82,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             Core._graphics.ApplyChanges();
             
         }
+
     }
 }

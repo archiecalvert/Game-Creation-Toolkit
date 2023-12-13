@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
         //this class is used to insert a new itemgroup so that the file passed in as an arguement will be included in the compilation and build process
         public static void AddFileToProject(string FileDirectory)
         {
-            string csproj = SystemHandlers.CurrentProjectDirectory + "\\" + SystemHandlers.ProjectName + ".csproj";
+            string csproj = SystemHandler.CurrentProjectDirectory + "\\" + SystemHandler.ProjectName + ".csproj";
             string newData;
             using (StreamReader sr = new StreamReader(csproj)) //this will read all of the text in the .csproj file
             {
@@ -78,13 +79,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
         {
             MakeFolder("GameData\\Scenes\\" + SceneName + "\\" + ObjectName);
             MakeFile("GameData\\Scenes\\"+SceneName+"\\"+ObjectName+"\\object.dat");
+            ObjectHandler.AddIDToEntity(SceneName + "\\" + ObjectName);
         }
         public static void MakeFile(string FileName)
         {
-            File.Create(SystemHandlers.CurrentProjectDirectory + "\\" + FileName).Close();
+            File.Create(SystemHandler.CurrentProjectDirectory + "\\" + FileName).Close();
             AddFileToProject(FileName);
             //Pauses the excecution until this file has been created
-            while (!File.Exists(SystemHandlers.CurrentProjectDirectory + "\\" + FileName)){ }
+            while (!File.Exists(SystemHandler.CurrentProjectDirectory + "\\" + FileName)){ }
         }
         public static void MakeFolder(string Target)
         {
@@ -97,7 +99,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
             process.StartInfo.UseShellExecute = false;
             process.Start();
             //Makes the Scene folder
-            process.StandardInput.WriteLine("Mkdir \"" + SystemHandlers.CurrentProjectDirectory +"\\"+ Target + "\"");
+            process.StandardInput.WriteLine("Mkdir \"" + SystemHandler.CurrentProjectDirectory +"\\"+ Target + "\"");
             process.StandardInput.WriteLine("EXIT");
             process.WaitForExit();
             process.Close();

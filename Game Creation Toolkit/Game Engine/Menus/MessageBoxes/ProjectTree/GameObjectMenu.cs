@@ -30,8 +30,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
         {
             Bounds = new Rectangle(x, y, width, height); //Window bounds
             objName = Name; //Name of the game object inputted by the player
-            int charCount = new string(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length; //Gets the length of the directory before the game object name
-            foreach (string s in Directory.GetDirectories(SystemHandlers.CurrentProjectDirectory + "\\GameData\\Scenes"))
+            int charCount = new string(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length; //Gets the length of the directory before the game object name
+            foreach (string s in Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes"))
             {
                 scenes.Add(s.Substring(charCount)); //Gets the names of the scenes from the project directory
             }

@@ -7,8 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Game_Creation_Toolkit.Game_Engine.UI;
-using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu;
+using System.IO;
+using System.Text.Json.Nodes;
+using System.Text.Json;
+using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {
@@ -16,10 +22,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     {
         SpriteFont TextFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         static int width = 410;
-        Rectangle MenuBounds = new Rectangle(2460- width - 10,60,width,1430);
+        public Rectangle MenuBounds = new Rectangle(2460- width - 10,60,width,1430);
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
         Button AddNewBtn; //Used to add new objects to the project
-        public string CurrentItemDirectory = "g6";
+        public string CurrentItemDirectory = "";
+        public List<ScriptItem> ScriptItems = new List<ScriptItem>();
+        public bool ReloadFlag = false;
         public ScriptMenu()
         {
             BlankTexture.SetData(new[] {Color.White});
@@ -28,8 +36,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 Position: new Vector2((int)MenuBounds.X + MenuBounds.Width - (1.5f*AddNewTexture.Width) - 5, MenuBounds.Y + 5),
                 Scale: new Vector2(1.5f));
         }
+
         public override void Update()
         {
+            if (ReloadFlag)
+            {
+                ReloadFlag = false;
+                foreach(var item in ScriptItems)
+                {
+                    item.UnloadItem();
+                }
+                ScriptItems.Clear();
+                LoadCurrentObjectScript();
+            }
             if (CurrentItemDirectory == "")
             {
                 AddNewBtn.isClicked = false;
@@ -37,10 +56,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             if (AddNewBtn.isClicked)
             {
                 AddNewBtn.isClicked = false;
-                int width = 1500;
-                int height = 750;
-                AddScript AddScript = new AddScript((2460 - width) / 2, (1500 - height) / 2, 1500, 750);
+                if (CurrentItemDirectory != "")
+                {
+                    int width = 1500;
+                    int height = 750;
+                    AddScript AddScriptMenu = new AddScript((2460 - width) / 2, (1500 - height) / 2, 1500, 750);
+                }
             }
+            for (int i = ScriptItems.Count; i > 0; i--)
+            {
+                ScriptItems[i - 1].Update();
+            }
+            
+
         }
         public override void Draw()
         {
@@ -56,14 +84,36 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 effects: SpriteEffects.None,
                 layerDepth: Core.TextDepth
                 );
-            
+            for (int i = ScriptItems.Count; i > 0; i--)
+            {
+                ScriptItems[i - 1].Draw();
+            }
         }
         public override void UnloadWindow()
         {
             
         }
-        public void LoadScripts(string DataDirectory)
+        public void LoadCurrentObjectScript()
         {
+            var objects = new List<dynamic>();
+            //Loads all of the scripts stored in the objects file
+            foreach(string line in File.ReadLines(CurrentItemDirectory + "\\object.dat"))
+            {
+                objects.Add(JsonConvert.DeserializeObject(line));
+            }
+            //decides which script each item is and creates a menu item for each
+            foreach (var item in objects)
+            {
+                switch ((string)(item["id"]))
+                {
+                    case "Texture":
+                        TextureItem TextureItem = new TextureItem(item);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
 
         }
     }

@@ -56,7 +56,7 @@ namespace Game_Creation_Toolkit
                 Exit();
             ElapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             UIHandler.Update(); //Updates the UI elements
-            SystemHandlers.Update();
+            SystemHandler.Update();
             base.Update(gameTime);
         }
 

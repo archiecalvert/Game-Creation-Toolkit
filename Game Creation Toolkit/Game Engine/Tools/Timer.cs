@@ -18,7 +18,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools
         {
             dur = duration;
             Duration = dur;
-            SystemHandlers.Timers.Add(this); //adds this to the timers list so it can be updated
+            SystemHandler.Timers.Add(this); //adds this to the timers list so it can be updated
         }
         public void Update()
         {
@@ -38,7 +38,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools
         }
         public void Dispose()
         {
-            SystemHandlers.Timers.Remove(this);
+            SystemHandler.Timers.Remove(this);
         }
     }
 }

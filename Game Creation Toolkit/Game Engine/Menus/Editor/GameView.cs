@@ -14,7 +14,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     {
         Texture2D BlankTexture;
         public Rectangle WindowBounds;
-        Color WindowColour = new Color(int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour), int.Parse(SystemHandlers.WindowColour));
+        Color WindowColour = new Color(int.Parse(SystemHandler.WindowColour), int.Parse(SystemHandler.WindowColour), int.Parse(SystemHandler.WindowColour));
         public GameView()
         {
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
@@ -27,6 +27,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void Draw()
         {
+            //Draws the background of the window
             Core._spriteBatch.Draw(texture: BlankTexture, position: new(WindowBounds.X, WindowBounds.Y),
                 null,
                 WindowColour,
