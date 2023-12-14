@@ -48,6 +48,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 }
                 ScriptItems.Clear();
                 LoadCurrentObjectScript();
+                ObjectHandler.LoadEntityTable();
             }
             if (CurrentItemDirectory == "")
             {

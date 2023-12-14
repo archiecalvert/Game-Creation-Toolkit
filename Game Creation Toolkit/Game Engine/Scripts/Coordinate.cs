@@ -22,7 +22,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
 
         public override void Draw()
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public override void DestroyScript()

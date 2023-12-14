@@ -1,5 +1,6 @@
 ﻿using Game_Creation_Toolkit.Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
 using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
@@ -16,21 +17,23 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {
     public class MainEditor : ContentWindow
     {
+        public static Rectangle Bounds;
         Button CloseBtn;
         Button RunBtn;
         Button CompileBtn;
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Creates a blank texture
         Vector2 RunCoords = new Vector2(1000, 0); //Coordinates of the run button
-        GameView GameWindow;
+        public static GameView GameView;
         public static ProjectTree ProjectTree;
         public static ScriptMenu ScriptMenu;
         public MainEditor()
         {
+            Bounds = new Rectangle(0, 0, 2460, 50);
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379,0), new Vector2(1f));
             RunBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Run"), RunCoords, new(1f));
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
-            GameWindow = new GameView();
+            GameView = new GameView();
             ScriptMenu = new ScriptMenu();
             ProjectTree = new ProjectTree();
             ObjectHandler.LoadEntityTable();
@@ -64,10 +67,33 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 CompileBtn.isClicked = false;
                 ProjectCompiler.Begin(SystemHandler.CurrentProjectDirectory);
             }
+            if(Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                ObjectHandler.LoadScripts();
+            }
+            foreach(var item in ObjectHandler.GameObjects.Values)
+            {
+                foreach(Script script in item)
+                {
+                    if (script != null) script.Update();
+                }
+            }
         }
         public override void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, new Rectangle(0, 0, 2460, 50), new Color(96,96,96)); //draws the background for the nav bar
+            Core._spriteBatch.Draw(BlankTexture, Bounds, new Color(96,96,96)); //draws the background for the nav bar
+           
+            foreach (var item in ObjectHandler.GameObjects.Values)
+            {
+                foreach(Script script in item)
+                {
+                    try
+                    {
+                        if(script!= null) script.Draw();
+                    }
+                    catch { }
+                }
+            }
         }
         public override void UnloadWindow()
         {

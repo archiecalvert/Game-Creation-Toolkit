@@ -19,7 +19,7 @@ namespace Game_Creation_Toolkit
         //LAYER DEPTHS
         // 1 = top              0 = bottom
         public static float MessageDialogueDepth = 0.4f;
-        public static float GameWindowDepth = 0.35f;
+        public static float GameWindowDepth = 0.05f;
         public static float ButtonDepth = 0.51f;
         
         public static float TextFieldDepth = 0.1f;

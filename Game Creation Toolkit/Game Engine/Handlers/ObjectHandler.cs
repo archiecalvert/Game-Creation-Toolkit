@@ -11,6 +11,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
     public static class ObjectHandler
     {
         public static Dictionary<KeyValuePair<int, Entity>, List<Script>> GameObjects = new Dictionary<KeyValuePair<int, Entity>, List<Script>>();
+
         public static List<KeyValuePair<int, string>> EntityIDTable = new List<KeyValuePair<int, string>>();
         public static void LoadEntityTable()
         {
@@ -96,7 +97,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
         {
             //loads all of the scripts into the gameobjects dictionary
             GameObjects.Clear();
-            foreach(KeyValuePair<int, string> entity  in EntityIDTable)
+            foreach(KeyValuePair<int, string> entity in EntityIDTable)
             {
                 GameObjects.Add(new KeyValuePair<int, Entity>(entity.Key, new Entity(entity.Key)), new List<Script>());
                 var scripts = new List<dynamic>();

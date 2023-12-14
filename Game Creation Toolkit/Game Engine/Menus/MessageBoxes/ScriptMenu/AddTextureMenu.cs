@@ -1,9 +1,13 @@
 ﻿using Assimp;
+using Game_Creation_Toolkit.Game_Engine.Base_Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +70,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             {
                 CreateBtn.isClicked = false;
                 JSONHandler.AddTextureToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
+                bool HasPositionScript = false;
+                foreach (string line in File.ReadLines(MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat"))
+                {
+                    dynamic obj = JsonConvert.DeserializeObject(line);
+                    if ((string)obj["id"] == "coordinate")
+                    {
+                        HasPositionScript = true;
+                    }
+                }
+                if (!HasPositionScript)
+                {
+                    JSONHandler.AddCoordinatesToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
+                }
                 DisposeMenu();
                 MainEditor.ScriptMenu.ReloadFlag = true;
             }
