@@ -50,15 +50,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             process.StandardInput.WriteLine("cd GameData");
             process.StandardInput.WriteLine("Mkdir Scenes"); //makes the Scenes folder
             process.Close();
-            while (true)
-            {
-                try
-                {
-                    File.Create(SystemHandler.CurrentProjectDirectory + "\\GameData\\id.csv").Close();
-                    break;
-                }
-                catch { }
-            }
             while(!System.IO.Directory.Exists(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
         }
     }

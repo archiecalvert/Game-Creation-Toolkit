@@ -15,6 +15,8 @@ using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems;
+using Game_Creation_Toolkit.Game_Engine.Scripts;
+using Game_Creation_Toolkit.Game_Engine.Base_Classes;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {
@@ -48,7 +50,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 }
                 ScriptItems.Clear();
                 LoadCurrentObjectScript();
-                ObjectHandler.LoadEntityTable();
             }
             if (CurrentItemDirectory == "")
             {

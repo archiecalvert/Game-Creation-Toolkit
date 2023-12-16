@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Classes;
+using Game_Creation_Toolkit.Game_Engine.Base_Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.Tools.Dotnet;
@@ -36,12 +37,25 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             GameView = new GameView();
             ScriptMenu = new ScriptMenu();
             ProjectTree = new ProjectTree();
-            ObjectHandler.LoadEntityTable();
-            ObjectHandler.LoadScripts();
-            
+            //Responsible for loading in existing data if it exists
+            ObjectHandler.LoadSceneData();
         }
         public override void Update()
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                foreach(Scene scene in ObjectHandler.SceneData)
+                {
+                    Console.WriteLine(scene.id);
+                    foreach(GameObject obj in scene.GameObjects)
+                    {
+                        Console.WriteLine(obj.id);
+                        Console.WriteLine(obj.Scripts.Count);
+                    }
+                    Console.WriteLine("------------------------------");
+                    Console.WriteLine();
+                }
+            }
             if (CloseBtn.isHover) //THE RED "X" in the corner. This swaps between the two textures depending on whether the user is hovering over it
             {
                 CloseBtn.texture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close1");
@@ -67,32 +81,18 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 CompileBtn.isClicked = false;
                 ProjectCompiler.Begin(SystemHandler.CurrentProjectDirectory);
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.R))
+            foreach(Scene Scene in ObjectHandler.SceneData)
             {
-                ObjectHandler.LoadScripts();
-            }
-            foreach(var item in ObjectHandler.GameObjects.Values)
-            {
-                foreach(Script script in item)
-                {
-                    if (script != null) script.Update();
-                }
+                if(Scene!=null) Scene.Update();
             }
         }
         public override void Draw()
         {
             Core._spriteBatch.Draw(BlankTexture, Bounds, new Color(96,96,96)); //draws the background for the nav bar
            
-            foreach (var item in ObjectHandler.GameObjects.Values)
+            foreach(Scene Scene in ObjectHandler.SceneData)
             {
-                foreach(Script script in item)
-                {
-                    try
-                    {
-                        if(script!= null) script.Draw();
-                    }
-                    catch { }
-                }
+                if(Scene!=null) Scene.Draw();
             }
         }
         public override void UnloadWindow()

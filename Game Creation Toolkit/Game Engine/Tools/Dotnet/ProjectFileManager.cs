@@ -1,5 +1,5 @@
-﻿using Assimp;
-using Game_Creation_Toolkit.Game_Engine.Handlers;
+﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.Tools.NewProject;
 using System;
 using System.Collections.Generic;
@@ -74,12 +74,31 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
         {
             MakeFolder("GameData\\Scenes\\"+SceneName);
             MakeFile("GameData\\Scenes\\"+SceneName+"\\scene.dat");
+            MakeFile("GameData\\Scenes\\" + SceneName + "\\id.csv");
+            ObjectHandler.SceneData.Add(new Scene(SceneName));
         }
         public static void AddGameObject(string ObjectName, string SceneName)
         {
             MakeFolder("GameData\\Scenes\\" + SceneName + "\\" + ObjectName);
             MakeFile("GameData\\Scenes\\"+SceneName+"\\"+ObjectName+"\\object.dat");
-            ObjectHandler.AddIDToEntity(SceneName + "\\" + ObjectName);
+            //this will create a game object and add it into the scene object. This will allow for it to be displayed in the editor
+            foreach(Scene scene in ObjectHandler.SceneData)
+            {
+                if(scene.id == SceneName)
+                {
+                    //these lines will assign an id to the object and reload the entityid table
+                    scene.AddIDToEntity(SceneName+"\\"+ObjectName);
+                    scene.LoadEntityIDTable();
+                    foreach(KeyValuePair<int, string> entity in scene.EntityIDTable)
+                    {
+                        //splits apart the string and extracts the object name (stored in the form "scenename\\objectname")
+                        if (entity.Value.Split("\\")[1] == ObjectName)
+                        {
+                            scene.GameObjects.Add(new Base_Classes.GameObject(SceneName, ObjectName, entity.Key));
+                        }
+                    }
+                }
+            }
         }
         public static void MakeFile(string FileName)
         {

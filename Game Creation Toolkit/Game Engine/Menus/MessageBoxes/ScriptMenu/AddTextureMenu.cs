@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Button = Game_Creation_Toolkit.Game_Engine.UI.Button;
 using MessageBox = Game_Creation_Toolkit.Game_Engine.UI.MessageBox;
+using Scene = Game_Creation_Toolkit.Game_Engine.Scripts.Scene;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
 {
@@ -70,21 +71,33 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             {
                 CreateBtn.isClicked = false;
                 JSONHandler.AddTextureToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
-                bool HasPositionScript = false;
+                bool HasCoordinateScript = false;
                 foreach (string line in File.ReadLines(MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat"))
                 {
                     dynamic obj = JsonConvert.DeserializeObject(line);
                     if ((string)obj["id"] == "coordinate")
                     {
-                        HasPositionScript = true;
+                        HasCoordinateScript = true;
                     }
                 }
-                if (!HasPositionScript)
+                if (!HasCoordinateScript)
                 {
                     JSONHandler.AddCoordinatesToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
                 }
                 DisposeMenu();
+                string SceneName = MainEditor.ScriptMenu.CurrentItemDirectory.Substring(SystemHandler.CurrentProjectDirectory.Length + new string("\\GameData\\Scenes\\").Length).Split("\\")[0];
                 MainEditor.ScriptMenu.ReloadFlag = true;
+                //reloads all of the scripts in the game objects so that the texture script will be added correctly to the object
+                foreach(Scene scene in ObjectHandler.SceneData)
+                {
+                    if(scene.id == SceneName)
+                    {
+                        foreach(GameObject GameObject in scene.GameObjects)
+                        {
+                            GameObject.ReloadScripts();
+                        }
+                    }
+                }
             }
         }
         public override void Draw()
