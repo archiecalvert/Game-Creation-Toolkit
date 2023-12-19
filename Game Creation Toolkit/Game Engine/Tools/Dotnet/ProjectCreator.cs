@@ -38,8 +38,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             SystemHandler.CurrentProjectDirectory = Directory + "\\" + Name + "\\" + Name; //stores the current directory that the project is in
             SystemHandler.ProjectName = Name;
             CreateEditorFiles(process); //creates all the necessary files used by my program
+            GenerateClasses();
         }
-
         static void CreateEditorFiles(Process process)
         {
             string Name = SystemHandler.ProjectName;
@@ -51,6 +51,41 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
             process.StandardInput.WriteLine("Mkdir Scenes"); //makes the Scenes folder
             process.Close();
             while(!System.IO.Directory.Exists(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes")) { }
+        }
+        static void GenerateClasses()
+        {
+            string directory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Game Engine\\ProjectTemplateData\\Game1.txt";
+            using (StreamWriter sw = new StreamWriter(SystemHandler.CurrentProjectDirectory + "\\Game1.cs"))
+            {
+                foreach (string line in File.ReadLines(directory))
+                {
+                    if (line.Contains("REPLACETHISNAMESPACE"))
+                    {
+                        string NewLine = line.Replace("REPLACETHISNAMESPACE", SystemHandler.ProjectName);
+                        sw.WriteLine(NewLine);
+                    }
+                    else if (line.Contains("REPLACEPROJECTDIRECTORY"))
+                    {
+                        string NewLine = "";
+                        foreach (char  c in line.Replace("REPLACEPROJECTDIRECTORY", "\"" + SystemHandler.CurrentProjectDirectory + "\""))
+                        {
+                            if (c == '\\')
+                            {
+                                NewLine += "\\\\";
+                            }
+                            else
+                            {
+                                NewLine += c;
+                            }
+                        }
+                        sw.WriteLine(NewLine);
+                    }
+                    else sw.WriteLine(line);
+
+                }
+                sw.Close();
+            }
+            
         }
     }
 }

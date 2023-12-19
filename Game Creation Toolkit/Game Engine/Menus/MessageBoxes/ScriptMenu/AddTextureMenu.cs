@@ -72,6 +72,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 CreateBtn.isClicked = false;
                 JSONHandler.AddTextureToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
                 bool HasCoordinateScript = false;
+                //searches through each script in the game object to see whether the game object contains a coordinate script
                 foreach (string line in File.ReadLines(MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat"))
                 {
                     dynamic obj = JsonConvert.DeserializeObject(line);
@@ -85,6 +86,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                     JSONHandler.AddCoordinatesToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
                 }
                 DisposeMenu();
+                //Extracts the scene name from current object being modified
                 string SceneName = MainEditor.ScriptMenu.CurrentItemDirectory.Substring(SystemHandler.CurrentProjectDirectory.Length + new string("\\GameData\\Scenes\\").Length).Split("\\")[0];
                 MainEditor.ScriptMenu.ReloadFlag = true;
                 //reloads all of the scripts in the game objects so that the texture script will be added correctly to the object

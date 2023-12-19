@@ -14,7 +14,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
     public class Scene
     {
         public List<KeyValuePair<int, string>> EntityIDTable = new List<KeyValuePair<int, string>>();
-        //public Dictionary<KeyValuePair<int, GameObject>, List<Script>> GameObjects = new Dictionary<KeyValuePair<int, GameObject>, List<Script>>();
         public List<GameObject> GameObjects = new List<GameObject>();
         public string id;
         public bool CurrentScene = true;

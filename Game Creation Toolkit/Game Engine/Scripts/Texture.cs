@@ -24,13 +24,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
         Coordinate coordinateData;
         public Texture(int EntityID, JObject Data)
         {
-            Reload(EntityID, Data);
+            LoadTextureData(EntityID, Data);
             position = new Vector2(0, 0);
-            
         }
         public override void Update()
         {
-            
+            return;
         }
         public override void Draw()
         {
@@ -50,7 +49,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
         {
             
         }
-        public void Reload(int EntityID, JObject Data)
+        public void LoadTextureData(int EntityID, JObject Data)
         {
             id = EntityID;
             texture = Texture2D.FromFile(Core._graphics.GraphicsDevice, (string)Data["location"]);

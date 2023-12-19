@@ -28,6 +28,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
         }
         public void Update()
         {
+            //Updates every scene each frame
             foreach (Script script in Scripts)
             {
                 if(script!=null)script.Update();
@@ -35,6 +36,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
         }
         public void Draw()
         {
+            //Draws every scene to the screen (if applicable)
             foreach(Script script in Scripts)
             {
                 if(script!=null)script.Draw();
