@@ -28,8 +28,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         {
              CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 305), new(0.75f)); //button for creating a project (475)
              CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 305), new Vector2(0.75f)); //Button for returning to previous screen
-             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the directory to be entered
-             NameFld = new TextField(1500, 50, new Vector2(300, 125), "NewProject1", Font, Color.White, new Color(96, 96, 96), 1f);//Allows for the project name to be entered
+             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 0.5f);//Allows for the directory to be entered
+             NameFld = new TextField(1500, 50, new Vector2(300, 125), "NewProject1", Font, Color.White, new Color(96, 96, 96), 0.5f);//Allows for the project name to be entered
         }
         private SpriteFont Font = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         public override void Update()
@@ -89,7 +89,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
             List<string> forbiddenNames = new List<string> {
                 "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM0",
                 "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "LPT0",
-                "CON", "PRN", "AUX", "NUL"
+                "CON", "PRN", "AUX", "NUL", "Game"
             }; //list of all the invalid file names
             List<char> forbiddenChar = new List<char> { '<', '>', ':', '"', '/', '\\', '|', '?', '*'}; //list of all the invalid characters
             foreach(string test in forbiddenNames) //checks to see if the name of the file matches any of the invalid names

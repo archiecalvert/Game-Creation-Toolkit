@@ -111,6 +111,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     case "Texture":
                         TextureItem TextureItem = new TextureItem(item);
                         break;
+                    case "coordinate":
+                        CoordinateItem coordinateItem = new CoordinateItem(item);
+                        break;
                     default:
                         break;
 

@@ -30,7 +30,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
             jsonData = TextureData;
             BlankTexture.SetData(new[] { new Color(64,64,64) }); //sets the textures data to white
             TexturePreview = Texture2D.FromFile(Core._graphics.GraphicsDevice, (string)TextureData["location"]);
-            ChangeTextureBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 3, BackgroundBounds.Y + 260), new Vector2(MainEditor.ScriptMenu.MenuBounds.Width - 6, 50));
+            ChangeTextureBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 10, BackgroundBounds.Y + 260), new Vector2(MainEditor.ScriptMenu.MenuBounds.Width - 20, 50));
             location = (string)TextureData["location"];
             Dimensions = new Vector2((int)TextureData["width"], (int)TextureData["height"]);
         }

@@ -24,7 +24,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
             BlankTexture.SetData(new[] { Color.White });
             Bounds = new Rectangle(x, y, width, height);
-            NameField = new TextField(width - 200, 50, new Vector2(x + 175, y + 100), "", Font, Color.Black, Color.White, 1f);
+            NameField = new TextField(width - 200, 50, new Vector2(x + 175, y + 100), "", Font, Color.Black, Color.White, 0.5f);
             NameField.layerDepth = 0.51f;
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/Cancel"),
                 new Vector2(x + (width / 2) - (0.6f * Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel").Width / 2), y + height - 60),

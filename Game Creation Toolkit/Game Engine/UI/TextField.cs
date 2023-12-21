@@ -25,6 +25,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Texture used for the background so that it can be coloured
         Timer KeyDelay;//Used for timing in between key presses
         public float layerDepth = Core.TextFieldDepth;
+        float TextScale = 1f;
         public TextField(int width, int height, Vector2 Coordinates, string FieldText, SpriteFont FieldFont, Color FontColour, Color FieldColour, float FontScale)
         {
             FieldBounds = new Rectangle((int)Coordinates.X, (int)Coordinates.Y, width, height); //creates a rectangle for the background
@@ -32,6 +33,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
             BackgroundCol = FieldColour;
             Text = FieldText;
             font = FieldFont;
+            TextScale = FontScale;
             BlankTexture.SetData(new[] { Color.White }); //Sets all the pixels in the blank texture to white so the colour can be changed
             UIHandler.TextFields.Add(this); //Adds the text field to the list so that it can be automatically updated and drawn
             KeyDelay = new Timer(0.12f); //sets the time inbetween key presses
@@ -104,7 +106,12 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                         {
                             Text += Keyboard.GetState().GetPressedKeys()[i].ToString()[1]; //This section of code is used to allow numbers to be entered into the field as theyre stored as D"n"
                         }
+                        else if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+                        {
+                            Text += "-";
+                        }
                     }
+                    
                 }
             }
         }
@@ -119,7 +126,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 scale: new Vector2(FieldBounds.Width, FieldBounds.Height),
                 SpriteEffects.None,
                 layerDepth: layerDepth); //draws the background of the text field
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, layerDepth + 0.01f); //draws the text stored to the text field
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, TextScale, SpriteEffects.None, layerDepth + 0.01f); //draws the text stored to the text field
         }
         void Backspace()
         {

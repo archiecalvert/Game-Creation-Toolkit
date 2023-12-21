@@ -18,7 +18,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
             commands[3] = "EXIT";//Exits the command line
             Process process = new Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.CreateNoWindow = false; //switch to remove the console window
+            process.StartInfo.CreateNoWindow = true; //switch to remove the console window
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.UseShellExecute = false;
@@ -28,7 +28,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
                 process.StandardInput.WriteLine(command);
                 
             }
-            process.WaitForExit();
+            Console.WriteLine(process.StandardOutput.ReadToEnd());
             process.Close();
         }
         

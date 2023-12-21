@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Newtonsoft.Json;
 using System;
@@ -28,6 +29,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
         }
         public void Update()
         {
+            if(MainEditor.ScriptMenu.ReloadFlag)
+            {
+                ReloadScripts() ;
+            }
             //Updates every scene each frame
             foreach (Script script in Scripts)
             {
@@ -64,7 +69,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
             switch ((string)(script["id"]))
             {
                 case "Texture":
-                    return new Texture(id, script);
+                    return new Texture(id, script, sceneName);
                 default:
                     return null;
             }
