@@ -20,8 +20,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             public string location { get; set; }
             public int width { get; set; }
             public int height { get; set; }
-            public int scaleX { get; set; }
-            public int scaleY { get; set; }
+            public float scaleX { get; set; }
+            public float scaleY { get; set; }
         }
         public record CoordinateJSON()
         {

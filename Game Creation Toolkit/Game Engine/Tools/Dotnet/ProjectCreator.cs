@@ -76,7 +76,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
         static void GenerateClasses()
         {
             //this procedure creates all of the code for the users "Game1" class in their project so that textures and funtionality can be added
-            string directory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Game Engine\\ProjectTemplateData\\Game1.txt";
+            string directory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Game Engine\\ProjectTemplateData\\Game1.txt";            
             using (StreamWriter sw = new StreamWriter(SystemHandler.CurrentProjectDirectory + "\\Game1.cs"))
             {
                 foreach (string line in File.ReadLines(directory))

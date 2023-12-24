@@ -110,6 +110,10 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                         {
                             Text += "-";
                         }
+                        else if(Keyboard.GetState().IsKeyDown(Keys.OemPeriod))
+                        {
+                            Text += ".";
+                        }
                     }
                     
                 }

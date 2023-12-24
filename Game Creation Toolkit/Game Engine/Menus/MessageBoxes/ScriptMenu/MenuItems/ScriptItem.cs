@@ -81,5 +81,33 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 layerDepth: Core.ButtonDepth - 0.01f);
         }
         public abstract void UnloadItem();
+        internal float FilterToFloat(string text)
+        {
+            bool HasPoint = false;
+            string NewText = "";
+            //Checks to see if the current character is a -, ., or an integer
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == '.' && !HasPoint || (text[i] == '-' && i == 0))
+                {
+                    NewText += text[i];
+                }
+                else
+                {
+                    try
+                    {
+                        NewText += Convert.ToInt16(text[i].ToString());
+
+                    }
+                    catch { }
+                }
+            }
+            //Checks to see if the text was blank or only letters
+            if (NewText == "")
+            {
+                NewText = "0";
+            }
+            return (float)Convert.ToDouble(NewText);
+        }
     }
 }

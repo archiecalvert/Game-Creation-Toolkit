@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 namespace REPLACETHISNAMESPACE
 {
     public class Game1 : Game
@@ -167,11 +165,14 @@ namespace REPLACETHISNAMESPACE
         string TextureData;
         Texture2D texture;
         Entity ParentGameObject;
+        Vector2 scale;
         public Texture(string ObjectData, Entity ParentGameObject)
         {
             TextureData = ObjectData;
+            dynamic data = JsonConvert.DeserializeObject(ObjectData);
             int directoryLength = 0;
             string directory;
+            scale = new ((float)(Convert.ToDouble(data["scaleX"])), (float)(Convert.ToDouble(data["scaleY"])));
             //Extracts the texure directory from the json object data
             for (int i = 0; i < TextureData.Length; i++)
             {
@@ -200,7 +201,7 @@ namespace REPLACETHISNAMESPACE
             color:Color.White, 
             rotation: 0f, 
             origin:new Vector2(texture.Width/2, texture.Height/2), 
-            scale: Vector2.One, 
+            scale: scale, 
             effects: SpriteEffects.None, 
             layerDepth: 1f);
         }

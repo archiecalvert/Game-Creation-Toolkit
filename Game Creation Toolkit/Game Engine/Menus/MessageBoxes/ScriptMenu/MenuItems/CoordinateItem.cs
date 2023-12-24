@@ -45,7 +45,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
 
                 SaveBtn.isClicked = false;
                 string ObjectDirectory = MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat";
-                JSONHandler.CoordinateJSON NewData = new JSONHandler.CoordinateJSON { id = "coordinate", x=(float)Convert.ToDouble(TextFieldX.Text), y=(float)(Convert.ToDouble(TextFieldY.Text))};
+                JSONHandler.CoordinateJSON NewData = new JSONHandler.CoordinateJSON { id = "coordinate", x=(float)Convert.ToDouble(TextFieldX.Text), y=(float)(Convert.ToDouble(TextFieldY.Text)), };
                 List<string> ObjectData = new List<string>();
                 foreach(string line in File.ReadAllLines(ObjectDirectory))
                 {
@@ -110,34 +110,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
             UIHandler.TextFields.Remove(TextFieldX);
             UIHandler.TextFields.Remove(TextFieldY);
             UIHandler.Buttons.Remove(SaveBtn);
-        }
-        float FilterToFloat(string text)
-        {
-            bool HasPoint = false;
-            string NewText = "";
-            //Checks to see if the current character is a -, ., or an integer
-            for(int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == '.' && !HasPoint|| (text[i] == '-' && i==0))
-                {
-                    NewText += text[i];
-                }
-                else
-                {
-                    try
-                    {
-                        NewText += Convert.ToInt16(text[i].ToString());
-
-                    }
-                    catch { }
-                }
-            }
-            //Checks to see if the text was blank or only letters
-            if (NewText == "")
-            {
-                NewText = "0";
-            }
-            return (float)Convert.ToDouble(NewText);
         }
     }
 }
