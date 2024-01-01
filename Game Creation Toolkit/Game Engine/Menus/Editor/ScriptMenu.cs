@@ -114,12 +114,15 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     case "coordinate":
                         CoordinateItem coordinateItem = new CoordinateItem(item);
                         break;
+                    case "EntityMovement":
+                        MovementItem movementItem = new MovementItem(item);
+                        break;
                     default:
                         break;
-
                 }
             }
 
         }
+        
     }
 }

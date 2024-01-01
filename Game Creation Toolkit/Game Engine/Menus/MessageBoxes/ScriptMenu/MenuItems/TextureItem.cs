@@ -67,7 +67,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
                 ScaleY.Text = FilterToFloat(ScaleY.Text).ToString();
                 string ObjectDirectory = MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat";
                 //Creates a new json object that stores all of the texures data
-                TextureJSON NewData = new TextureJSON { id = "Texture", height = TexturePreview.Height, width = TexturePreview.Width, location = TextureLocation, scaleX = (float)(Convert.ToDouble(ScaleX.Text)), scaleY = (float)(Convert.ToDouble(ScaleY.Text)) };
+                TextureJSON NewData = new TextureJSON { id = "Texture",
+                    height = TexturePreview.Height,
+                    width = TexturePreview.Width,
+                    location = TextureLocation,
+                    scaleX = (float)(Convert.ToDouble(ScaleX.Text)),
+                    scaleY = (float)(Convert.ToDouble(ScaleY.Text)) };
                 List<string> ObjectData = new List<string>();
                 foreach (string line in File.ReadAllLines(ObjectDirectory))
                 {
@@ -91,6 +96,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
                     }
                     sw.Close();
                 }
+                //reloads the script menu and the game view
                 MainEditor.ScriptMenu.ReloadFlag = true;
             }
             

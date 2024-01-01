@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Game_Creation_Toolkit.Game_Engine.Handlers;
+﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Tools;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
-using Game_Creation_Toolkit.Game_Engine.Tools;
 using TextCopy;
 
 namespace Game_Creation_Toolkit.Game_Engine.UI

@@ -84,7 +84,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
                     //REPLACETHISNAMESPACE is a placeholder and will be replaced by the users project name
                     if (line.Contains("REPLACETHISNAMESPACE"))
                     {
-                        string NewLine = line.Replace("REPLACETHISNAMESPACE", SystemHandler.ProjectName);
+                        string newNameSpace = SystemHandler.ProjectName.Replace(" ", "_");
+                        string NewLine = line.Replace("REPLACETHISNAMESPACE", newNameSpace);
                         sw.WriteLine(NewLine);
                     }
                     //REPLACEPROJECTDIRECTORY is a placeholder for the users working directory

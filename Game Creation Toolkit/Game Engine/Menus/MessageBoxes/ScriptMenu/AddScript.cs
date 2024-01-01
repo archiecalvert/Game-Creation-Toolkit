@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,6 +14,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         SpriteFont Font = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont"); //loads in the default font for the application
         Button CloseBtn;
         Button TextureButton;
+        Button MovementButton;
         Texture2D BlankTexture;
         List<Button> Buttons = new List<Button>();
         public string directory;
@@ -30,6 +32,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 new Vector2(Bounds.X + 55, Bounds.Y+130),
                 new(0.6f));
             Buttons.Add(TextureButton);
+            MovementButton = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddScriptMenu/Movement"),
+                new Vector2(Bounds.X + 255, Bounds.Y + 130),
+                new(0.6f));
+            Buttons.Add(MovementButton);
         }
         public override void Draw()
         {
@@ -61,6 +67,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 TextureButton.isClicked = false;
                 DisposeMenu();
                 AddTextureMenu addTextureMenu = new AddTextureMenu();
+            }
+            if(MovementButton.isClicked)
+            {
+                MovementButton.isClicked = false;
+                DisposeMenu();
+                JSONHandler.AddEntityMovement(MainEditor.ScriptMenu.CurrentItemDirectory);
+                //Sets the flag to reload all the game objects
+                MainEditor.ScriptMenu.ReloadFlag = true;
             }
         }
         void DisposeMenu()

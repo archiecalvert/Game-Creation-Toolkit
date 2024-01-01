@@ -8,11 +8,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {
@@ -31,6 +26,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         {
             Bounds = new Rectangle(0, 0, 2460, 50);
             CloseBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Close/Close2"), new Vector2(2379,0), new Vector2(1f));
+            CloseBtn.HasHoverHighlight = false;
             RunBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Run"), RunCoords, new(1f));
             CompileBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Compile"), new Vector2(1300,0), new(1f));
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white

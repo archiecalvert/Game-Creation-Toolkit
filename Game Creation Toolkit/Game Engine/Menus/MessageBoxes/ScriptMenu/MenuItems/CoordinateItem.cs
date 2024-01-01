@@ -8,9 +8,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems
 {
@@ -24,7 +21,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         Button SaveBtn;
         public CoordinateItem(JObject CoordinateData)
         {
-            base.SetHeight(200);
+            base.SetHeight(210);
             TextFieldX = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 50), CoordinateData["x"].ToString(), font, Color.White, new Color(64,64,64), 0.4f);
             TextFieldX.layerDepth = 0.8f;
             TextFieldY = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 100), CoordinateData["y"].ToString(), font, Color.White, new Color(64, 64, 64), 0.4f);

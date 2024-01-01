@@ -83,7 +83,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 }
                 if (!HasCoordinateScript)
                 {
-                    JSONHandler.AddCoordinatesToFile(MainEditor.ScriptMenu.CurrentItemDirectory, directory);
+                    JSONHandler.AddCoordinatesToFile(MainEditor.ScriptMenu.CurrentItemDirectory);
                 }
                 DisposeMenu();
                 //Extracts the scene name from current object being modified

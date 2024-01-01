@@ -1,16 +1,10 @@
-﻿using Assimp;
-using Game_Creation_Toolkit.Classes;
-using Game_Creation_Toolkit.Game_Engine.Handlers;
-using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+﻿using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography.Pkcs;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
@@ -32,6 +26,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             }
             else
             {
+                //Gets the location of the bottom of the previous item in the script menu
                 int ListLen = MainEditor.ScriptMenu.ScriptItems.Count;
                 offset = MainEditor.ScriptMenu.ScriptItems[ListLen-1].BackgroundBounds.Bottom -
                     MainEditor.ScriptMenu.MenuBounds.Y + 10;
@@ -108,6 +103,36 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 NewText = "0";
             }
             return (float)Convert.ToDouble(NewText);
+        }
+        internal void WriteNewData(dynamic JSONObject)
+        {
+            List<string> ObjectData = new List<string>();
+            string ObjectDirectory = MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat";
+            dynamic temp = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(JSONObject));
+            string id = temp["id"];
+            foreach (string line in File.ReadAllLines(ObjectDirectory))
+            {
+                dynamic obj = JsonConvert.DeserializeObject(line);
+                //checks to see if the current object is the texture object so it can be overwritten
+                if ((string)obj["id"] == id)
+                {
+                    ObjectData.Add(JsonConvert.SerializeObject(JSONObject).ToString());
+                }
+                else
+                {
+                    ObjectData.Add(line);
+                }
+            }
+            //Rewrites the json objects to the data file
+            using (StreamWriter sw = new StreamWriter(ObjectDirectory))
+            {
+                foreach (string line in ObjectData)
+                {
+                    sw.WriteLine(line);
+                }
+                sw.Close();
+            }
+            MainEditor.ScriptMenu.ReloadFlag = true;
         }
     }
 }

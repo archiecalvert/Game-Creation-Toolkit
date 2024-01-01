@@ -28,6 +28,7 @@ namespace Game_Creation_Toolkit
         public Core()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _graphics.PreferredBackBufferHeight = 1080; //sets the window height

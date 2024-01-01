@@ -29,7 +29,17 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             public float x { get; set;}
             public float y { get; set;}
         }
-        
+        public record ObjectMovementJSON()
+        {
+            public string id { get; set; }
+            //How much the velocity increases by when a movement key is pressed
+            public float velocityIncrement { get; set; }
+            //how much the velocity will drop off when no movement key is being pressed
+            public float velocityDropOff { get; set; }
+            public float maximumVelocity { get; set; }
+            //if the velocity falls under this value, then it will be automatically set to zero
+            public float lowestVelocity { get; set; }
+        }
         public static void AddTextureToFile(string Target, string TextureDirectory)
         {
             //Converts the image file passed into the method to a texture2d
@@ -46,7 +56,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             //reads the previous data in the file and writes the new json object to the file
             WriteData(Target, textureJSON);
         }
-        public static void AddCoordinatesToFile(string Target, string TextureDirectory)
+        public static void AddEntityMovement(string Target)
+        {
+            ObjectMovementJSON movementJSON = new ObjectMovementJSON
+            {
+                id = "EntityMovement",
+                velocityIncrement = 0,
+                velocityDropOff = 0,
+                maximumVelocity = 0,
+                lowestVelocity = 0,
+            };
+            WriteData(Target, movementJSON);
+        }
+        public static void AddCoordinatesToFile(string Target)
         {
             CoordinateJSON json = new CoordinateJSON
             {

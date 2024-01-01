@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -86,9 +87,13 @@ namespace REPLACETHISNAMESPACE
             {
                 return new Texture(JSONObject, GameObject);
             }
-            else if(JSONObject.Contains("\"id\":\"coordinate\""))
+            else if (JSONObject.Contains("\"id\":\"coordinate\""))
             {
                 return new Coordinate(JSONObject, GameObject);
+            }
+            else if (JSONObject.Contains("\"id\":\"EntityMovement\""))
+            {
+                return new EntityMovement(JSONObject, GameObject);
             }
             return null;
         }
@@ -172,7 +177,7 @@ namespace REPLACETHISNAMESPACE
             dynamic data = JsonConvert.DeserializeObject(ObjectData);
             int directoryLength = 0;
             string directory;
-            scale = new ((float)(Convert.ToDouble(data["scaleX"])), (float)(Convert.ToDouble(data["scaleY"])));
+            scale = new((float)(Convert.ToDouble(data["scaleX"])), (float)(Convert.ToDouble(data["scaleY"])));
             //Extracts the texure directory from the json object data
             for (int i = 0; i < TextureData.Length; i++)
             {
@@ -195,35 +200,35 @@ namespace REPLACETHISNAMESPACE
         public override void Draw()
         {
             //Draws the texture at the position of the game object
-            Game1._spriteBatch.Draw(texture, 
-            position: new Vector2(1600/2, 1000/2) + new Vector2(ParentGameObject.Coordinates.X, -ParentGameObject.Coordinates.Y), 
-            sourceRectangle: null, 
-            color:Color.White, 
-            rotation: 0f, 
-            origin:new Vector2(texture.Width/2, texture.Height/2), 
-            scale: scale, 
-            effects: SpriteEffects.None, 
+            Game1._spriteBatch.Draw(texture,
+            position: new Vector2(1600 / 2, 1000 / 2) + new Vector2(ParentGameObject.Coordinates.X, -ParentGameObject.Coordinates.Y),
+            sourceRectangle: null,
+            color: Color.White,
+            rotation: 0f,
+            origin: new Vector2(texture.Width / 2, texture.Height / 2),
+            scale: scale,
+            effects: SpriteEffects.None,
             layerDepth: 1f);
         }
     }
     internal abstract class Script
     {
         //This class is a base class that will be inherited by every script
-        public Script() {}
+        public Script() { }
         public abstract void Update();
         public abstract void Draw();
 
     }
     internal class Coordinate : Script
     {
-        
+
         public Coordinate(string ScriptData, Entity GameObject)
         {
             //Loads the data stored in the objects coordinate data
             dynamic obj = JsonConvert.DeserializeObject(ScriptData);
             float x = (float)Convert.ToDouble(obj["x"]);
             float y = (float)Convert.ToDouble(obj["y"]);
-            GameObject.Coordinates = new Vector2(x,y);
+            GameObject.Coordinates = new Vector2(x, y);
 
         }
         public override void Update()
@@ -232,6 +237,103 @@ namespace REPLACETHISNAMESPACE
         }
         public override void Draw()
         {
+        }
+    }
+    internal class EntityMovement : Script
+    {
+        Entity Parent;
+        Vector2 Velocity;
+        float VelocityIncrement = 0.2f;
+        float VelocityDropoff = 0.2f;
+        float VelocityCap = 7f;
+        float MinVelocity = 3f;
+        public EntityMovement(string JSONData, Entity ParentEntity)
+        {
+            Parent = ParentEntity;
+            dynamic obj = JsonConvert.DeserializeObject(JSONData);
+            VelocityIncrement = obj["velocityIncrement"];
+            VelocityDropoff = obj["velocityDropOff"];
+            VelocityCap = obj["maximumVelocity"];
+            MinVelocity = obj["lowestVelocity"];
+        }
+        public override void Update()
+        {
+            if (isKeyDown(Keys.W))
+            {
+                Velocity.Y += VelocityIncrement;
+            }
+            if (isKeyDown(Keys.S))
+            {
+                Velocity.Y -= VelocityIncrement;
+            }
+            //Makes the velocity positive and checks if its greater than the maximum velocity
+            if (Math.Abs(Velocity.Y) > VelocityCap)
+            {
+                if (Velocity.Y > 0) Velocity.Y = VelocityCap;
+                else Velocity.Y = -VelocityCap;
+            }
+            if (isKeyDown(Keys.A))
+            {
+                Velocity.X -= VelocityIncrement;
+            }
+            if (isKeyDown(Keys.D))
+            {
+                Velocity.X += VelocityIncrement;
+            }
+            //Makes the velocity positive and checks if its greater than the maximum velocity
+            if (Math.Abs(Velocity.X) > VelocityCap)
+            {
+                if (Velocity.X > 0) Velocity.X = VelocityCap;
+                else Velocity.X = -VelocityCap;
+            }
+            //Checks to see if the movement keys arent being pressed
+            if (!isKeyDown(Keys.W) && !isKeyDown(Keys.S))
+            {
+                if (Velocity.Y > 0)
+                {
+                    Velocity.Y -= VelocityDropoff;
+                }
+                else if (Velocity.Y < 0)
+                {
+                    Velocity.Y += VelocityDropoff;
+                }
+                //if in the range of the minimum velocity, it will make the velocity equal zero
+                if (Math.Abs(Velocity.Y) < MinVelocity)
+                {
+                    Velocity.Y = 0;
+                }
+            }
+            //Checks to see if the movement keys arent being pressed
+            if (!isKeyDown(Keys.A) && !isKeyDown(Keys.D))
+            {
+                if (Velocity.X > 0)
+                {
+                    Velocity.X -= VelocityDropoff;
+                }
+                else if (Velocity.X < 0)
+                {
+                    Velocity.X += VelocityDropoff;
+                }
+                //if in the range of the minimum velocity, it will make the velocity equal zero
+                if (Math.Abs(Velocity.X) < MinVelocity)
+                {
+                    Velocity.X = 0;
+                }
+            }
+            //Adds the velocity to the entitys position
+            Parent.Coordinates += Velocity;
+        }
+        public override void Draw()
+        {
+
+        }
+        bool isKeyDown(Keys key)
+        {
+            if (Keyboard.GetState().IsKeyDown(key))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

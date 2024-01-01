@@ -2,14 +2,9 @@
 using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static Assimp.Metadata;
 
 namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
 {
@@ -17,7 +12,6 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
     {
         public string sceneName;
         public string id;
-        public Vector2 WorldPosition = new Vector2(0,0);
         public readonly int entityID;
         public List<Script> Scripts = new List<Script>();
         public GameObject(string SceneName, string ObjectName, int EntityID)
@@ -36,7 +30,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
             //Updates every scene each frame
             foreach (Script script in Scripts)
             {
-                if(script!=null)script.Update();
+                if(script!=null) script.Update();
             }
         }
         public void Draw()
@@ -44,7 +38,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
             //Draws every scene to the screen (if applicable)
             foreach(Script script in Scripts)
             {
-                if(script!=null)script.Draw();
+                if(script!=null) script.Draw();
             }
         }
         public void ReloadScripts()
