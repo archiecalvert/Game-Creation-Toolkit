@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -37,6 +38,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
             if (CreateBtn.isClicked)//creates a new monogame project
             {
                 CreateBtn.isClicked = false;
+                //Validates the name entered by the user
                 if (!ValidateName(NameFld.Text))
                 {
                     ErrorMessage ErrorBox = new ErrorMessage(710, 100, 500, 220);
@@ -44,12 +46,25 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
                     ErrorBox.Text = "The name field is invalid.";
                     return;
                 }
+                //Validates the location entered by the user
                 else if (!ValidateLocation(LocationFld.Text))
                 {
                     ErrorMessage ErrorBox = new ErrorMessage(710, 100, 500, 220);
                     ErrorBox.Title = "Error";
                     ErrorBox.Text = "The location field is invalid.";
                     return;
+                }
+                //Checks to see whether the location doesnt already exists
+                foreach(string file in Directory.GetDirectories(LocationFld.Text))
+                {
+                    string temp = LocationFld.Text + "\\" + NameFld.Text;
+                    if (file == LocationFld.Text + "\\" + NameFld.Text)
+                    {
+                        ErrorMessage ErrorBox = new ErrorMessage(710, 100, 500, 220);
+                        ErrorBox.Title = "Error";
+                        ErrorBox.Text = "This Project already exists. \nPlease choose another name.";
+                        return;
+                    }
                 }
                 ProjectCreator NewProject = new ProjectCreator(NameFld.Text, LocationFld.Text); //runs all the commands for creating a new project
                 UnloadWindow(); //Unloads the current menu

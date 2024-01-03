@@ -29,6 +29,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             public float x { get; set;}
             public float y { get; set;}
         }
+        public record SceneDataJSON()
+        {
+            public string MainScene { get; set; }
+        }
         public record ObjectMovementJSON()
         {
             public string id { get; set; }

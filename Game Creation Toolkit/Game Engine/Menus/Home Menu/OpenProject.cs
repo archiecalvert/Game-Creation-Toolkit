@@ -1,5 +1,7 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -31,6 +33,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
                 SystemHandler.CurrentProjectDirectory = explorer.SelectedPath + "\\" + Path.GetFileName(explorer.SelectedPath);
                 SystemHandler.ProjectName = Path.GetFileName(explorer.SelectedPath);
                 directoryFound = true;
+                if(File.ReadAllText(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\scenes.dat") != "")
+                {
+                    foreach(string line in File.ReadLines(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
+                    {
+                        dynamic json = JsonConvert.DeserializeObject(line);
+                        try
+                        {
+                            string mainScene = (string)json["MainScene"];
+                            MainEditor.CurrentScene = mainScene;
+                        }
+                        catch { }
+                    }
+                }
             }
             else
             {

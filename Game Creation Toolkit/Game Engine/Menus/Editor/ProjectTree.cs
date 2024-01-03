@@ -53,10 +53,22 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                         //When a directory is clicked, the value of the directory is stored to allow for it to be easily accessed
                         btn.isClicked = false;
                         MainEditor.ScriptMenu.CurrentItemDirectory = SubFiles.Values.ElementAt(i).Keys.ElementAt(subIndex);
+                        MainEditor.CurrentScene = ScenesDict.Keys.ElementAt(i);
                         MainEditor.ScriptMenu.ReloadFlag = true;
                     }
                     subIndex++;
                 }
+            }
+            int sceneIndex = 0;
+            //iterates through each scene and determines if the scene has been clicked
+            foreach(Button btn in ScenesDict.Values)
+            {
+                if(btn.isClicked)
+                {
+                    btn.isClicked = false;
+                    MainEditor.CurrentScene = ScenesDict.Keys.ElementAt(sceneIndex);
+                }
+                sceneIndex++;
             }
             UpdateList();
         }
@@ -134,16 +146,21 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 }
                 ScenesDict.Clear();
                 SubFiles.Clear();
+                //the item value in the list
                 int index = 0;
                 int charCount = new string(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\").Length;
                 SceneListLength = Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes").Count();
                 //adds the directories and buttons to the dictionaries
                 foreach (string scene in Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes"))
                 {
+                    //Adds the scene name in the first element, and the corresponding button in the second element
                     ScenesDict.Add(scene.Substring(charCount), new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back1"),
                         new Vector2(MenuBounds.X, MenuBounds.Y + 50 + (index * 35)),
                         Vector2.One));
                     index++;
+                    //Adds all the game objects inside each scene to the list
+                    //Dictionary where the first element is the scene name, and the second is a dictionary
+                    //The second element dictionary stores the game objects names and the buttons associated with each
                     SubFiles.Add(ScenesDict.Keys.ElementAt(ScenesDict.Count - 1), new Dictionary<string, Button>());
                     foreach (string subfile in Directory.GetDirectories(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + scene.Substring(charCount)))
                     {

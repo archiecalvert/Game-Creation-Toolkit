@@ -1,22 +1,12 @@
 ﻿using Game_Creation_Toolkit.Classes;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Game_Creation_Toolkit.Game_Engine.UI;
 using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu;
-using System.IO;
-using System.Text.Json.Nodes;
-using System.Text.Json;
-using Game_Creation_Toolkit.Game_Engine.Handlers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems;
-using Game_Creation_Toolkit.Game_Engine.Scripts;
-using Game_Creation_Toolkit.Game_Engine.Base_Classes;
+using Game_Creation_Toolkit.Game_Engine.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {

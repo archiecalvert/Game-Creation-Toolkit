@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 namespace REPLACETHISNAMESPACE
 {
     public class Game1 : Game
@@ -34,13 +35,11 @@ namespace REPLACETHISNAMESPACE
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-
         protected override void Update(GameTime gameTime)
         {
             ObjectHandler.Update();
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(BackgroundColour);
@@ -53,6 +52,8 @@ namespace REPLACETHISNAMESPACE
     internal class ObjectHandler
     {
         public static List<Scene> SceneList;
+        public static string CurrentScene;
+        static bool ChangingScenes = false;
         public static void Initialise()
         {
             //Loads all of the scene data into the Scene List
@@ -62,6 +63,17 @@ namespace REPLACETHISNAMESPACE
                 string name = Scene.Substring(Game1.ProjectDirectory.Length + 17);
                 SceneList.Add(new Scene(Scene.Substring(Game1.ProjectDirectory.Length + 17)));
             }
+            foreach(string line in File.ReadLines(Game1.ProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
+            {
+                try
+                {
+                    //Extracts what the first scene inside of the users project will be
+                    dynamic json = JsonConvert.DeserializeObject(line);
+                    string MainScene = (string)json["MainScene"];
+                    CurrentScene = MainScene;
+                    return;
+                } catch{}
+            }
         }
         public static void Update()
         {
@@ -69,6 +81,35 @@ namespace REPLACETHISNAMESPACE
             foreach (Scene scene in SceneList)
             {
                 scene.Update();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.N) && !ChangingScenes)
+            {
+                ChangingScenes = true;
+                int position = 0;
+                //Code below allows for the user to switch between their scenes
+                foreach(Scene scene in SceneList)
+                {
+                    if(scene.sceneName == CurrentScene)
+                    {
+                        //Determines what the next scene to switch to will be
+                        if (position+1 == SceneList.Count)
+                        {
+                            CurrentScene = SceneList.ElementAt(0).sceneName;
+                        }
+                        else
+                        {
+                            CurrentScene = SceneList.ElementAt(position+1).sceneName;
+                        }
+                        break;
+                    }
+                    position++;
+                }
+                
+            }
+            //Makes it so that the N key wont continuously change the scene
+            if(Keyboard.GetState().IsKeyUp(Keys.N) && ChangingScenes)
+            {
+                ChangingScenes = false;
             }
         }
         public static void Draw()
@@ -105,7 +146,6 @@ namespace REPLACETHISNAMESPACE
         public Scene(string SceneName)
         {
             sceneName = SceneName;
-            ObjectHandler.SceneList.Add(this);
             GameObjects = new List<Entity>();
             //This loops through each game object in the scene and adds it to a list
             //These objects can then load and store the data when the users program launches
@@ -117,6 +157,7 @@ namespace REPLACETHISNAMESPACE
         }
         public void Update()
         {
+            if(sceneName != ObjectHandler.CurrentScene) return;
             //Updates each game object each frame
             foreach (Entity entity in GameObjects)
             {
@@ -125,6 +166,7 @@ namespace REPLACETHISNAMESPACE
         }
         public void Draw()
         {
+            if(sceneName != ObjectHandler.CurrentScene) return;
             //Draws each game object every frame
             foreach (Entity entity in GameObjects)
             {
@@ -258,13 +300,14 @@ namespace REPLACETHISNAMESPACE
         }
         public override void Update()
         {
+            Vector2 direction = Vector2.Zero;
             if (isKeyDown(Keys.W))
             {
-                Velocity.Y += VelocityIncrement;
+                direction.Y = 1;
             }
             if (isKeyDown(Keys.S))
             {
-                Velocity.Y -= VelocityIncrement;
+                direction.Y = -1;
             }
             //Makes the velocity positive and checks if its greater than the maximum velocity
             if (Math.Abs(Velocity.Y) > VelocityCap)
@@ -274,11 +317,11 @@ namespace REPLACETHISNAMESPACE
             }
             if (isKeyDown(Keys.A))
             {
-                Velocity.X -= VelocityIncrement;
+                direction.X = -1;
             }
             if (isKeyDown(Keys.D))
             {
-                Velocity.X += VelocityIncrement;
+                direction.X = 1;
             }
             //Makes the velocity positive and checks if its greater than the maximum velocity
             if (Math.Abs(Velocity.X) > VelocityCap)
@@ -320,12 +363,19 @@ namespace REPLACETHISNAMESPACE
                     Velocity.X = 0;
                 }
             }
-            //Adds the velocity to the entitys position
+            //Responsible for making diagonal movement be the correct velocity
+            direction.Normalize();
+            if (!float.IsNaN(direction.Length()))
+            {
+                //If both of the direction coordinates are 0 then the normalised vector will be NaN.
+                //This will cause the entity to dissapear as the coodinates wil also be equal to NaN.
+                Velocity += direction * VelocityIncrement;
+            }
             Parent.Coordinates += Velocity;
         }
         public override void Draw()
         {
-
+            return;
         }
         bool isKeyDown(Keys key)
         {

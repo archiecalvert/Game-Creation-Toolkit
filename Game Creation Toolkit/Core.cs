@@ -24,7 +24,12 @@ namespace Game_Creation_Toolkit
         
         public static float TextFieldDepth = 0.1f;
         public static float TextDepth = 0.05f;
-        
+        public static float TargetWidth;
+        public static float TargetHeight;
+        public static float WinScaleX = 0.5F;
+        public static float WinScaleY = 0.5F;
+
+
         public Core()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -64,9 +69,20 @@ namespace Game_Creation_Toolkit
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(WindowColor); //sets the window colour
-
+            RenderTarget2D target = new RenderTarget2D(GraphicsDevice, 1920, 1080);
+            GraphicsDevice.SetRenderTarget(target);
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             UIHandler.Draw(); //draws the currently loaded UI to the screen
+            _spriteBatch.End();
+            _window.Position = new Point(50,5);
+            int width = _graphics.PreferredBackBufferWidth;
+            int height = _graphics.PreferredBackBufferHeight;
+            _graphics.PreferredBackBufferWidth = (int)(width * WinScaleX);
+            _graphics.PreferredBackBufferHeight = (int)(height * WinScaleY);
+            _graphics.ApplyChanges();
+            GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(target, new Rectangle(0, 0, (int)(width * WinScaleX), (int)(height * WinScaleY)), Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

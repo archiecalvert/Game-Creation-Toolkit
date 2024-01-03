@@ -1,5 +1,6 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Base_Classes;
 using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
 {
     public class Scene
     {
+        public bool isActive = false;
         public List<KeyValuePair<int, string>> EntityIDTable = new List<KeyValuePair<int, string>>();
         public List<GameObject> GameObjects = new List<GameObject>();
         public string id;
-        public bool CurrentScene = true;
         public Scene(string Name)
         {
             id = Name;
@@ -26,6 +27,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
         }
         public void Update()
         {
+            isActive = CheckIfCurrentScene();
+            if (!isActive) return;
             foreach(GameObject GameObject in GameObjects)
             {
                 GameObject.Update();
@@ -33,6 +36,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
         }
         public void Draw()
         {
+            if(!isActive) return;
             foreach (GameObject GameObject in GameObjects)
             {
                 GameObject.Draw();
@@ -106,6 +110,14 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
                 }
                 sw.Close();
             }
+        }
+        bool CheckIfCurrentScene()
+        {
+            if (id == MainEditor.CurrentScene)
+            {
+                return true;
+            }
+            return false;
         }
         
     }

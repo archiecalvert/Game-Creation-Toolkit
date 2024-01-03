@@ -14,6 +14,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     public class MainEditor : ContentWindow
     {
         public static Rectangle Bounds;
+        public static string CurrentScene = "";
         Button CloseBtn;
         Button RunBtn;
         Button CompileBtn;

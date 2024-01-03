@@ -1,4 +1,5 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Game_Creation_Toolkit.Game_Engine.Tools.NewProject;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
@@ -72,10 +74,21 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
         }
         public static void AddScene(string SceneName)
         {
-            MakeFolder("GameData\\Scenes\\"+SceneName);
+            MakeFolder("GameData\\Scenes\\" + SceneName);
             MakeFile("GameData\\Scenes\\"+SceneName+"\\scene.dat");
             MakeFile("GameData\\Scenes\\" + SceneName + "\\id.csv");
             ObjectHandler.SceneData.Add(new Scene(SceneName));
+            string sceneData = File.ReadAllText(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\scenes.dat");
+            if(sceneData == "")
+            {
+                JSONHandler.SceneDataJSON sceneDataJSON = new JSONHandler.SceneDataJSON { MainScene=SceneName};
+                using (StreamWriter sw = new StreamWriter(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
+                {
+                    sw.WriteLine(JsonSerializer.Serialize(sceneDataJSON));
+                    sw.Close();
+                }
+                MainEditor.CurrentScene = SceneName;
+            }
         }
         public static void AddGameObject(string ObjectName, string SceneName)
         {
