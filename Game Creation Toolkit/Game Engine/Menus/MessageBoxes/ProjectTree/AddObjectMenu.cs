@@ -17,6 +17,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
         Texture2D BlankTexture;
         Button SceneBtn;
         Button GameObjBtn;
+        Button CameraBtn;
         List<Button> Buttons = new List<Button>();
 
         public AddObjectMenu(int x, int y, int width, int height)
@@ -38,6 +39,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
                 new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(60, 150),
                 new(0.6f));
             Buttons.Add(GameObjBtn);
+            CameraBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddObjectMenu/Camera"),
+                new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(240, 150),
+                new(0.6f));
+            Buttons.Add(CameraBtn);
         }
         public override void Draw()
         {
@@ -90,6 +95,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
                 {
                     ProjectFileManager.AddScene(NameField.Text);
                     DisposeMenu();
+                }
+            }
+            if (CameraBtn.isClicked)
+            {
+                CameraBtn.isClicked = false;
+                if (NameField.Text != "")
+                {
+                    DisposeMenu();
+                    GameObjectMenu GameObjectMenu = new GameObjectMenu((2460 - 1100) / 2, (1500 - 750) / 2, 1100, 750, NameField.Text);
+                    GameObjectMenu.isCamera = true;
                 }
             }
             if (GameObjBtn.isClicked)

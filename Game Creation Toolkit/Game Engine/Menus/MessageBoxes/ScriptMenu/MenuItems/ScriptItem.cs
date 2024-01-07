@@ -134,5 +134,31 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             }
             MainEditor.ScriptMenu.ReloadFlag = true;
         }
+        internal bool FilterToBool(string text)
+        {
+            if(text.ToLower() == "true")
+            {
+                return true;
+            }
+            else if(text.ToLower() == "false")
+            {
+                return false;
+            }
+            else
+            {
+                foreach(char c in text)
+                {
+                    if(char.ToLower(c) == 't')
+                    {
+                        return true;
+                    }
+                    else if(char.ToLower(c) == 'f')
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

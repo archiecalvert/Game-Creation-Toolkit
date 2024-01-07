@@ -181,6 +181,18 @@
 /processorParam:TextureFormat=Color
 /build:Toolkit/Assets/MessageBox/AddObjectMenu/Blank.png
 
+#begin Toolkit/Assets/MessageBox/AddObjectMenu/Camera.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Toolkit/Assets/MessageBox/AddObjectMenu/Camera.png
+
 #begin Toolkit/Assets/MessageBox/AddObjectMenu/GameObject.png
 /importer:TextureImporter
 /processor:TextureProcessor

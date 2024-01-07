@@ -44,6 +44,18 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             //if the velocity falls under this value, then it will be automatically set to zero
             public float lowestVelocity { get; set; }
         }
+        public record CameraJSON()
+        {
+            public string id { get; set; }
+            //determines whether the camera is attached to a game object
+            public bool isAttached { get; set; }
+            //the name of the attached game object
+            public string ParentGameObject { get; set; }
+            public string ParentScene { get; set; }
+            //Camera Coordinates
+            public float CoordinateX { get; set; }
+            public float CoordinateY { get; set; }
+        }
         public static void AddTextureToFile(string Target, string TextureDirectory)
         {
             //Converts the image file passed into the method to a texture2d
@@ -79,6 +91,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
                 id = "coordinate",
                 x = 0,
                 y= 0,
+            };
+            WriteData(Target, json);
+        }
+        public static void AddCameraToFile(string Target, string SceneName)
+        {
+            CameraJSON json = new CameraJSON
+            {
+                id = "Camera",
+                isAttached = false,
+                ParentGameObject = "",
+                ParentScene = SceneName,
+                CoordinateX = 0,
+                CoordinateY = 0,
             };
             WriteData(Target, json);
         }

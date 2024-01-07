@@ -107,6 +107,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     case "EntityMovement":
                         MovementItem movementItem = new MovementItem(item);
                         break;
+                    case "Camera":
+                        CameraItem cameraItem = new CameraItem(item);
+                        break;
                     default:
                         break;
                 }

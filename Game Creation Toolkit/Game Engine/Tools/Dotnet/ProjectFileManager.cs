@@ -90,6 +90,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
                 MainEditor.CurrentScene = SceneName;
             }
         }
+
         public static void AddGameObject(string ObjectName, string SceneName)
         {
             MakeFolder("GameData\\Scenes\\" + SceneName + "\\" + ObjectName);

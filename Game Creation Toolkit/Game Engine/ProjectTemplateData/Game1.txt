@@ -61,7 +61,7 @@ namespace REPLACETHISNAMESPACE
             foreach (string Scene in Directory.GetDirectories(Game1.ProjectDirectory + "\\GameData\\Scenes\\"))
             {
                 string name = Scene.Substring(Game1.ProjectDirectory.Length + 17);
-                SceneList.Add(new Scene(Scene.Substring(Game1.ProjectDirectory.Length + 17)));
+                new Scene(Scene.Substring(Game1.ProjectDirectory.Length + 17));
             }
             foreach(string line in File.ReadLines(Game1.ProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
             {
@@ -120,13 +120,13 @@ namespace REPLACETHISNAMESPACE
                 scene.Draw();
             }
         }
-        public static Script DetermineScriptType(string JSONObject, string ObjectName, string SceneName, Entity GameObject)
+        public static Script DetermineScriptType(string JSONObject, string ObjectName, string SceneName, Entity GameObject, Scene Scene)
         {
             //This method will determine what kind of script each json object
             //This can then be used to store the game objects and scripts
             if (JSONObject.Contains("\"id\":\"Texture\""))
             {
-                return new Texture(JSONObject, GameObject);
+                return new Texture(JSONObject, GameObject, Scene);
             }
             else if (JSONObject.Contains("\"id\":\"coordinate\""))
             {
@@ -136,23 +136,29 @@ namespace REPLACETHISNAMESPACE
             {
                 return new EntityMovement(JSONObject, GameObject);
             }
+            else if (JSONObject.Contains("\"id\":\"Camera\""))
+            {
+                return new Camera(JSONObject);
+            }
             return null;
         }
     }
     internal class Scene
     {
+        public Camera camera;
         public List<Entity> GameObjects;
         public string sceneName;
         public Scene(string SceneName)
         {
             sceneName = SceneName;
             GameObjects = new List<Entity>();
+            ObjectHandler.SceneList.Add(this);
             //This loops through each game object in the scene and adds it to a list
             //These objects can then load and store the data when the users program launches
             foreach (string obj in Directory.GetDirectories(Game1.ProjectDirectory + "\\GameData\\Scenes\\" + SceneName + "\\"))
             {
                 string ObjectName = obj.Substring(Game1.ProjectDirectory.Length + new string("\\GameData\\Scenes\\" + SceneName + "\\").Length);
-                GameObjects.Add(new Entity(ObjectName, SceneName));
+                new Entity(ObjectName, SceneName, this);
             }
         }
         public void Update()
@@ -179,14 +185,17 @@ namespace REPLACETHISNAMESPACE
         public string ObjectName;
         public Vector2 Coordinates;
         public List<Script> Scripts;
-        public Entity(string ObjectName, string SceneName)
+        public Scene ParentScene;
+        public Entity(string ObjectName, string SceneName, Scene Scene)
         {
+            ParentScene = Scene;
+            ParentScene.GameObjects.Add(this);
             this.ObjectName = ObjectName;
             Scripts = new List<Script>();
             //Adds all of the script data for the game object to a list
             foreach (string line in File.ReadAllLines(Game1.ProjectDirectory + "\\GameData\\Scenes\\" + SceneName + "\\" + ObjectName + "\\object.dat"))
             {
-                Scripts.Add(ObjectHandler.DetermineScriptType(line, ObjectName, SceneName, this));
+                Scripts.Add(ObjectHandler.DetermineScriptType(line, ObjectName, SceneName, this, ParentScene));
             }
         }
         public void Update()
@@ -213,13 +222,15 @@ namespace REPLACETHISNAMESPACE
         Texture2D texture;
         Entity ParentGameObject;
         Vector2 scale;
-        public Texture(string ObjectData, Entity ParentGameObject)
+        Scene ParentScene;
+        public Texture(string ObjectData, Entity ParentGameObject, Scene Scene)
         {
             TextureData = ObjectData;
             dynamic data = JsonConvert.DeserializeObject(ObjectData);
             int directoryLength = 0;
             string directory;
             scale = new((float)(Convert.ToDouble(data["scaleX"])), (float)(Convert.ToDouble(data["scaleY"])));
+            
             //Extracts the texure directory from the json object data
             for (int i = 0; i < TextureData.Length; i++)
             {
@@ -234,6 +245,7 @@ namespace REPLACETHISNAMESPACE
             }
             //Stores the object that the script belongs to so its data can be accessed
             this.ParentGameObject = ParentGameObject;
+            ParentScene = Scene;
 
         }
         public override void Update()
@@ -241,9 +253,23 @@ namespace REPLACETHISNAMESPACE
         }
         public override void Draw()
         {
+            Vector2 FinalScreenPosition;
+            if (ParentScene.camera != null && !ParentScene.camera.isInitialised) return;
+            if (ParentScene.camera != null && ParentScene.camera.isAttached)
+            {
+                FinalScreenPosition = ParentGameObject.Coordinates - ParentScene.camera.Parent.Coordinates;
+            }
+            else if(ParentScene.camera != null && !ParentScene.camera.isAttached)
+            {
+                FinalScreenPosition = ParentGameObject.Coordinates - ParentScene.camera.Coordinates;
+            }
+            else
+            {
+                FinalScreenPosition = ParentGameObject.Coordinates;
+            }
             //Draws the texture at the position of the game object
             Game1._spriteBatch.Draw(texture,
-            position: new Vector2(1600 / 2, 1000 / 2) + new Vector2(ParentGameObject.Coordinates.X, -ParentGameObject.Coordinates.Y),
+            position: new Vector2(1600 / 2, 1000 / 2) + new Vector2(FinalScreenPosition.X, -FinalScreenPosition.Y),
             sourceRectangle: null,
             color: Color.White,
             rotation: 0f,
@@ -275,10 +301,11 @@ namespace REPLACETHISNAMESPACE
         }
         public override void Update()
         {
-
+            return;
         }
         public override void Draw()
         {
+            return;
         }
     }
     internal class EntityMovement : Script
@@ -384,6 +411,56 @@ namespace REPLACETHISNAMESPACE
                 return true;
             }
             return false;
+        }
+    }
+    internal class Camera : Script
+    {
+        public bool isAttached;
+        public Entity Parent;
+        public Scene ParentScene;
+        public bool isInitialised = false;
+        dynamic jsonObj;
+        public Vector2 Coordinates;
+        string ParentName;
+        public Camera(string JSONData)
+        {
+            jsonObj = JsonConvert.DeserializeObject(JSONData);
+            isAttached = (bool)jsonObj["isAttached"];
+            Coordinates = new Vector2((float)jsonObj["CoordinateX"], (float)jsonObj["CoordinateY"]);
+            foreach(Scene scene in ObjectHandler.SceneList)
+            {
+                if(scene.sceneName == (string)jsonObj["ParentScene"])
+                {
+                    ParentScene = scene;
+                    break;
+                }
+            }
+            if(!isAttached) isInitialised = true;
+            ParentScene.camera = this;
+        }
+        public override void Update()
+        {
+            if(!isInitialised)
+            {
+                foreach (Entity entity in ParentScene.GameObjects)
+                {
+                    if (entity.ObjectName == (string)jsonObj["ParentGameObject"])
+                    {
+                        Parent = entity;
+                        isInitialised = true;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        public override void Draw()
+        {
+            if (isAttached && Parent != null)
+            {
+                Coordinates = Parent.Coordinates;
+            }
+            return;
         }
     }
 }

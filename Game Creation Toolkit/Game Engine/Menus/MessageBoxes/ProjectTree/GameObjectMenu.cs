@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 using System.Threading.Tasks;
+using System.Security.AccessControl;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
 {
@@ -26,6 +27,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
         Dictionary<string, Button> ScenesButtons = new Dictionary<string, Button>();
         Button CancelBtn;
         Timer SwapDelay;
+        public bool isCamera = false;
         public GameObjectMenu(int x, int y, int width, int height, string Name)
         {
             Bounds = new Rectangle(x, y, width, height); //Window bounds
@@ -98,7 +100,11 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
                 {
                     string SceneName = btn.Key;
                     ProjectFileManager.AddGameObject(objName, SceneName);       //Determines what button was pressed and adds a game object to it
-                    DisposeMenu(); 
+                    DisposeMenu();
+                    if(isCamera)
+                    {
+                        JSONHandler.AddCameraToFile(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + SceneName + "\\" + objName, SceneName);
+                    }
                 }
             }
         }
