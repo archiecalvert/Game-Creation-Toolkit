@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using PVRTexLibNET;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +14,11 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
     {
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
         public Rectangle BackgroundBounds;
+        //how much the item will be shifted down. This allows for the menu items to be in a list
         public int offset = - 1;
         public int index;
+        public Color AccentColour = new Color(192,192,192);
+        public Color TextColour = Color.Black;
         SpriteFont TextFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         
         public void SetHeight(int height)
@@ -31,7 +35,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 offset = MainEditor.ScriptMenu.ScriptItems[ListLen-1].BackgroundBounds.Bottom -
                     MainEditor.ScriptMenu.MenuBounds.Y + 10;
             }
-            BackgroundBounds = new Rectangle(MainEditor.ScriptMenu.MenuBounds.X, MainEditor.ScriptMenu.MenuBounds.Y + offset, MainEditor.ScriptMenu.MenuBounds.Width, height);
+            BackgroundBounds = new Rectangle(MainEditor.ScriptMenu.MenuBounds.X, MainEditor.ScriptMenu.MenuBounds.Y + offset, MainEditor.ScriptMenu.MenuBounds.Width - 14, height);
             MainEditor.ScriptMenu.ScriptItems.Add(this);
             BlankTexture.SetData(new[] { Color.White }); //sets the textures data to white
         }
@@ -46,8 +50,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             //Draws the Title Text
             Core._spriteBatch.DrawString(spriteFont: TextFont,
                             text: title,
-                            position: new Vector2(BackgroundBounds.X, BackgroundBounds.Y) + new Vector2(5, 3),
-                            color: Color.White,
+                            position: new Vector2(BackgroundBounds.X + 7, BackgroundBounds.Y) + new Vector2(5, 13),
+                            color: Color.Black,
                             rotation: 0f,
                             origin: Vector2.Zero,
                             scale: 0.35f,
@@ -58,7 +62,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             Core._spriteBatch.Draw(texture: BlankTexture, 
                 position: new(BackgroundBounds.X, BackgroundBounds.Y),
                 null,
-                new Color(83,83,83),
+                new Color(192,192,192),
                 rotation: 0f,
                 origin: Vector2.Zero,
                 scale: new Vector2(BackgroundBounds.Width, BackgroundBounds.Height),
@@ -68,31 +72,40 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             Core._spriteBatch.Draw(texture: BlankTexture,
                 position: new(BackgroundBounds.X, BackgroundBounds.Y),
                 null,
-                new Color(64, 64, 64),
+                Core.NavColour,
                 rotation: 0f,
                 origin: Vector2.Zero,
                 scale: new Vector2(BackgroundBounds.Width, 40),
                 SpriteEffects.None,
                 layerDepth: Core.ButtonDepth - 0.01f);
+            Core.DrawAccent(new Rectangle(BackgroundBounds.X, BackgroundBounds.Y, BackgroundBounds.Width + 14, BackgroundBounds.Height), 7, 0.8f);
+            
         }
         public abstract void UnloadItem();
         internal float FilterToFloat(string text)
         {
             bool HasPoint = false;
             string NewText = "";
-            //Checks to see if the current character is a -, ., or an integer
+            //Checks to see if the current character is a "-", ".", or an integer
             for (int i = 0; i < text.Length; i++)
             {
-                if (text[i] == '.' && !HasPoint || (text[i] == '-' && i == 0))
+                //Checks to see if the current character is a decimal point, and also one in the number doesnt already exist
+                if (text[i] == '.' && !HasPoint)
+                {
+                    NewText += text[i];
+                    HasPoint = true;
+                }
+                //checks to see whether the first character is a minus sign
+                else if(text[i] == '-' && i == 0)
                 {
                     NewText += text[i];
                 }
                 else
                 {
+                    //tries to convert the character into an integer
                     try
                     {
                         NewText += Convert.ToInt16(text[i].ToString());
-
                     }
                     catch { }
                 }
@@ -136,6 +149,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         }
         internal bool FilterToBool(string text)
         {
+            //checks to see if the input is already in a valid state
             if(text.ToLower() == "true")
             {
                 return true;
@@ -144,8 +158,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             {
                 return false;
             }
+            //if the input isn't already valid
             else
             {
+                //tries to find the firt t or f character inside of the string
                 foreach(char c in text)
                 {
                     if(char.ToLower(c) == 't')
@@ -158,6 +174,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                     }
                 }
             }
+            //if nothing could be found, the input will automatically be set to false
             return false;
         }
     }

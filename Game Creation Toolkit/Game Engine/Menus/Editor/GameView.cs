@@ -31,6 +31,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 scale:new Vector2(WindowBounds.Width,WindowBounds.Height),
                 SpriteEffects.None,
                 layerDepth: Core.GameWindowDepth);
+            Core.DrawAccent(WindowBounds, 7, Core.GameWindowDepth + 0.1f);
         }
         public override void UnloadWindow()
         {

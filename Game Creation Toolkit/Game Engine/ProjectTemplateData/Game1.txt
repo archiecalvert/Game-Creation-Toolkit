@@ -23,7 +23,7 @@ namespace REPLACETHISNAMESPACE
         protected override void Initialize()
         {
             //The project directory is set when the project is created
-            ProjectDirectory = REPLACEPROJECTDIRECTORY;
+            ProjectDirectory = Directory.GetCurrentDirectory();
             ObjectHandler.Initialise();
             //Changees the size of the window
             _graphics.PreferredBackBufferWidth = 1600;

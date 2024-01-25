@@ -126,18 +126,76 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 scale: new Vector2(FieldBounds.Width, FieldBounds.Height),
                 SpriteEffects.None,
                 layerDepth: layerDepth); //draws the background of the text field
-            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + 10, FieldBounds.Y), TextCol, 0f, Vector2.Zero, TextScale, SpriteEffects.None, layerDepth + 0.01f); //draws the text stored to the text field
+            DrawAccent(4);
+            Core._spriteBatch.DrawString(font, Text, new Vector2(FieldBounds.X + (13), FieldBounds.Y + (25*(TextScale-0.2f))), TextCol, 0f, Vector2.Zero, TextScale, SpriteEffects.None, layerDepth + 0.01f); //draws the text stored to the text field
         }
         void Backspace()
         {
             //Removes the last character from the text
             int len = Text.Length;
             string temp = "";
-            for (int i = 0; i < len - 2; i++)
+            for (int i = 0; i < len - 1; i++)
             {
                 temp = "" + (temp + Text[i]);
             }
             Text = temp;
+        }
+        void DrawAccent(int barWidth)
+        {
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.X, FieldBounds.Y),
+                null,
+                color: Color.White,
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(FieldBounds.Width, barWidth),
+                SpriteEffects.None,
+                layerDepth: layerDepth+0.01F); //draws the background of the text field
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.X, FieldBounds.Y),
+                null,
+                color: Color.White,
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(barWidth, FieldBounds.Height),
+                SpriteEffects.None,
+                layerDepth: layerDepth + 0.01F); //draws the background of the text field
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.Right - barWidth, FieldBounds.Y),
+                null,
+                color: Color.Black,
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(barWidth, FieldBounds.Height),
+                SpriteEffects.None,
+                layerDepth: layerDepth + 0.02F); //draws the background of the text field
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.X, FieldBounds.Bottom - barWidth),
+                null,
+                color: Color.Black,
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(FieldBounds.Width, barWidth),
+                SpriteEffects.None,
+                layerDepth: layerDepth + 0.02F); //draws the background of the text field
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.Right - barWidth * 2, FieldBounds.Y),
+                null,
+                color: new Color(131, 131, 131),
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(barWidth, FieldBounds.Height - barWidth),
+                SpriteEffects.None,
+                layerDepth: layerDepth + 0.02F); //draws the background of the text field
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(FieldBounds.X, FieldBounds.Bottom - barWidth * 2),
+                null,
+                color: new Color(131,131,131),
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(FieldBounds.Width - barWidth, barWidth),
+                SpriteEffects.None,
+                layerDepth: layerDepth + 0.02F); //draws the background of the text field
         }
     }
 }

@@ -67,9 +67,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
             int index = 0;
             foreach(string scene in scenes)
             {
+                
                 Core._spriteBatch.DrawString(spriteFont: Font,
                     text: scene,
-                    position: new Vector2(Bounds.X + 525, Bounds.Y + 35 + 75 * (index + 1)),
+                    position: new Vector2(Bounds.X + 525, Bounds.Y + 42 + 75 * (index + 1)),
                     color: Color.Black,
                     rotation: 0f,                                           //Draws the Scene name on top of each button
                     origin: new Vector2((32*(scene.Length))/2,50),
@@ -77,6 +78,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ProjectTree
                     SpriteEffects.None,
                     layerDepth: 0.6f);
                 index++;
+            }
+            foreach(Button btn in ScenesButtons.Values)
+            {
+                Core.DrawAccent(btn.ButtonRect, 4, Core.ButtonDepth + 0.01f);
             }
         }
         public override void Update()

@@ -53,12 +53,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes
                 color: new Color(180, 180, 180),                            //Draws the border of the message box
                 rotation: 0,
                 origin: Vector2.Zero,
-                scale: new Vector2(NameField.FieldBounds.Width + 6, NameField.FieldBounds.Height + 6),
+                scale: new Vector2(NameField.FieldBounds.Width + 3, NameField.FieldBounds.Height + 3),
                 SpriteEffects.None,
                 layerDepth: 0.5f);
             Core._spriteBatch.DrawString(spriteFont: Font,
                 text: "Name:",
-                position: new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(-120, 0),
+                position: new Vector2(NameField.FieldBounds.X, NameField.FieldBounds.Y) + new Vector2(-120, 7),
                 color: Color.Black,
                 rotation: 0f,                                           //Draws the description of the message box
                 origin: Vector2.Zero,

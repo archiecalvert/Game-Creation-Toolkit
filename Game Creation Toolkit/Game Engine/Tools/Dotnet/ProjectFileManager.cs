@@ -1,16 +1,10 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
-using Game_Creation_Toolkit.Game_Engine.Tools.NewProject;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
 {
@@ -77,8 +71,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.Dotnet
             MakeFolder("GameData\\Scenes\\" + SceneName);
             MakeFile("GameData\\Scenes\\"+SceneName+"\\scene.dat");
             MakeFile("GameData\\Scenes\\" + SceneName + "\\id.csv");
+            //Checks to see whether a primary scene already exists and is saved.
             ObjectHandler.SceneData.Add(new Scene(SceneName));
             string sceneData = File.ReadAllText(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\scenes.dat");
+            //Writes the scene name to the scene.dat file if a primary scene can't be found
             if(sceneData == "")
             {
                 JSONHandler.SceneDataJSON sceneDataJSON = new JSONHandler.SceneDataJSON { MainScene=SceneName};

@@ -17,8 +17,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
     public class ProjectTree : ContentWindow
     {
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
-        static int width = 410;
-        Rectangle MenuBounds = new Rectangle(10, 60, width, 1430); //Window location and size
+        static int width = 400;
+        Rectangle MenuBounds = new Rectangle(21, 60, width, 1420); //Window location and size
         SpriteFont TextFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         Button AddNewBtn; //Used to add new objects to the project
         Dictionary<string, Button> ScenesDict = new Dictionary<string, Button>(); //Holds a list of file names and their buttons
@@ -31,8 +31,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             BlankTexture.SetData(new[] { Color.White });
             Texture2D AddNewTexture = Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/AddNew");
             AddNewBtn = new Button(AddNewTexture,
-                Position: new Vector2((int)MenuBounds.X + MenuBounds.Width - (1.5f*AddNewTexture.Width) - 5, MenuBounds.Y + 5),
-                Scale: new Vector2(1.5f));
+                Position: new Vector2((int)MenuBounds.X + MenuBounds.Width - (1.5f*AddNewTexture.Width) - 15, MenuBounds.Y + 10),
+                Scale: new Vector2(1.4f));
         }
         public override void Update()
         {
@@ -74,16 +74,19 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, MenuBounds, new Color(96, 96, 96));
+            Core._spriteBatch.Draw(BlankTexture, MenuBounds, new Color(192,192,192));
+            Core._spriteBatch.Draw(BlankTexture, new Rectangle(MenuBounds.X, MenuBounds.Y, MenuBounds.Width, 45), null, Core.NavColour, 0f, Vector2.Zero, SpriteEffects.None, layerDepth: Core.TextDepth - 0.05F);
+
+            Core.DrawAccent(MenuBounds, 7, 0.6F);
             Core._spriteBatch.DrawString(spriteFont: TextFont,
                 text: "Project",
-                position: new Vector2((MenuBounds.X + 10), MenuBounds.Y + 3),
-                color: Color.White,
+                position: new Vector2((MenuBounds.X + 15), MenuBounds.Y + 15),
+                color: Color.Black,
                 rotation: 0f,
                 origin: Vector2.Zero,
-                scale: 0.35f,
+                scale: 0.4f,
                 effects: SpriteEffects.None,
-                layerDepth: 0
+                layerDepth: Core.TextDepth
                 );
             int index = 0;
             try //Validates the files in the list
@@ -92,7 +95,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 {
                     Core._spriteBatch.DrawString(spriteFont: TextFont,
                         text: s.Key,
-                        position: new Vector2(s.Value.ButtonRect.X + 10, s.Value.ButtonRect.Y),
+                        position: new Vector2(s.Value.ButtonRect.X + 10, s.Value.ButtonRect.Y + 7),
                         color: Color.White,
                         rotation: 0f,
                         origin: Vector2.Zero,
@@ -100,6 +103,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                         effects: SpriteEffects.None,
                         layerDepth: 0.52f
                         );
+                    Core.DrawAccent(s.Value.ButtonRect, 3, 0.53F);
                     int subindex = 0; //used to iterate over the sub directories
                                       //used to count the character count of the directory up until the folder name
                     int charCount = new string(SystemHandler.CurrentProjectDirectory + "\\GameData\\Scenes\\" + s.Key + "\\").Length;
@@ -110,7 +114,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                         //Draws the names of the files and sub directories
                         Core._spriteBatch.DrawString(spriteFont: TextFont,
                             text: subFiles[subindex].Substring(charCount),
-                            position: new Vector2(s.Value.ButtonRect.X + 30, s.Value.ButtonRect.Y + (35 * (1 + subindex))),
+                            position: new Vector2(s.Value.ButtonRect.X + 30, s.Value.ButtonRect.Y + 7 + (35 * (1 + subindex))),
                             color: Color.White,
                             rotation: 0f,
                             origin: Vector2.Zero,
@@ -119,6 +123,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                             layerDepth: 0.52f
                             );
                         subindex++;
+                        
                     }
                     index++;
                 }
@@ -156,7 +161,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     //Adds the scene name in the first element, and the corresponding button in the second element
                     ScenesDict.Add(scene.Substring(charCount), new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back1"),
                         new Vector2(MenuBounds.X, MenuBounds.Y + 50 + (index * 35)),
-                        Vector2.One));
+                        new Vector2(0.97f, 1)));
                     index++;
                     //Adds all the game objects inside each scene to the list
                     //Dictionary where the first element is the scene name, and the second is a dictionary
@@ -166,7 +171,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                     {
                         SubFiles.Values.ElementAt(ScenesDict.Count - 1).Add(subfile, new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/Project Tree/Back2"),
                         new Vector2(MenuBounds.X, MenuBounds.Y + 50 + (index * 35)),
-                        Vector2.One));
+                        new Vector2(0.97f, 1)));
                         index++;
                     }
                 }

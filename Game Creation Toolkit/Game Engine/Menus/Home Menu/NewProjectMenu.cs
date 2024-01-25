@@ -25,12 +25,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         Button CancelBtn; //Button for going back to the previous menu
         TextField LocationFld; //Text field to allow for the directory to be entered by the user
         TextField NameFld; //Text field to allow for the user to choose the projects name
+        Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1); //Creates a blank texture
+
         public NewProjectMenu()
         {
-             CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 305), new(0.75f)); //button for creating a project (475)
+            Color BackgroundField = new Color(192, 192, 192);
+            BlankTexture.SetData(new[] { Color.White });
+            CreateBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Create"), new Vector2(1670, 305), new(0.75f)); //button for creating a project (475)
              CancelBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/InitialMenu/Cancel"), new Vector2(1450, 305), new Vector2(0.75f)); //Button for returning to previous screen
-             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.White, new Color(96, 96, 96), 0.5f);//Allows for the directory to be entered
-             NameFld = new TextField(1500, 50, new Vector2(300, 125), "NewProject1", Font, Color.White, new Color(96, 96, 96), 0.5f);//Allows for the project name to be entered
+             LocationFld = new TextField(1500, 50, new Vector2(300, 200), "C:\\Users\\archi\\Documents\\GameMaker", Font, Color.Black, BackgroundField, 0.5f);//Allows for the directory to be entered
+             NameFld = new TextField(1500, 50, new Vector2(300, 125), "NewProject1", Font, Color.Black, BackgroundField, 0.5f);//Allows for the project name to be entered
         }
         private SpriteFont Font = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
         public override void Update()
@@ -79,12 +83,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         }
         public override void Draw()
         {
-            Core._spriteBatch.DrawString(Font, new string("New Project"), new Vector2(15,15), Color.White, 0f, Vector2.Zero,
-                0.35f, SpriteEffects.None, 0);
-            Core._spriteBatch.DrawString(Font, new string("Project Name:"), new Vector2(65, 120), Color.White, 0f, Vector2.Zero,
+            int barWidth = 7;
+            Core._spriteBatch.DrawString(Font, new string("Create a New Project"), new(20, 17), Color.White, 0f, Vector2.Zero, 0.45f, SpriteEffects.None, 1f);//title
+
+            Core._spriteBatch.DrawString(Font, new string("Project Name:"), new Vector2(65, 130), Color.Black, 0f, Vector2.Zero,
                 0.5f, SpriteEffects.None, 0);
-            Core._spriteBatch.DrawString(Font, new string("Location:"), new Vector2(137, 200), Color.White, 0f, Vector2.Zero,
+            Core._spriteBatch.DrawString(Font, new string("Location:"), new Vector2(137, 210), Color.Black, 0f, Vector2.Zero,
                 0.5f, SpriteEffects.None, 0);
+            Core._spriteBatch.Draw(BlankTexture, new Rectangle(barWidth, barWidth, 1920 - barWidth * 2, 45), Core.NavColour);//new Color(128,128,128));
+            Core.DrawAccent(new Rectangle(0, 0, 1920, 410), 7, 0.9f);
+
         }
         public override void UnloadWindow()
         {

@@ -24,15 +24,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public abstract void Draw();
         public void DrawBackground(Rectangle Bounds)
         {
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.X-5, Bounds.Y-5),
-                null,
-                color: new Color(180,180,180),                            //Draws the border of the message box
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(Bounds.Width+10, Bounds.Height+10),
-                SpriteEffects.None,
-                layerDepth: Core.MessageDialogueDepth-0.01f); //draws the button to the screen);
+            //Core.DrawAccent(Bounds, 7, Core.MessageDialogueDepth);
             Core._spriteBatch.Draw(texture: BlankTexture,
                 position: new(Bounds.X,Bounds.Y),
                 null,
@@ -42,7 +34,16 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
                 scale: new Vector2(Bounds.Width,Bounds.Height),
                 SpriteEffects.None,
                 layerDepth: Core.MessageDialogueDepth);
-            
+            Core._spriteBatch.Draw(texture: BlankTexture,
+                position: new(Bounds.X - 5, Bounds.Y - 5),
+                null,
+                color: new Color(180, 180, 180),                            //Draws the border of the message box
+                rotation: 0,
+                origin: Vector2.Zero,
+                scale: new Vector2(Bounds.Width + 10, Bounds.Height + 10),
+                SpriteEffects.None,
+                layerDepth: Core.MessageDialogueDepth - 0.01f);
+
         }
         public abstract void Update();
         public void Exit()

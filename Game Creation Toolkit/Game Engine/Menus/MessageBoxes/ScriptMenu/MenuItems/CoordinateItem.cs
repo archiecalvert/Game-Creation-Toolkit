@@ -21,15 +21,15 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         Button SaveBtn;
         public CoordinateItem(JObject CoordinateData)
         {
-            base.SetHeight(210);
-            TextFieldX = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 50), CoordinateData["x"].ToString(), font, Color.White, new Color(64,64,64), 0.4f);
+            base.SetHeight(230);
+            TextFieldX = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 50), CoordinateData["x"].ToString(), font, TextColour, AccentColour, 0.4f);
             TextFieldX.layerDepth = 0.8f;
-            TextFieldY = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 100), CoordinateData["y"].ToString(), font, Color.White, new Color(64, 64, 64), 0.4f);
+            TextFieldY = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 100), CoordinateData["y"].ToString(), font, TextColour, AccentColour, 0.4f);
             TextFieldY.layerDepth = 0.8f;
             jsonData = CoordinateData;
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
-            BlankTexture.SetData(new[] { new Color(64, 64, 64) });
-            SaveBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 10, TextFieldY.FieldBounds.Bottom + 10), new Vector2(BackgroundBounds.Width - 20, 50));
+            BlankTexture.SetData(new[] { AccentColour });
+            SaveBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 25, TextFieldY.FieldBounds.Bottom + 10), new Vector2(BackgroundBounds.Width - 40, 60));
 
         }
         public override void Update()
@@ -37,43 +37,28 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
             base.Update();
             if (SaveBtn.isClicked)
             {
-                TextFieldX.Text = FilterToFloat(TextFieldX.Text).ToString();
-                TextFieldY.Text = FilterToFloat(TextFieldY.Text).ToString();
-
                 SaveBtn.isClicked = false;
-                string ObjectDirectory = MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat";
-                JSONHandler.CoordinateJSON NewData = new JSONHandler.CoordinateJSON { id = "coordinate", x=(float)Convert.ToDouble(TextFieldX.Text), y=(float)(Convert.ToDouble(TextFieldY.Text)), };
-                List<string> ObjectData = new List<string>();
-                foreach(string line in File.ReadAllLines(ObjectDirectory))
+                //converts the users inputs into floats
+                TextFieldX.Text = FilterToFloat(TextFieldX.Text).ToString();
+                TextFieldY.Text = FilterToFloat(TextFieldY.Text).ToString();    
+                JSONHandler.CoordinateJSON NewData = new JSONHandler.CoordinateJSON 
                 {
-                    dynamic obj = JsonConvert.DeserializeObject(line);
-                    if ((string)obj["id"] == "coordinate")
-                    {
-                        ObjectData.Add(JsonConvert.SerializeObject(NewData).ToString());
-                    }
-                    else
-                    {
-                        ObjectData.Add(line);
-                    }
-                }
-                using(StreamWriter sw = new StreamWriter(ObjectDirectory))
-                {
-                    foreach(string line in ObjectData)
-                    {
-                        sw.WriteLine(line);
-                    }
-                    sw.Close();
-                }
+                    id = "coordinate",
+                    x=(float)Convert.ToDouble(TextFieldX.Text),
+                    y=(float)(Convert.ToDouble(TextFieldY.Text)),
+                };
+                WriteNewData(NewData);
                 MainEditor.ScriptMenu.ReloadFlag = true;
             }
         }
         public override void Draw()
         {
-            base.DrawBackground("Coordinates");
+            base.DrawBackground(title:"Coordinates");
+            //draws the text next to the text input boxes
             Core._spriteBatch.DrawString(spriteFont: font,
-            text: "X Coordinate:",
-                            position: new Vector2(BackgroundBounds.X + 15, BackgroundBounds.Y + 50),
-                            color: Color.White,
+                            text: "X Coordinate:",
+                            position: new Vector2(BackgroundBounds.X + 15, BackgroundBounds.Y + 57),
+                            color: TextColour,
                             rotation: 0f,
                             origin: Vector2.Zero,
                             scale: 0.35f,
@@ -81,9 +66,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
                             layerDepth: Core.TextDepth + 0.5f
                             );
             Core._spriteBatch.DrawString(spriteFont: font,
-            text: "Y Coordinate:",
-                            position: new Vector2(BackgroundBounds.X + 15, BackgroundBounds.Y + 100),
-                            color: Color.White,
+                            text: "Y Coordinate:",
+                            position: new Vector2(BackgroundBounds.X + 15, BackgroundBounds.Y + 107),
+                            color: TextColour,
                             rotation: 0f,
                             origin: Vector2.Zero,
                             scale: 0.35f,
@@ -91,15 +76,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
                             layerDepth: Core.TextDepth + 0.5f
                             );
             Core._spriteBatch.DrawString(spriteFont: font,
-            text: "Save Coordinate Changes",
-                            position: new Vector2(BackgroundBounds.X + 85, SaveBtn.ButtonRect.Top + 7),
-                            color: Color.White,
+                            text: "Save Coordinate Changes",
+                            position: new Vector2(BackgroundBounds.X + 85, SaveBtn.ButtonRect.Top + 15),
+                            color: TextColour,
                             rotation: 0f,
                             origin: Vector2.Zero,
                             scale: 0.35f,
                             effects: SpriteEffects.None,
                             layerDepth: Core.TextDepth + 0.5f
                             );
+            Core.DrawAccent(SaveBtn.ButtonRect, 7, Core.ButtonDepth + 0.01f);
 
         }
         public override void UnloadItem()
