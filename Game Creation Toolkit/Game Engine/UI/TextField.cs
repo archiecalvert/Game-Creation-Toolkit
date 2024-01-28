@@ -37,7 +37,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         List<char> forbiddenCharacters = new List<char> { '“', '”' };
         public void Update()
         {
-            MouseRect = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1); //Updates the location of the mouse rectangle
+            MouseRect = new Rectangle((int)(Mouse.GetState().X / Core.scale), (int)(Mouse.GetState().Y / Core.scale), 1, 1); //Updates the location of the mouse rectangle
             if (MouseRect.Intersects(FieldBounds) && Mouse.GetState().LeftButton == ButtonState.Pressed) //Checks to see if the box is being pressed
             {
                 isActive = true;

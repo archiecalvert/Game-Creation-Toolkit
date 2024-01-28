@@ -10,11 +10,13 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         Texture2D BlankTexture;
         public Rectangle WindowBounds;
         Color WindowColour = new Color(int.Parse(SystemHandler.WindowColour), int.Parse(SystemHandler.WindowColour), int.Parse(SystemHandler.WindowColour));
+        Rectangle WindowAccentBounds;
         public GameView()
         {
             BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
             BlankTexture.SetData(new[] { Color.White });
             WindowBounds = new Rectangle(430, 100, 1600, 1000);
+            WindowAccentBounds = new Rectangle(428, 98, 1604, 1004);
         }
         public override void Update()
         {
@@ -31,7 +33,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 scale:new Vector2(WindowBounds.Width,WindowBounds.Height),
                 SpriteEffects.None,
                 layerDepth: Core.GameWindowDepth);
-            Core.DrawAccent(WindowBounds, 7, Core.GameWindowDepth + 0.1f);
+            Core.DrawAccent(WindowAccentBounds, 7, Core.GameWindowDepth + 0.1f);
         }
         public override void UnloadWindow()
         {

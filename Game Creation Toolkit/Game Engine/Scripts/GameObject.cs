@@ -1,5 +1,6 @@
 ﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
 using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+using Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems;
 using Game_Creation_Toolkit.Game_Engine.Scripts;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -64,6 +65,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
             {
                 case "Texture":
                     return new Texture(id, script, sceneName);
+                case "Map":
+
+                        return new Map((string)script["spriteSheetLocation"], (string)script["mapDataLocation"]);
+                    
                 default:
                     return null;
             }

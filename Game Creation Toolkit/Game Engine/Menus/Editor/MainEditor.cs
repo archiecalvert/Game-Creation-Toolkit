@@ -99,10 +99,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         public override void Initialize()
         {
             //Changes the windows size
-            Core._graphics.PreferredBackBufferHeight = 1500;
-            Core._graphics.PreferredBackBufferWidth = 2460;
+            Core.ChangeWindowSize(2460, 1500);
             Core.WindowColor = new Color(101, 101, 101);
-            Core._window.Position = new Point(50,5);
+            Core._window.Position = new Point((int)(50 * Core.scale),(int)(5 * Core.scale));
             Core._graphics.ApplyChanges();
             
         }

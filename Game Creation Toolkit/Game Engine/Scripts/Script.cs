@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,13 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
         public abstract void Update();
         public abstract void Draw();
         public abstract void DestroyScript();
+        internal bool isInView(Rectangle Bounds)
+        {
+            if (Bounds.Intersects(MainEditor.GameView.WindowBounds))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

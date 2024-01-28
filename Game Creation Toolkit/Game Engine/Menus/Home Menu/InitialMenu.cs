@@ -77,9 +77,7 @@ namespace Game_Creation_Toolkit.Menus
         }
         public override void Initialize()//Changes the windows size
         {
-            Core._graphics.PreferredBackBufferHeight = 1080;
-            Core._graphics.PreferredBackBufferWidth = 1920;
-            Core._graphics.ApplyChanges();
+            Core.ChangeWindowSize(1920, 1080);
         }
     }
 }

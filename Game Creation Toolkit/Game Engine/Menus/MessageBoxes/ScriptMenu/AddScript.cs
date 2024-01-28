@@ -16,6 +16,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         Button TextureButton;
         Button MovementButton;
         Texture2D BlankTexture;
+        Button MapButton;
         List<Button> Buttons = new List<Button>();
         public string directory;
 
@@ -35,6 +36,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             MovementButton = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddScriptMenu/Movement"),
                 new Vector2(Bounds.X + 255, Bounds.Y + 130),
                 new(0.6f));
+            MapButton = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MessageBox/AddScriptMenu/Map"),
+                new Vector2(Bounds.X + 455, Bounds.Y + 130),
+                new(0.6f));
+            Buttons.Add(MapButton);
             Buttons.Add(MovementButton);
         }
         public override void Draw()
@@ -74,6 +79,13 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
                 DisposeMenu();
                 JSONHandler.AddEntityMovement(MainEditor.ScriptMenu.CurrentItemDirectory);
                 //Sets the flag to reload all the game objects
+                MainEditor.ScriptMenu.ReloadFlag = true;
+            }
+            if(MapButton.isClicked)
+            {
+                MapButton.isClicked = false;
+                DisposeMenu();
+                JSONHandler.AddMapToFile(MainEditor.ScriptMenu.CurrentItemDirectory);
                 MainEditor.ScriptMenu.ReloadFlag = true;
             }
         }

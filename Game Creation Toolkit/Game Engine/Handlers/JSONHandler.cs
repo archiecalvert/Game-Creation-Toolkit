@@ -56,6 +56,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             public float CoordinateX { get; set; }
             public float CoordinateY { get; set; }
         }
+        public record MapItem()
+        {
+            public string id { get; set; }
+            public string spriteSheetLocation { get; set; }
+            public string mapDataLocation { get; set; }
+        }
         public static void AddTextureToFile(string Target, string TextureDirectory)
         {
             //Converts the image file passed into the method to a texture2d
@@ -104,6 +110,16 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
                 ParentScene = SceneName,
                 CoordinateX = 0,
                 CoordinateY = 0,
+            };
+            WriteData(Target, json);
+        }
+        public static void AddMapToFile(string Target)
+        {
+            MapItem json = new MapItem
+            {
+                id = "Map",
+                spriteSheetLocation = "",
+                mapDataLocation = "",
             };
             WriteData(Target, json);
         }

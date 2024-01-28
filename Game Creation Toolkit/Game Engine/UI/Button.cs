@@ -14,7 +14,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public Texture2D texture; //used to set the texture of the button when instantiated
         public Rectangle ButtonRect; //rectangle used to check whether the mouse is intersecting the mouse
         public bool isClicked = false;
-        public float ClickDelay = 5f;//Duration in between button presses
+        public float ClickDelay = 1f;//Duration in between button presses
         Timer ClickTimer; //Makes a timer so the button isn't being pressed multiple times a second as the code is run per frame
         public bool isHover = false;
         public bool HasHoverHighlight = true;
@@ -33,7 +33,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         {
             ClickTimer.Duration = ClickDelay;
             //Checks for intersection between the mouse and the button
-            Rectangle MouseRect = new Rectangle((int)Mouse.GetState().X, (int)Mouse.GetState().Y, 1, 1);
+            Rectangle MouseRect = new Rectangle((int)(Mouse.GetState().X / Core.scale), (int)(Mouse.GetState().Y / Core.scale), 1, 1);
             if(MouseRect.Intersects(ButtonRect))
             {
                 isHover = true;

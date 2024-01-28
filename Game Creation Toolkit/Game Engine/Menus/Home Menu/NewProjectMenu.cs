@@ -102,9 +102,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Home_Menu
         }
         public override void Initialize()
         {
-            Core._graphics.PreferredBackBufferHeight = 410; //Height of the window
-            Core._graphics.PreferredBackBufferWidth = 1920; //Width of the window
-            Core._graphics.ApplyChanges();
+            Core.ChangeWindowSize(1920, 410);
         }
         bool ValidateName(string name)
         {

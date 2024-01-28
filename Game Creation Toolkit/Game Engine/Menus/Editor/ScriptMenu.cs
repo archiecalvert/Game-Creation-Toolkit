@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
 {
@@ -20,6 +21,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         public string CurrentItemDirectory = "";
         public List<ScriptItem> ScriptItems = new List<ScriptItem>();
         public bool ReloadFlag = false;
+        string Title = "Scripts";
         public ScriptMenu()
         {
             BlankTexture.SetData(new[] {Color.White});
@@ -40,6 +42,8 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                 }
                 ScriptItems.Clear();
                 LoadCurrentObjectScript();
+                string[] directories = CurrentItemDirectory.Split('\\');
+                Title = "Scripts | " + directories[directories.Count()-1];
             }
             if (CurrentItemDirectory == "")
             {
@@ -68,7 +72,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             Core._spriteBatch.Draw(BlankTexture, MenuBounds, new Color(192,192,192));
             Core._spriteBatch.Draw(BlankTexture, new Rectangle(MenuBounds.X, MenuBounds.Y, MenuBounds.Width, 45),null , Core.NavColour, 0f, Vector2.Zero, SpriteEffects.None, layerDepth:Core.TextDepth-0.01F);
             Core._spriteBatch.DrawString(spriteFont: TextFont,
-                text: "Scripts",
+                text: Title,
                 position: new Vector2((MenuBounds.X + 15), MenuBounds.Y + 15),
                 color: Color.Black,
                 rotation: 0f,
@@ -111,6 +115,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
                         break;
                     case "Camera":
                         CameraItem cameraItem = new CameraItem(item);
+                        break;
+                    case "Map":
+                        MapItem mapItem = new MapItem(item);
                         break;
                     default:
                         break;
