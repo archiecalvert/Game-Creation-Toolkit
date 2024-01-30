@@ -61,6 +61,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
             public string id { get; set; }
             public string spriteSheetLocation { get; set; }
             public string mapDataLocation { get; set; }
+            public float tileScale { get; set; }
         }
         public static void AddTextureToFile(string Target, string TextureDirectory)
         {
@@ -120,6 +121,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Handlers
                 id = "Map",
                 spriteSheetLocation = "",
                 mapDataLocation = "",
+                tileScale = 1f,
             };
             WriteData(Target, json);
         }

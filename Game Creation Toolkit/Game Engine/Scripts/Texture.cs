@@ -91,7 +91,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Scripts
                     new Vector2(texture.Width / 2, texture.Height / 2),
                     scale,
                     SpriteEffects.None,
-                    0.06f
+                    0.3f
                     );
             }
             catch { }

@@ -30,7 +30,7 @@ namespace REPLACETHISNAMESPACE
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
-            
+
             base.Initialize();
         }
         protected override void LoadContent()
@@ -45,7 +45,7 @@ namespace REPLACETHISNAMESPACE
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(BackgroundColour);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null);
             ObjectHandler.Draw();
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -65,7 +65,7 @@ namespace REPLACETHISNAMESPACE
                 string name = Scene.Substring(Game1.ProjectDirectory.Length + 17);
                 new Scene(Scene.Substring(Game1.ProjectDirectory.Length + 17));
             }
-            foreach(string line in File.ReadLines(Game1.ProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
+            foreach (string line in File.ReadLines(Game1.ProjectDirectory + "\\GameData\\Scenes\\scenes.dat"))
             {
                 try
                 {
@@ -74,7 +74,8 @@ namespace REPLACETHISNAMESPACE
                     string MainScene = (string)json["MainScene"];
                     CurrentScene = MainScene;
                     return;
-                } catch{}
+                }
+                catch { }
             }
         }
         public static void Update()
@@ -89,27 +90,27 @@ namespace REPLACETHISNAMESPACE
                 ChangingScenes = true;
                 int position = 0;
                 //Code below allows for the user to switch between their scenes
-                foreach(Scene scene in SceneList)
+                foreach (Scene scene in SceneList)
                 {
-                    if(scene.sceneName == CurrentScene)
+                    if (scene.sceneName == CurrentScene)
                     {
                         //Determines what the next scene to switch to will be
-                        if (position+1 == SceneList.Count)
+                        if (position + 1 == SceneList.Count)
                         {
                             CurrentScene = SceneList.ElementAt(0).sceneName;
                         }
                         else
                         {
-                            CurrentScene = SceneList.ElementAt(position+1).sceneName;
+                            CurrentScene = SceneList.ElementAt(position + 1).sceneName;
                         }
                         break;
                     }
                     position++;
                 }
-                
+
             }
             //Makes it so that the N key wont continuously change the scene
-            if(Keyboard.GetState().IsKeyUp(Keys.N) && ChangingScenes)
+            if (Keyboard.GetState().IsKeyUp(Keys.N) && ChangingScenes)
             {
                 ChangingScenes = false;
             }
@@ -142,7 +143,7 @@ namespace REPLACETHISNAMESPACE
             {
                 return new Camera(JSONObject);
             }
-            else if(JSONObject.Contains("\"id\":\"Map\""))
+            else if (JSONObject.Contains("\"id\":\"Map\""))
             {
                 return new Map(JSONObject, GameObject, Scene);
             }
@@ -169,7 +170,7 @@ namespace REPLACETHISNAMESPACE
         }
         public void Update()
         {
-            if(sceneName != ObjectHandler.CurrentScene) return;
+            if (sceneName != ObjectHandler.CurrentScene) return;
             //Updates each game object each frame
             foreach (Entity entity in GameObjects)
             {
@@ -178,7 +179,7 @@ namespace REPLACETHISNAMESPACE
         }
         public void Draw()
         {
-            if(sceneName != ObjectHandler.CurrentScene) return;
+            if (sceneName != ObjectHandler.CurrentScene) return;
             //Draws each game object every frame
             foreach (Entity entity in GameObjects)
             {
@@ -236,7 +237,7 @@ namespace REPLACETHISNAMESPACE
             int directoryLength = 0;
             string directory;
             scale = new((float)(Convert.ToDouble(data["scaleX"])), (float)(Convert.ToDouble(data["scaleY"])));
-            
+
             //Extracts the texure directory from the json object data
             for (int i = 0; i < TextureData.Length; i++)
             {
@@ -265,7 +266,7 @@ namespace REPLACETHISNAMESPACE
             {
                 FinalScreenPosition = ParentGameObject.Coordinates - ParentScene.camera.Parent.Coordinates;
             }
-            else if(ParentScene.camera != null && !ParentScene.camera.isAttached)
+            else if (ParentScene.camera != null && !ParentScene.camera.isAttached)
             {
                 FinalScreenPosition = ParentGameObject.Coordinates - ParentScene.camera.Coordinates;
             }
@@ -433,20 +434,20 @@ namespace REPLACETHISNAMESPACE
             jsonObj = JsonConvert.DeserializeObject(JSONData);
             isAttached = (bool)jsonObj["isAttached"];
             Coordinates = new Vector2((float)jsonObj["CoordinateX"], (float)jsonObj["CoordinateY"]);
-            foreach(Scene scene in ObjectHandler.SceneList)
+            foreach (Scene scene in ObjectHandler.SceneList)
             {
-                if(scene.sceneName == (string)jsonObj["ParentScene"])
+                if (scene.sceneName == (string)jsonObj["ParentScene"])
                 {
                     ParentScene = scene;
                     break;
                 }
             }
-            if(!isAttached) isInitialised = true;
+            if (!isAttached) isInitialised = true;
             ParentScene.camera = this;
         }
         public override void Update()
         {
-            if(!isInitialised)
+            if (!isInitialised)
             {
                 foreach (Entity entity in ParentScene.GameObjects)
                 {
@@ -458,7 +459,7 @@ namespace REPLACETHISNAMESPACE
                     }
                 }
             }
-            
+
         }
         public override void Draw()
         {
@@ -485,92 +486,92 @@ namespace REPLACETHISNAMESPACE
         string spriteSheetLocation;
         Entity ParentGameObject;
         Scene ParentScene;
-        
-        
-            public Map(string MapData, Entity ParentGameObject, Scene ParentScene)
-            {
-                this.ParentGameObject = ParentGameObject;
-                this.ParentScene = ParentScene;
-                isValid = true;
-                try
+        float scale = 1f;
+
+
+        public Map(string MapData, Entity ParentGameObject, Scene ParentScene)
+        {
+            this.ParentGameObject = ParentGameObject;
+            this.ParentScene = ParentScene;
+            isValid = true;
+            //try
+            //{
+                originalData = JsonConvert.DeserializeObject(MapData);
+                mapDataLocation = originalData["mapDataLocation"];
+                spriteSheetLocation = originalData["spriteSheetLocation"];
+                scale = (float)originalData["tileScale"];
+                jsonData = JsonConvert.DeserializeObject(File.ReadAllText(mapDataLocation));
+                //Converts the map data into a json object
+                //Extracts the data from the new json object
+                mapDimensions.X = jsonData["width"];
+                mapDimensions.Y = jsonData["height"];
+                tileDimensions.X = jsonData["tilewidth"];
+                tileDimensions.Y = jsonData["tileheight"];
+                
+                layerCount = jsonData.SelectToken("layers").Count;
+                //Gets the spritesheet for the map
+                TextureAtlas = Texture2D.FromFile(Game1._graphics.GraphicsDevice, spriteSheetLocation);
+                for (int y = 0; y < TextureAtlas.Height / tileDimensions.Y; y++)
                 {
-                    originalData = JsonConvert.DeserializeObject(MapData);
-                    mapDataLocation = originalData["mapDataLocation"];
-                    spriteSheetLocation = originalData["spriteSheetLocation"];
-                    jsonData = JsonConvert.DeserializeObject(File.ReadAllText(mapDataLocation));
-                    //Converts the map data into a json object
-                    //Extracts the data from the new json object
-                    mapDimensions.X = jsonData["width"];
-                    mapDimensions.Y = jsonData["height"];
-                    tileDimensions.X = jsonData["tilewidth"];
-                    tileDimensions.Y = jsonData["tileheight"];
-                    layerCount = jsonData.SelectToken("layers").Count;
-                    //Gets the spritesheet for the map
-                    TextureAtlas = Texture2D.FromFile(Game1._graphics.GraphicsDevice, spriteSheetLocation);
-                    for (int y = 0; y < TextureAtlas.Height / tileDimensions.Y; y++)
+                    for (int x = 0; x < TextureAtlas.Width / tileDimensions.X; x++)
                     {
-                        for (int x = 0; x < TextureAtlas.Width / tileDimensions.X; x++)
-                        {
-                            TileRects.Add(new Rectangle((int)(x * tileDimensions.X), (int)(y * tileDimensions.Y), (int)tileDimensions.X, (int)tileDimensions.Y));
-                        }
-                    }
-                    layers = new JArray[layerCount];
-                    for (int i = 0; i < layerCount; i++)
-                    {
-                        layers[i] = (JArray)jsonData.SelectToken("layers")[i].SelectToken("data");
-                    }
-                    for (int curLay = 0; curLay < layerCount; curLay++)
-                    {
-                        data.Add(layers[curLay].ToObject<int[]>());
+                        TileRects.Add(new Rectangle((int)(x * tileDimensions.X), (int)(y * tileDimensions.Y), (int)tileDimensions.X, (int)tileDimensions.Y));
                     }
                 }
-                catch { isValid=false; }
-            }
-            public override void Update()
-            {
-                
-            }
-            public override void Draw()
-            {
-                Vector2 cameraCoordinates = Vector2.Zero;
-                if(ParentScene.camera != null) cameraCoordinates = ParentScene.camera.Coordinates;
-                
-                
-                if(!isValid) return;
-                int index = 0;
-                for (int l = 0; l < layerCount; l++) {
-                    for (int y = 0; y < mapDimensions.Y; y++)
-                    {
-                        for (int x = 0; x < mapDimensions.X; x++)
-                        {
-                            if ((int)data[l][index] != 0)
-                            {
-                                Vector2 position = new Vector2(x * tileDimensions.X, y * tileDimensions.Y) + new Vector2(-cameraCoordinates.X,cameraCoordinates.Y);
-                                Rectangle tile = new Rectangle((int)(position.X),
-                                    (int)(position.Y),
-                                    (int)(tileDimensions.X),
-                                    (int)tileDimensions.Y);
-                                if (true)
-                                {
-                                    Game1._spriteBatch.Draw(texture: TextureAtlas,
-                                                    position: new Vector2(position.X, position.Y),
-                                                    TileRects[(int)data[l][index] - 1],
-                                                    color: Color.White,
-                                                    rotation: 0f,
-                                                    Vector2.Zero,
-                                                    scale: Vector2.One,
-                                                    SpriteEffects.None,
-                                                    layerDepth: (0.01f * l));
-                                }
-                            }
-                            index++;
-                        }
-                        
-                    }
-                    index = 0;
+                layers = new JArray[layerCount];
+                for (int i = 0; i < layerCount; i++)
+                {
+                    layers[i] = (JArray)jsonData.SelectToken("layers")[i].SelectToken("data");
                 }
+                for (int curLay = 0; curLay < layerCount; curLay++)
+                {
+                    data.Add(layers[curLay].ToObject<int[]>());
+                }
+            //}
+            //catch { isValid = false; }
+        }
+        public override void Update()
+        {
+
+        }
+        public override void Draw()
+        {
+            Vector2 cameraCoordinates = Vector2.Zero;
+            if (ParentScene.camera != null) cameraCoordinates = ParentScene.camera.Coordinates;
+            Vector2 position;
+            float lastXPosition = 0;
+            if (!isValid) return;
+            int index = 0;
+            for (int l = 0; l < layerCount; l++)
+            {
+                for (int y = 0; y < mapDimensions.Y; y++)
+                {
+                    lastXPosition = -(scale*tileDimensions.X);
+                    for (int x = 0; x < mapDimensions.X; x++)
+                    {
+                        position = new Vector2(lastXPosition + (scale * tileDimensions.X), y * tileDimensions.Y * scale) + new Vector2(-cameraCoordinates.X, cameraCoordinates.Y);
+                        lastXPosition += scale * tileDimensions.X;
+                        if ((int)data[l][index] != 0)
+                        {
+                            
+                            Game1._spriteBatch.Draw(texture: TextureAtlas,
+                                            position: new Vector2(position.X, position.Y),
+                                            TileRects[(int)data[l][index] - 1],
+                                            color: Color.White,
+                                            rotation: 0f,
+                                            Vector2.Zero,
+                                            scale: Vector2.One * scale,
+                                            SpriteEffects.None,
+                                            layerDepth: (0.01f * l));
+                        }
+                        index++;
+                    }
+
+                }
+                index = 0;
             }
-       
+        }
+
 
     }
 }

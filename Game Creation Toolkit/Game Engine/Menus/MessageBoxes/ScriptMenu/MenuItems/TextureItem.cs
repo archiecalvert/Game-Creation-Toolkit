@@ -29,9 +29,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         TextField ScaleX;
         TextField ScaleY;
         string TextureLocation;
-        public TextureItem(JObject TextureData)
+        public TextureItem(JObject TextureData) : base(TextureData, 510, true)
         {
-            base.SetHeight(510);
+            //base.SetHeight(510);
             jsonData = TextureData;
             //Text field that will allow for me to set the width scale of the image
             ScaleX = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 260),
@@ -158,6 +158,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         }
         public override void UnloadItem()
         {
+            base.UnloadItem();
             UIHandler.Buttons.Remove(ChangeTextureBtn);
             UIHandler.Buttons.Remove(SaveBtn);
             UIHandler.TextFields.Remove(ScaleX);

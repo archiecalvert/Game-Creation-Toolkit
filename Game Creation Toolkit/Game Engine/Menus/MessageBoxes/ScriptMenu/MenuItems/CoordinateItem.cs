@@ -19,9 +19,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         TextField TextFieldY;
         Texture2D BlankTexture;
         Button SaveBtn;
-        public CoordinateItem(JObject CoordinateData)
+        public CoordinateItem(JObject CoordinateData) : base(CoordinateData, 230, false)
         {
-            base.SetHeight(230);
+            //base.SetHeight(230);
             TextFieldX = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 50), CoordinateData["x"].ToString(), font, TextColour, AccentColour, 0.4f);
             TextFieldX.layerDepth = 0.8f;
             TextFieldY = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 100), CoordinateData["y"].ToString(), font, TextColour, AccentColour, 0.4f);
@@ -90,6 +90,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         }
         public override void UnloadItem()
         {
+            base.UnloadItem();
             UIHandler.TextFields.Remove(TextFieldX);
             UIHandler.TextFields.Remove(TextFieldY);
             UIHandler.Buttons.Remove(SaveBtn);

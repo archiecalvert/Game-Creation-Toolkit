@@ -84,7 +84,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
         }
         public override void Draw()
         {
-            Core._spriteBatch.Draw(BlankTexture, Bounds, Core.NavColour); //draws the background for the nav bar
+            Core._spriteBatch.Draw(BlankTexture, Bounds, new Color(192,192,192)); //draws the background for the nav bar
             Core.DrawAccent(new Rectangle(0,0,2460,1500), 7, 0.8F);
             foreach(Scene Scene in ObjectHandler.SceneData)
             {

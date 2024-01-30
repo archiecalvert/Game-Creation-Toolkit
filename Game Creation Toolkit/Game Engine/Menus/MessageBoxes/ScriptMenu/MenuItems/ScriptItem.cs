@@ -1,7 +1,10 @@
-﻿using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+﻿using Game_Creation_Toolkit.Game_Engine.Handlers;
+using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
+using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PVRTexLibNET;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
 {
     public abstract class ScriptItem
     {
+        
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
         public Rectangle BackgroundBounds;
         //how much the item will be shifted down. This allows for the menu items to be in a list
@@ -20,7 +24,25 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         public Color AccentColour = new Color(192,192,192);
         public Color TextColour = Color.Black;
         SpriteFont TextFont = Core._content.Load<SpriteFont>("Toolkit/Fonts/defaultfont");
-        
+        string data;
+        Button DeleteBtn = new Button(Core._content.Load<Texture2D>("Toolkit/Assets/MainEditor/ScriptMenu/delete"), new Vector2(0,0), Vector2.One);
+
+        public ScriptItem(JObject jsonObject, int height, bool isDeletable)
+        {
+            data = (string)JsonConvert.SerializeObject(jsonObject);
+            SetHeight(height);
+            if (isDeletable)
+            {
+                DeleteBtn.ButtonRect.X = BackgroundBounds.Right - 32;
+                DeleteBtn.ButtonRect.Y = BackgroundBounds.Top + 10;
+            }
+            else
+            {
+                UIHandler.Buttons.Remove(DeleteBtn);
+            }
+            
+        }
+
         public void SetHeight(int height)
         {
             //Positions the item correctly in the list so that the all appear in a list
@@ -41,17 +63,24 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         }
         public virtual void Update()
         {
-            
+            if (DeleteBtn.isClicked)
+            {
+                DeleteBtn.isClicked = false;
+                RemoveScript();
+            }
+        }
+        public virtual void Draw()
+        {
+            Core.DrawAccent(DeleteBtn.ButtonRect, 10, 0.9f);
 
         }
-        public virtual void Draw() { }
         public void DrawBackground(string title)
         { 
             //Draws the Title Text
             Core._spriteBatch.DrawString(spriteFont: TextFont,
                             text: title,
                             position: new Vector2(BackgroundBounds.X + 7, BackgroundBounds.Y) + new Vector2(5, 13),
-                            color: Color.Black,
+                            color: Core.TitleColour,
                             rotation: 0f,
                             origin: Vector2.Zero,
                             scale: 0.35f,
@@ -81,7 +110,11 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             Core.DrawAccent(new Rectangle(BackgroundBounds.X, BackgroundBounds.Y, BackgroundBounds.Width + 14, BackgroundBounds.Height), 7, 0.8f);
             
         }
-        public abstract void UnloadItem();
+        public virtual void UnloadItem()
+        {
+            UIHandler.Buttons.Remove(DeleteBtn);
+
+        }
         internal float FilterToFloat(string text)
         {
             bool HasPoint = false;
@@ -150,18 +183,18 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
         internal bool FilterToBool(string text)
         {
             //checks to see if the input is already in a valid state
-            if(text.ToLower() == "true")
+            if(text.ToLower() == "true" || text == "1")
             {
                 return true;
             }
-            else if(text.ToLower() == "false")
+            else if(text.ToLower() == "false" || text == "0")
             {
                 return false;
             }
             //if the input isn't already valid
             else
             {
-                //tries to find the firt t or f character inside of the string
+                //tries to find the first 't' or 'f' character inside of the string
                 foreach(char c in text)
                 {
                     if(char.ToLower(c) == 't')
@@ -176,6 +209,26 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu
             }
             //if nothing could be found, the input will automatically be set to false
             return false;
+        }
+        internal void RemoveScript()
+        {
+            string newData = "";
+            foreach(string line in File.ReadLines(MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat"))
+            {
+                if(line != data)
+                {
+                    newData+= line + "\n";
+                }
+            }
+            using(StreamWriter sw = new StreamWriter(MainEditor.ScriptMenu.CurrentItemDirectory + "\\object.dat"))
+            {
+                sw.Write(newData);
+                sw.Close();
+            }
+            UnloadItem();
+            MainEditor.ScriptMenu.ReloadFlag = true;
+            
+           
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Game_Creation_Toolkit.Game_Engine.UI
         public void Draw()
         {
             Core._spriteBatch.Draw(texture: texture,
-                position: pos,
+                position: new Vector2(ButtonRect.X, ButtonRect.Y),
                 null,
                 color: Color.White,
                 rotation: 0,

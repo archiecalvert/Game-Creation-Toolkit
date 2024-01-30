@@ -24,9 +24,9 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         Button SaveBtn;
         Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
         dynamic jsonData;
-        public MovementItem(JObject JSONData)
+        public MovementItem(JObject JSONData) : base(JSONData, 340, true)
         {
-            SetHeight(340);
+            //SetHeight(340);
             jsonData = JSONData;
             //used for the save button
             BlankTexture.SetData(new[] { AccentColour });
@@ -137,12 +137,12 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         }
         public override void UnloadItem()
         {
+            base.UnloadItem();
             UIHandler.Buttons.Remove(SaveBtn);
             UIHandler.TextFields.Remove(velocityIncrementField);
             UIHandler.TextFields.Remove(velocityDropOffField);
             UIHandler.TextFields.Remove(maxVelocityField);
             UIHandler.TextFields.Remove(lowestVelocityField);
-
         }
     }
 }

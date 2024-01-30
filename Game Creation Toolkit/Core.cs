@@ -10,7 +10,10 @@ namespace Game_Creation_Toolkit
 {
     public class Core : Game
     {
-        public static Color NavColour = new Color(192,192,192);
+        //Controls the colour of the window banners
+        public static Color NavColour = new Color(110,110,110);
+        //Controls the colour of the banner text
+        public static Color TitleColour = Color.White;
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
         public static ContentManager _content;
@@ -98,65 +101,30 @@ namespace Game_Creation_Toolkit
         public static void DrawAccent(Rectangle Bounds, int BarWidth, float layerDepth)
         {
             //Draws the top white line for the accent
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.X, Bounds.Y),
-                null,
-                color: Color.White,
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(Bounds.Width, BarWidth),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.01F);
+            _spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.X, Bounds.Y), null, color: Color.White, rotation: 0,
+                origin: Vector2.Zero, scale: new Vector2(Bounds.Width, BarWidth), SpriteEffects.None, layerDepth: layerDepth + 0.01F);
+            
             //Draws the left white line for the accent
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.X, Bounds.Y),
-                null,
-                color: Color.White,
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(BarWidth, Bounds.Height),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.01F);
+            _spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.X, Bounds.Y), null, color: Color.White, rotation: 0,
+                origin: Vector2.Zero, scale: new Vector2(BarWidth, Bounds.Height), SpriteEffects.None, layerDepth: layerDepth + 0.01F);
+            
             //Draws the right black line for the accent
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.Right - BarWidth, Bounds.Y),
-                null,
-                color: Color.Black,
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(BarWidth, Bounds.Height),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.02F);
+            Core._spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.Right - BarWidth, Bounds.Y), null, color: Color.Black,
+                rotation: 0, origin: Vector2.Zero, scale: new Vector2(BarWidth, Bounds.Height), SpriteEffects.None, layerDepth: layerDepth + 0.02F);
+            
             //Draws the bottom black line for the accent
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.X, Bounds.Bottom - BarWidth),
-                null,
-                color: Color.Black,
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(Bounds.Width, BarWidth),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.02F);
+            Core._spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.X, Bounds.Bottom - BarWidth), null, color: Color.Black,
+                rotation: 0, origin: Vector2.Zero, scale: new Vector2(Bounds.Width, BarWidth), SpriteEffects.None, layerDepth: layerDepth + 0.02F);
+            
             //Draws the right grey line for the window
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.Right - BarWidth * 2, Bounds.Y),
-                null,
-                color: new Color(131, 131, 131),
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(BarWidth, Bounds.Height - BarWidth),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.02F);
+            Core._spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.Right - BarWidth * 2, Bounds.Y), null,
+                color: new Color(131, 131, 131), rotation: 0, origin: Vector2.Zero, scale: new Vector2(BarWidth, Bounds.Height - BarWidth),
+                SpriteEffects.None, layerDepth: layerDepth + 0.02F);
+
             //Draws the bottom grey line for the window
-            Core._spriteBatch.Draw(texture: BlankTexture,
-                position: new(Bounds.X, Bounds.Bottom - BarWidth * 2),
-                null,
-                color: new Color(131, 131, 131),
-                rotation: 0,
-                origin: Vector2.Zero,
-                scale: new Vector2(Bounds.Width - BarWidth, BarWidth),
-                SpriteEffects.None,
-                layerDepth: layerDepth + 0.02F);
+            Core._spriteBatch.Draw(texture: BlankTexture, position: new(Bounds.X, Bounds.Bottom - BarWidth * 2), null,
+                color: new Color(131, 131, 131), rotation: 0, origin: Vector2.Zero, scale: new Vector2(Bounds.Width - BarWidth, BarWidth),
+                SpriteEffects.None, layerDepth: layerDepth + 0.02F);
         }
 
         public static void ChangeWindowSize(int width, int height)

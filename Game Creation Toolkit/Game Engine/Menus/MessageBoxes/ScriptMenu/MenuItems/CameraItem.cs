@@ -3,6 +3,7 @@ using Game_Creation_Toolkit.Game_Engine.Menus.Editor;
 using Game_Creation_Toolkit.Game_Engine.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuItems
 {
@@ -14,9 +15,10 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         TextField GameObjectNameField;
         TextField CoordinateXField;
         TextField CoordinateYField;
-        public CameraItem(JObject CameraData)
+        string data;
+        public CameraItem(JObject CameraData) : base(CameraData, 330, false)
         {
-            base.SetHeight(330);
+            //base.SetHeight(330);
             isAttachedField = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 50), CameraData["isAttached"].ToString(), font, TextColour, AccentColour, 0.4f);
             isAttachedField.layerDepth = 0.8f;
             GameObjectNameField = new TextField(225, 35, new Vector2(BackgroundBounds.X + BackgroundBounds.Width - 235, BackgroundBounds.Y + 100), CameraData["ParentGameObject"].ToString(), font, TextColour, AccentColour, 0.4f);
@@ -32,9 +34,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
             CoordinateYField.layerDepth = 0.8f;
             Texture2D BlankTexture = new Texture2D(Core._graphics.GraphicsDevice, 1, 1);
             BlankTexture.SetData(new[] { AccentColour });
-            SaveBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 25, BackgroundBounds.Bottom - 80), new Vector2(BackgroundBounds.Width - 40, 60));
-
-        }
+            SaveBtn = new Button(BlankTexture, new Vector2(BackgroundBounds.X + 25, BackgroundBounds.Bottom - 80), new Vector2(BackgroundBounds.Width - 40, 60));        }
         public override void Update()
         {
             base.Update();
@@ -113,6 +113,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.MessageBoxes.ScriptMenu.MenuIt
         }
         public override void UnloadItem()
         {
+            base.UnloadItem();
             UIHandler.TextFields.Remove(isAttachedField);
             UIHandler.TextFields.Remove(GameObjectNameField);
             UIHandler.TextFields.Remove(CoordinateYField);

@@ -66,9 +66,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Base_Classes
                 case "Texture":
                     return new Texture(id, script, sceneName);
                 case "Map":
-
-                        return new Map((string)script["spriteSheetLocation"], (string)script["mapDataLocation"]);
-                    
+                        return new Map(script);                   
                 default:
                     return null;
             }

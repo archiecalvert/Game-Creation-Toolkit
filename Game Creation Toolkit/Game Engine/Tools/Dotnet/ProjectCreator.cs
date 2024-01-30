@@ -111,7 +111,23 @@ namespace Game_Creation_Toolkit.Game_Engine.Tools.NewProject
                 }
                 sw.Close();
             }
-            
+            //code below fixes the moving to another monitor issue
+            string manifest = "";
+            foreach (string line in File.ReadLines(SystemHandler.CurrentProjectDirectory + "\\app.manifest"))
+            {
+                //looks for the line causing the issue
+                if (!line.Contains("<dpiAwareness xmlns=\"http://schemas.microsoft.com/SMI/2016/WindowsSettings\">permonitorv2,permonitor</dpiAwareness>"))
+                {
+                    manifest += line;
+                }
+            }
+            //writes this data back to the app.manifest file
+            //https://community.monogame.net/t/window-stops-showing-anything-after-being-dragged-to-a-different-monitor/17222
+            using (StreamWriter sw = new StreamWriter(SystemHandler.CurrentProjectDirectory + "\\app.manifest"))
+            {
+                sw.WriteLine(manifest);
+                sw.Close();
+            }
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Game_Creation_Toolkit.Game_Engine.Menus.Editor
             Core._spriteBatch.DrawString(spriteFont: TextFont,
                 text: "Project",
                 position: new Vector2((MenuBounds.X + 15), MenuBounds.Y + 15),
-                color: Color.Black,
+                color: Core.TitleColour,
                 rotation: 0f,
                 origin: Vector2.Zero,
                 scale: 0.4f,
